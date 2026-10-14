@@ -2,7 +2,7 @@
 
 ## Tech Stack
 - Content repo is Markdown only. Node 24.14.1 and npm 11.11.0 are available, but there is deliberately **no `package.json` and no dependencies** in this repo.
-- The content validator is plain Node ESM with zero dependencies: `tools/validate-content.mjs`.
+- The content validator is plain Node ESM with zero dependencies: `tools/validate-content.mjs` (checks V1–V14, 358 lines, `node --check` clean). It runs on a clean checkout with nothing but Node ≥ 22.
 - Planned site (a separate plan, in `astro/`): Astro 7.3.8, @astrojs/react 7.0.1, Tailwind CSS 4.3.3, TypeScript 7.0.2, Pagefind 1.5.2. Verified on npm 2026-02-14 — re-verify before installing.
 - Astro 7 content layer: `glob({ base: './lessons', pattern: '**/*.md' })`, entry ids derived from the path, served through `getCollection()` and `getStaticPaths()`. Hide `/pagefind/pagefind.js` from Vite at runtime with `new Function("s","return import(s)")`, because Vite rewrites variable imports into its preload helper.
 
@@ -13,27 +13,44 @@
 - The 8 topics are: frontend, cs-fundamentals, cloud-devops, backend-data, design-ux, product-process, security, soft-skills.
 - The website lives in `astro/` at the repo root and consumes `lessons/` through the content layer, so the corpus stays liftable into its own repository.
 - Index files are **generated** from metadata (`node tools/validate-content.mjs --write-index`), never hand-maintained. Hand-written index counts are what drifted in the original seed list.
+- `lessons/` and `tools/` are untracked (`?? lessons/`, `?? tools/`), so `git status` cannot show per-file changes inside them — use hashes or the validator instead.
+- Phase status: after Phase 5, four topics are complete (`frontend`, `cs-fundamentals`, `cloud-devops`, `backend-data`) and `lessons/` holds 254 files. Corpus is at 101 of 177 entries.
 
 ## Content Rules
-Defined in `lessons/AUTHORING.md` and enforced by `tools/validate-content.mjs` (checks V1 to V13):
-- Three body shapes only: full lesson (6 headings, 450-950 words), track landing (5 headings, 200-400 words), area page (4 headings, 120-300 words).
+Defined in `lessons/AUTHORING.md` and enforced by `tools/validate-content.mjs` (checks V1 to V14):
+- Three body shapes only: full lesson (6 headings, 450-950 words), track landing (5 headings, 200-400 words), area page (4 headings, 120-300 words). `## Core ideas` holds 3-6 `###` subheadings — the upper bound is the one that gets violated; budget five or six.
 - Tier determines the child count and is fixed: small 0, medium 2, large 4, area 0.
 - Frontmatter field order: title, type, topic, tier, status, aliases, prereqs, related. `prereqs` must equal the inventory exactly — the graph is given, not chosen.
+- Child lessons carry exactly two keys, `title` then `prereqs`.
 - Prose uses British English; titles are verbatim from `tools/inventory.json`, including `Javascript`, `Restful API` and `Prioritization`.
 - **No external URLs anywhere under `lessons/`.** "Go deeper" bullets point at other entries only.
 - Batch writers always write `status: drafted`; only the user promotes an entry to `reviewed`.
+- Alias, prereq and tier values come from `tools/inventory.json` and nowhere else — a work package that asks for an alias the inventory does not list has not been updated since the inventory was frozen; the inventory wins.
+- `## Prerequisites` bullets are written **with backticks** (`- **Title** (\`id\`)`) even though `AUTHORING.md` §5 shows them without; the validator's V10 regex requires the backticks. The Phase 1/2 exemplars confirm this.
 
 ## Active Constraints
-- Temp/working files MUST be created in `.tmp/` under the repo root, never in a system temp directory or outside the workspace. Delete them when the task is done.
+- Temp/working files MUST be created in `.tmp/` under the repo root, never in system `/tmp/` or outside the workspace. `.tmp/` should be in `.gitignore`. Clean up with `rm -rf .tmp/` after use.
 - Never edit `.pi/plans/**` while executing a plan, and never edit `seed/**`.
 - Do not commit, and never publish to a remote — the user handles all git history.
 - No new dependencies in this repo. The validator must run on a clean checkout with nothing but Node.
-- The 10 merged umbrella seed entries (cloud six, UI/UX four, software-development three) exist only as `aliases` on 3 area pages. Do not create directories for them.
+- The 13 merged umbrella seed entries (cloud six, UI/UX four, software-development three — a net reduction of 10) exist only as `aliases` on 3 area pages. Do not create directories for them.
+- `.pi/` must stay tracked (12 files); it is deliberately not in `.gitignore`.
+- During execution, do not run `--write-index` (it writes `lessons/INDEX.md`, which is in no work package's Files list) or `--strict` (Phase 8's gate).
 
 ## Lessons
 - **Recompute file counts per work package; never estimate them.** The first draft of the plan carried 4 wrong "create these N files" counts and 4 wrong per-topic totals (53 against 63, 44 against 59, 44 against 53, 96 against 88). The formula is entries plus medium times 2 plus large times 4.
-- The pi path guard rejects bash commands containing regex escape sequences (the whitespace and digit character-class shorthands). Plan checks therefore use the `grep -cE 'https?://'` form and avoid BRE `\?` escapes entirely.
-- The pi guard also denies a bash command whose text merely *contains* the push-to-remote command string, even inside a heredoc payload. Write files with the file tools when their content mentions it.
+- **`present` counts inventory entries, not files.** Children (`NN-*.md`) are not entries, so writing a 3-file entry raises `present` by 1. Reading `26 present` as 4 short of 30 was a miscount on my part, not a validator bug — verify with a script before reporting a discrepancy.
+- **Budget a full lesson at ~850 words, not 950.** Across Phase 3, most substantial child lessons came in 5–15% over the ceiling on first write and needed a trim sweep; the worst (`git/02-the-daily-workflow.md`) was 1101 words and lost a whole core idea. Writing shorter costs less than trimming, and trimming risks the two formatting mistakes below.
+- **A trim edit whose `oldText` ends with a newline can join the last bullet to the following `##` heading.** Symptom: `V7`/`V4` still passes but the file renders wrong, and the blank line before the next heading is gone. Always `tail` a file after a trim sweep.
+- **Success checks written as `grep '^- .+ (`id`)'` over a landing page also match the `## Prerequisites` bullets**, because those use the same shape. A plan expecting `2` such bullets in each of three testing entries is arithmetically wrong: the two landings whose prereq is a testing entry score 3, and only the one whose prerequisites read `None.` scores 2. Print the matching lines before treating a mismatch as a defect.
+- **The no-external-URL rule catches even illustrative examples — it has now bitten three times.** Phase 2 lost a `schema.org` context value and a canonical-URL example; Phase 3 lost an `export API_BASE=https://api.example.test` shell example. Where an example genuinely needs a URL, use placeholder text and say why in one line. Always grep before declaring a work package done.
+- **Area and landing word budgets are tight.** Five `Included skills` bullets cost ~80 words before any prose; three area/landing files exceeded 300/400 words on first write and had to be trimmed. Target ~270 words for an area page.
+- **Plan expected values can be arithmetically wrong.** Confirmed errata so far: WP-5 expected `2 present, 29 pending` where only `1 present, 30 pending` is correct; WP-3 expected a "title mismatch" diagnostic no unknown directory can produce; Phase 3's verification expected a global `58 present, 119 pending` where the correct value is `59, 118`; WP-14's cross-reference grep expects `2` where the correct values are `2 / 3 / 3`; Phase 4's verification expects `81 present, 96 pending` where the correct value is `82, 95`; Phase 5's expects `100, 77` where the correct value is `101, 76` (and its Prerequisites section repeats Phase 4's wrong number). From Phase 3 onward the plan's global counts are systematically one low, so compare against the documented sequence 59, 82, 101, 144, 161, 177 instead. Run the check, do the arithmetic, and report the erratum rather than bending the code to match it.
+- **The single most common first-draft defect is a seventh `###` subheading in `## Core ideas`** — 14 of the 17 validator errors raised across Phases 4 and 5 were `[V7] Core ideas has 7 subheadings, expected 3-6`. The fix is to delete the heading line so the paragraph joins the neighbouring section, which must be chosen to read as a continuation. Two further errors were `[V5]` bodies of 974 and 991 words against a 950 ceiling; both were trimmed by deleting a heading plus one redundant sentence per overrun.
+- **Take every directory slug from `tools/inventory.json`, never from memory or from a paraphrase of the title.** A Phase-5 index was written to `message-queues-kafka-mq/` instead of `message-queues-kafka-rabbitmq/`; V14 reports an unknown directory as an error, so it was caught before the WP check passed, but a rename is cheaper than debugging a missing entry.
+- **The validator's Go-deeper bullet pattern does not require a trailing period** (`- **Title** (\`id\`) — text`). A local audit regex that demands a full stop flags bullets ending in `?` as malformed — a false positive. Use the validator's own pattern when sweeping, or verify each hit against `tools/validate-content.mjs`.
+- Go-deeper bullet format is only partly enforced: the validator counts bullets that match the pattern and ignores ones that do not, so a malformed bullet silently reduces the count instead of failing. Audit with an `awk` sweep over the `## Go deeper` sections rather than trusting a 0-error run.
+- The pi path guard rejects bash commands containing regex escape sequences (the whitespace and digit character-class shorthands), and also rejects any string that parses as a path outside the working directory — including `'lessons/' + id + '/index.md'` built by string concatenation, and a `node -e` snippet containing a newline escape (reported as `Access to D:\n is blocked`). Use `path.join`, write a `.tmp/` script, or avoid backslashes entirely.
 - Writing any Python file into this repo makes ruff create `.ruff_cache/`; remove it before staging.
 - A one-off scripted edit sweep must read and write files in binary so line endings are preserved; a naive text-mode rewrite turns a CRLF file into a whole-file diff.
 
