@@ -1,0 +1,4 @@
+# Scratch and build artifacts — never committed.
+.tmp/
+.ruff_cache/
+node_modules/
