@@ -138,8 +138,9 @@ Create these 14 files:
   state-file problem explicit; that is where beginners get hurt
 - DO: keep `openshift`, `helm` and `istio` short and pointed: what each adds on top of
   Kubernetes and when the extra layer pays for itself
-- DO: note in `istio` that its prereq
-  `cloud-devops/networking-fundamentals-http-dns-tls` is pending until WP-19
+- DO: point `istio`'s reader at its prereq
+  `cloud-devops/networking-fundamentals-http-dns-tls` (written later in this phase,
+  WP-19) by id, not by position
 - DO NOT: instruct the reader to install a cluster locally — the exercises should be
   runnable without one (reading a manifest, tracing a request, sizing a container)
 - DO NOT: include any external URL
@@ -258,7 +259,7 @@ Create these 17 files:
 
 **Success:**
 - [ ] Validator: `node tools/validate-content.mjs --topic cloud-devops` → `23 present, 0 pending, 0 error(s)`
-- [ ] File count for the topic: `find lessons/cloud-devops -name '*.md' | wc -l` → `44`
+- [ ] File count for the topic: `find lessons/cloud-devops -name '*.md' | wc -l` → `59`
 - [ ] `linux-administration` has 4 children: `ls lessons/cloud-devops/linux-administration | grep -c '^[0-9][0-9]-'` → `4`
 - [ ] Four medium entries have 2 children each: `ls lessons/cloud-devops/{networking-fundamentals-http-dns-tls,monitoring-observability-prometheus-grafana,site-reliability-engineering,cloud-security-iam} | grep -c '^[0-9][0-9]-'` → `8`
 - [ ] The previously pending prereqs now resolve: `node tools/validate-content.mjs --topic cloud-devops` reports no missing-prereq message

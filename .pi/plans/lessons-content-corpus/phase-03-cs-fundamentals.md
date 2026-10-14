@@ -40,7 +40,7 @@ Eight entries from `seed/cs-fundamentals.md`, section `## Core computer science`
 `computer-networks` (medium), `database-internals` (small, prereq
 `backend-data/sql-relational-databases`),
 `concurrency-async-programming` (medium), `regular-expressions-regex` (small, alias
-`Regex`). Three `medium` entries → 2 children each; three small entries + one area →
+`Regex`). Five `medium` entries → 2 children each; two small entries + one area →
 no children. `database-internals` is the first cross-topic edge into `backend-data`,
 whose entries do not exist yet — the validator reports it as **pending**, not an error.
 
@@ -73,8 +73,8 @@ Create these 18 files:
   and let `cloud-devops/networking-fundamentals-http-dns-tls` own the HTTP/TLS layer
   (Phase 4) — reference it in `## Go deeper`
 - DO: make `database-internals` about storage engines, indexes and query planners per
-  the seed line, with an explicit note that `backend-data/sql-relational-databases` is
-  pending and should be read first
+  the seed line, and point the reader at `backend-data/sql-relational-databases` as the
+  entry to read first
 - DO: give `regular-expressions-regex` the alias `["Regex"]` and keep it practical:
   validation, search, extraction, and catastrophic backtracking
 - DO: give `computer-science` the alias `["CS"]` and an `## Included skills` list of
@@ -102,7 +102,7 @@ Seven entries from `seed/cs-fundamentals.md`, section `## Code quality`, per
 `cs-fundamentals/solid-principles`), `solid-principles` (small, alias `SOLID`),
 `code-review` (medium, prereq `cs-fundamentals/clean-code`),
 `software-architecture` (large, prereqs `cs-fundamentals/design-patterns`,
-`cs-fundamentals/clean-code`). Three `medium` entries → 2 children each; one `large` →
+`cs-fundamentals/clean-code`). Four `medium` entries → 2 children each; one `large` →
 4 children; two small → none.
 
 **Task:**
@@ -127,8 +127,8 @@ Create these 19 files:
 
 **Constraints:**
 - DO: make `refactoring` procedural per the seed — small verified steps, behaviour
-  unchanged, tests as the safety net — and note that its prereq
-  `cs-fundamentals/unit-testing` is pending
+  unchanged, tests as the safety net — and point at its prereq
+  `cs-fundamentals/unit-testing` as the thing to read first
 - DO: present `design-patterns` as named solutions to recurring problems with the
   cost of each, not a catalogue to apply everywhere; cap it at the handful that earn
   their keep
@@ -203,7 +203,7 @@ Create these 16 files:
 - [ ] Validator: `node tools/validate-content.mjs --topic cs-fundamentals` → `22 present, 5 pending, 0 error(s)`
 - [ ] Five tracks with 2 children each: `ls lessons/cs-fundamentals/{unit-testing,test-driven-development-tdd,integration-testing,end-to-end-testing,debugging} | grep -c '^[0-9][0-9]-'` → `10`
 - [ ] The three testing entries each name the other two in `## Go deeper`:
-  `grep -c 'cs-fundamentals/' lessons/cs-fundamentals/unit-testing/index.md lessons/cs-fundamentals/integration-testing/index.md lessons/cs-fundamentals/end-to-end-testing/index.md` → `≥1` for each
+  `grep -cE '^- .+ [(].cs-fundamentals/(unit|integration|end-to-end)-testing.[)]' lessons/cs-fundamentals/{unit-testing,integration-testing,end-to-end-testing}/index.md` → `2` for each
 - [ ] No external URL: `grep -rcE 'https?://' lessons/cs-fundamentals/ | grep -v ':0'` → no output
 
 ---
@@ -252,7 +252,7 @@ Create these 9 files:
 
 **Success:**
 - [ ] Validator: `node tools/validate-content.mjs --topic cs-fundamentals` → `27 present, 0 pending, 0 error(s)`
-- [ ] File count for the topic: `find lessons/cs-fundamentals -name '*.md' | wc -l` → `53`
+- [ ] File count for the topic: `find lessons/cs-fundamentals -name '*.md' | wc -l` → `63`
 - [ ] Two tracks with 2 children each: `ls lessons/cs-fundamentals/{git,unix-shell} | grep -c '^[0-9][0-9]-'` → `4`
 - [ ] `git` keeps its inventory title: `grep -c '^title: Git (Version Control System)$' lessons/cs-fundamentals/git/index.md` → `1`
 - [ ] No external URL: `grep -rcE 'https?://' lessons/cs-fundamentals/ | grep -v ':0'` → no output

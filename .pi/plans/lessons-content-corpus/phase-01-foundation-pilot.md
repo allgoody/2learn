@@ -45,9 +45,10 @@ writer who has never seen this plan can produce a conforming lesson. The validat
 checks, plus the ones it cannot check (voice, honesty, no padding).
 
 **Task:**
-Create `lessons/AUTHORING.md` with **exactly these 12 sections**, in this order, using
-the content given under each heading. Write it as instructions to a writer, second
-person, imperative. Do not add sections. Do not omit rules.
+Create `lessons/AUTHORING.md` with these 12 sections — the file title plus 11 numbered
+`##` sections — in this order, using the content given under each heading. Write it as
+instructions to a writer, second person, imperative. Do not add sections. Do not omit
+rules.
 
 1. **`# Authoring lessons`** — one paragraph: what this corpus is (177 entries from
    `seed/`, one directory per entry, ~401 files), and that this file is the
@@ -67,11 +68,14 @@ person, imperative. Do not add sections. Do not omit rules.
    `prereqs` (array of inventory ids, use `[]`), `related` (array of inventory ids,
    use `[]`). State that `prereqs` must match the inventory exactly — adding an edge
    the inventory does not list is an error, and so is omitting one. State that
-   `related` may only reference entries in the same seed `##` section, and may be
-   left empty rather than guessed.
+   `related` prefers entries in the same seed `##` section but may reference any
+   inventory id, and may be left empty rather than guessed.
 4. **`## 3. Frontmatter — children`** — exactly two keys, in order: `title`,
    `prereqs`. Give the fenced example. State that children inherit topic and skill
-   from their path and carry no `type`, `tier`, `aliases` or `related`.
+   from their path and carry no `type`, `tier`, `aliases` or `related`. State that a
+   child's `prereqs` may name the parent entry's inventory id, an earlier sibling child
+   id (`<entry id>/<child filename without .md>`), or an inventory id the parent lists —
+   never a later sibling, and never an id that does not resolve.
 5. **`## 4. Body shapes`** — the three shapes as a table (name, when used, section
    headings in order, word budget):
    - **Full lesson** — a `small` skill's `index.md`, and every child lesson. Headings:
@@ -101,10 +105,12 @@ person, imperative. Do not add sections. Do not omit rules.
    - `## Common mistakes` — 3-5 bullets, each matching exactly
      ``- **<mistake>** — <what goes wrong>; fix: <what to do instead>.``
    - `## Go deeper` — 2-5 bullets, each matching
-     ``- **<Title>** (`<id>`) — <why it is the next thing to read>``. Ids must exist in
-     the inventory or be a child of the current entry. **It must include one bullet for
-     each of the entry's inventory `prereqs`** — a `small` entry has no
-     `## Prerequisites` section, so this is where its reader sees what to read first.
+     ``- **<Title>** (`<id>`) — <why it is the next thing to read>``. Ids must resolve
+     to an inventory id or to a child of the current entry. **For a `small` skill and
+     for a child lesson it must include one bullet for every id that file's `prereqs`
+     array names** — neither shape has a `## Prerequisites` section, so this is where
+     the reader sees what to read first. A track landing is exempt: it lists its
+     prereqs under `## Prerequisites` instead.
    - `## In this track` — a numbered list, one line per child, in child order, each
      `1. **<child title>** (`<child id>`) — <one line on what it covers>`. The number
      of lines must equal the tier's child count.
@@ -138,7 +144,7 @@ person, imperative. Do not add sections. Do not omit rules.
     `http://` and `https://`. **No emoji.** No "in this article we will" preamble. No
     filler sentences whose removal loses no information. Fenced code blocks carry a
     language tag (`bash`, `ts`, `css`, `sql`, `yaml`, `text`).
-11. **`## 10. Status`** — `draft`: batch writers always write `status: drafted`. State
+11. **`## 10. Status`** — batch writers always write `status: drafted`. State
     that only the user promotes an entry to `reviewed`, and that `stub` is reserved for
     a file created as a placeholder.
 12. **`## 11. Validating and definition of done`** — the four validator commands
@@ -155,6 +161,11 @@ person, imperative. Do not add sections. Do not omit rules.
   (`## 1. Layout and ids` … `## 11. Validating and definition of done`)
 - DO: quote the exact heading strings and the exact bullet formats from sections 4
   and 5 — the validator pattern-matches them
+- DO: present every quoted lesson heading in a table cell or an inline code span,
+  never as a line that itself begins `## ` — the Success check counts lines matching
+  `^## `, and a heading echoed at line start would break that count
+- DO: use `status: drafted` in every YAML example, never `stub`; Phase 8 audits the
+  corpus-wide `grep '^status:'` output and must see `drafted` only
 - DO: keep it under 400 lines; it is a contract, not an essay
 - DO NOT: invent rules not listed here — the validator only enforces what is listed
 - DO NOT: mention Astro, Tailwind, Pagefind or any website concern
@@ -280,12 +291,15 @@ Checks, each emitting errors tagged `[V<n>]`:
   ≥1 `### ` and ≥1 line starting `Done when:`; `Common mistakes` has 3-5 bullets each
   matching `/^- \*\*.+\*\* — .+; fix: .+$/`; `Go deeper` has 2-5 bullets each matching
   `/^- \*\*.+\*\* \(`([^`]+)`\) — .+$/` with a resolvable id, and contains a bullet for
-  every inventory `prereqs` entry (this is what makes a `small` entry's prerequisites
-  visible to a reader — the shape has no `## Prerequisites` section).
+  every id this file's own `prereqs` array names, unless the file is a track landing.
+  For a `small` skill or a child lesson that is where the prerequisites stay visible —
+  neither shape has a `## Prerequisites` section. A track landing is exempt: it lists
+  its prereqs under `## Prerequisites` instead.
 - **V8 children** — expected count from tier (small 0, medium 2, large 4, area 0);
   actual count matches; filenames match `^\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$`; numbering
   starts at `01` and is contiguous; each child has exactly the two frontmatter keys
-  `title`, `prereqs`; each child body is the full-lesson shape (V4/V5/V6/V7 apply).
+  `title`, `prereqs`; each child's `prereqs` targets resolve through V12 and none names
+  a later sibling; each child body is the full-lesson shape (V4/V5/V6/V7 apply).
 - **V9 `In this track`** — exactly one numbered line per child, in child filename
   order, each matching `/^\d+\. \*\*.+\*\* \(`([^`]+)`\) — .+$/`, and the extracted ids
   equal the child ids in order.
@@ -301,6 +315,11 @@ Checks, each emitting errors tagged `[V<n>]`:
   ``- [<Title>](<id>/index.md) — <type>, <tier>, <status>``, with a `(pending)` suffix
   for unwritten entries and a final line `N present, M pending`. Never read this file
   back as input.
+- **V14 unknown entries** — walk the `lessons/` tree (respecting `--topic` when one is
+  passed) and report every `<topic>/<slug>/` directory that is not an id in the
+  inventory as an error. A directory whose `index.md` is invalid still counts as
+  unknown until it either matches an inventory id or is removed. This is the check the
+  fixture in the Success list exercises.
 
 Parsing notes to implement: strip the frontmatter block before heading/word checks; a
 `## ` heading is one at line start with exactly two hashes; treat CRLF and LF the same;
@@ -316,7 +335,7 @@ read files as UTF-8.
   error is emitted
 - DO: make every error message name the file path, the line number when known, and the
   `[V<n>]` tag
-- DO: keep it under 350 lines — one `check` function per V-number, one shared
+- DO: keep it under 400 lines — one `check` function per V-number (V1–V14), one shared
   `parseFrontmatter(file)` helper and one shared `readBody(file)` helper
 - DO NOT: add a config file, a `--fix` mode, a watch mode, or coloured output
 - DO NOT: write to any file except `lessons/INDEX.md` under `--write-index`
@@ -326,10 +345,15 @@ read files as UTF-8.
 **Success:**
 - [ ] Runs clean on the current (nearly empty) tree: `node tools/validate-content.mjs; echo "exit=$?"` → `0 present, 177 pending, 0 error(s)` and `exit=0`
 - [ ] `--strict` fails while entries are missing: `node tools/validate-content.mjs --strict; echo "exit=$?"` → non-zero exit and 177 errors
-- [ ] The validator actually catches bad input — create the fixture and confirm it fails:
-      `mkdir -p lessons/frontend/zz-broken && printf '%s\n' '---' 'title: Wrong' 'type: skill' 'topic: frontend' 'tier: small' 'status: drafted' 'aliases: []' 'prereqs: []' 'related: []' '---' '' '## What it is' 'Bad fixture.' > lessons/frontend/zz-broken/index.md && node tools/validate-content.mjs --topic frontend; echo "exit=$?"` → non-zero exit, errors for an entry not in the inventory, a title mismatch, and missing sections
+- [ ] The validator actually catches bad input — create the fixture with the file write
+      tool at `lessons/frontend/zz-broken/index.md`: the eight index keys in order with
+      `title: Wrong`, `type: skill`, `topic: frontend`, `tier: small`, `status: drafted`,
+      `aliases: []`, `prereqs: []`, `related: []`, then one `## What it is` section with a
+      single sentence. Then run
+      `node tools/validate-content.mjs --topic frontend; echo "exit=$?"` → non-zero exit
+      with a `[V14]` unknown-entry error, a title mismatch, and missing headings
 - [ ] Fixture removed: `rm -rf lessons/frontend/zz-broken && node tools/validate-content.mjs; echo "exit=$?"` → `exit=0`
-- [ ] No dependencies: `grep -c "require(\|node_modules\|import.*from '[^n]" tools/validate-content.mjs` → `0`
+- [ ] No dependencies: `grep -cE 'require[(]|node_modules|from .[^n]' tools/validate-content.mjs` → `0`
 - [ ] `node --check tools/validate-content.mjs` → exit 0
 
 ---
@@ -338,7 +362,7 @@ read files as UTF-8.
 
 **Context:**
 The first of three exemplars, and the pattern for the 65 `small` skills that follow.
-Source line, `seed/cs-fundamentals.md`, section `## Core coding`:
+Source line, `seed/cs-fundamentals.md`, section `## Core computer science`:
 `- **Pseudocode** — Writing the logic in plain language before it becomes code.`
 Its inventory row (Appendix A): id `cs-fundamentals/pseudocode`, type `skill`,
 tier `small`, no prereqs, no aliases. A `small` skill has **zero** children, so this
@@ -414,7 +438,9 @@ words) following the spec. Child `prereqs`: `01` → `["frontend/javascript"]`;
 **Constraints:**
 - DO: follow `lessons/AUTHORING.md` exactly, including the landing's
   `## In this track` numbered-list format and `## Prerequisites` bullets
-- DO: use the four filenames and titles above — do not rename, reorder or add a fifth
+- DO: use the four filenames and titles above — do not rename, reorder or add a fifth.
+  This exemplar deliberately pre-assigns them, which is an exception to the plan-wide
+  rule that later phase files leave the child names to the writer
 - DO: keep the landing under 400 words; it is a doorway, not another lesson
 - DO: keep React examples in modern function-component style; no class components
   beyond one mention in `01`, no state-management library (that is a separate entry)

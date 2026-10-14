@@ -175,16 +175,18 @@ Create these 9 files:
   and signals as examples rather than teaching one
 - DO: keep `vuejs` and `angular` at the level of "what it is and how its model
   differs", not a full API tour — the seed lines are one sentence
-- DO: add `frontend/vuejs` and `frontend/angular` to `frontend/react`'s `related` list
-  only if the list is currently empty; otherwise leave `react` untouched
-- DO NOT: modify `lessons/frontend/react/**` — it passed the Phase 1 review gate
+- DO NOT: modify `lessons/frontend/react/**` — it passed the Phase 1 review gate and
+  this WP does not touch it (the three new tracks are reachable from the frontend area
+  page instead)
 - DO NOT: rank the three frameworks as "best" — job market and ecosystem facts only
 - DO NOT: include any external URL
 
 **Success:**
 - [ ] Validator: `node tools/validate-content.mjs --topic frontend` → `14 present, 17 pending, 0 error(s)`
 - [ ] Three tracks with 2 children each: `ls lessons/frontend/vuejs lessons/frontend/angular lessons/frontend/state-management | grep -c '^[0-9][0-9]-'` → `6`
-- [ ] `react` untouched: `git status --short lessons/frontend/react` → no output
+- [ ] `react` untouched: capture `sha256sum lessons/frontend/react/*` before WP-9 and
+      re-run it after → identical output (a `git status` check cannot work here:
+      `lessons/` is untracked, so the directory always shows as `??`)
 - [ ] No external URL: `grep -rcE 'https?://' lessons/frontend/ | grep -v ':0'` → no output
 
 ---
@@ -256,7 +258,7 @@ The last ten frontend entries: `## Build & delivery` (nine entries) and
 alias `PWA`), `frontend/web-performance-core-web-vitals` (medium, prereqs
 `frontend/javascript`, `frontend/css`), `frontend/lighthouse` (small, prereq
 `frontend/browser-devtools`), `frontend/browser-devtools` (medium, prereq
-`frontend/javascript`), `frontend/front-end-web-development` (area). Four `medium`
+`frontend/javascript`), `frontend/front-end-web-development` (area). Five `medium`
 entries → 2 children each; four small entries and one area → no children.
 
 **Task:**
@@ -304,7 +306,7 @@ Create these 20 files:
 **Success:**
 - [ ] Validator: `node tools/validate-content.mjs --topic frontend` → `31 present, 0 pending, 0 error(s)`
 - [ ] File count for the topic: `find lessons/frontend -name '*.md' | wc -l` → `77`
-- [ ] Four tracks with 2 children each: `ls lessons/frontend/{package-management-npm,seo,progressive-web-apps-pwa,web-performance-core-web-vitals,browser-devtools} | grep -c '^[0-9][0-9]-'` → `10`
+- [ ] Five tracks with 2 children each: `ls lessons/frontend/{package-management-npm,seo,progressive-web-apps-pwa,web-performance-core-web-vitals,browser-devtools} | grep -c '^[0-9][0-9]-'` → `10`
 - [ ] The area page has no children: `ls lessons/frontend/front-end-web-development | wc -l` → `1`
 - [ ] No external URL: `grep -rcE 'https?://' lessons/frontend/ | grep -v ':0'` → no output
 

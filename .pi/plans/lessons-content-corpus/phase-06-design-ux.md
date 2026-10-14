@@ -90,7 +90,8 @@ Create these 12 files:
   prototype-test loop, keeping the five-stage framing from the seed line
 - DO: make `jobs-to-be-done` about framing a need as the job the user hires the product
   to do, per the seed line, with a worked "job statement" as the exercise and an
-  explicit note that its prereq `design-ux/user-research` is pending until WP-25
+  explicit pointer to `design-ux/user-research` (written in WP-25) as the entry to read
+  first
 - DO: make `sketching` about speed and disposable drawings — that is why the seed puts
   it before `storyboarding`
 - DO: put a real, runnable workshop script in `facilitation-workshop-design` — a timed
@@ -152,8 +153,8 @@ Create these 14 files:
 - DO: distinguish `ui-ux-research` (the interface: what works, what confuses) from
   `design-research` (users, context, existing products to frame the problem) in their
   `## What it is` sections — the seed deliberately lists both
-- DO: state in `card-sorting` that its prereq `design-ux/information-architecture` is
-  pending, and include a 15-item card set as the exercise
+- DO: state in `card-sorting` that `design-ux/information-architecture` (written in
+  WP-27) is the entry to read first, and include a 15-item card set as the exercise
 - DO NOT: recommend a research tool or a recruitment platform
 - DO NOT: include any external URL
 
@@ -204,7 +205,7 @@ Create these 13 files:
   versus intervening
 - DO: keep `google-analytics-4-ga4` at the level of events, funnels and acquisition
   reports per the seed line, and include the consent boundary with a `related` link to
-  `security/gdpr-data-privacy` (Phase 8, pending)
+  `security/gdpr-data-privacy` (written in Phase 8)
 - DO: write `journey-mapping` as charting every step, touchpoint and emotion across an
   end-to-end experience, per the seed line, with a one-page example
 - DO NOT: teach GA4's interface screen by screen
@@ -229,7 +230,7 @@ Six entries from `seed/design-ux.md`: two from `## Content & writing` and four f
 `information-architecture` (large, alias `IA`), `wireframing` (small, prereq
 `design-ux/information-architecture`), `prototyping` (medium, prereq
 `design-ux/wireframing`), `interaction-design` (medium, prereq `design-ux/prototyping`,
-alias `IxD`). One `large` → 4 children; two `medium` → 2 each; two small → none. This
+alias `IxD`). One `large` → 4 children; three `medium` → 2 each; two small → none. This
 batch resolves the `card-sorting` prereq from WP-25.
 
 **Task:**
@@ -326,7 +327,7 @@ Create these 13 files:
 - [ ] Four medium tracks with 2 children each:
   `ls lessons/design-ux/{visual-design,typography,layout-grid-systems,data-visualization} | grep -c '^[0-9][0-9]-'` → `8`
 - [ ] No CSS tutorial content leaked in:
-  `grep -c 'display: *flex\|grid-template-columns' lessons/design-ux/visual-design/*.md lessons/design-ux/layout-grid-systems/*.md` → `0` for each file
+  `grep -cE 'display: *flex|grid-template-columns' lessons/design-ux/visual-design/*.md lessons/design-ux/layout-grid-systems/*.md` → `0` for each file
 - [ ] No external URL: `grep -rcE 'https?://' lessons/design-ux/ | grep -v ':0'` → no output
 
 ---

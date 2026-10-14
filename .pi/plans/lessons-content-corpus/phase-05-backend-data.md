@@ -236,7 +236,7 @@ Create these 6 files:
 
 **Success:**
 - [ ] Validator: `node tools/validate-content.mjs --topic backend-data` → `19 present, 0 pending, 0 error(s)`
-- [ ] File count for the topic: `find lessons/backend-data -name '*.md' | wc -l` → `44`
+- [ ] File count for the topic: `find lessons/backend-data -name '*.md' | wc -l` → `53`
 - [ ] Both tracks have 2 children each:
   `ls lessons/backend-data/{microservices,message-queues-kafka-rabbitmq} | grep -c '^[0-9][0-9]-'` → `4`
 - [ ] No external URL: `grep -rcE 'https?://' lessons/backend-data/ | grep -v ':0'` → no output

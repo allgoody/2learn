@@ -230,6 +230,8 @@ before the bulk pattern settled.
    - every `prereqs` and `related` target resolves to an existing id;
    - no file in `lessons/` contains `http://` or `https://`;
    - no `status:` value is anything other than `drafted` (the user promotes entries);
+   - no lesson prose calls an entry "pending": a lesson points its reader at a prereq by
+     id, it never describes it as not yet written;
    - the three area pages named in the merge table exist and carry their aliases;
    - the four Phase 1 pilot files were not bypassed by the bulk phases.
 
@@ -256,6 +258,10 @@ before the bulk pattern settled.
 - [ ] 401 content files: `find lessons -name '*.md' | wc -l` → `403` (401 entries + `AUTHORING.md` + `INDEX.md`)
 - [ ] No external URL anywhere: `grep -rlE 'https?://' lessons/ | wc -l` → `0`
 - [ ] No status other than `drafted`: `grep -rh '^status:' lessons/ | sort -u` → `status: drafted` only
+- [ ] No stale execution-order wording in the lessons themselves:
+      `grep -rni 'pending' lessons/*/ --include='*.md'` → no output (`lessons/INDEX.md`
+      and `lessons/AUTHORING.md` are excluded on purpose: the generated index reports a
+      pending count, and the spec documents the validator's `--strict` behaviour)
 - [ ] `seed/` untouched: `git status --short -- seed/` → no output
 
 ---
