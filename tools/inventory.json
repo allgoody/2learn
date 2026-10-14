@@ -1,0 +1,2194 @@
+[
+  {
+    "id": "frontend/html",
+    "topic": "frontend",
+    "slug": "html",
+    "title": "Hypertext Markup Language (HTML)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "HTML"
+    ]
+  },
+  {
+    "id": "frontend/css",
+    "topic": "frontend",
+    "slug": "css",
+    "title": "Cascading Style Sheets (CSS)",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "frontend/html"
+    ],
+    "aliases": [
+      "CSS"
+    ]
+  },
+  {
+    "id": "frontend/html-and-css",
+    "topic": "frontend",
+    "slug": "html-and-css",
+    "title": "HTML and CSS",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "frontend/javascript",
+    "topic": "frontend",
+    "slug": "javascript",
+    "title": "Javascript",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "frontend/html"
+    ],
+    "aliases": [
+      "JavaScript"
+    ]
+  },
+  {
+    "id": "frontend/typescript",
+    "topic": "frontend",
+    "slug": "typescript",
+    "title": "TypeScript",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/responsive-web-design",
+    "topic": "frontend",
+    "slug": "responsive-web-design",
+    "title": "Responsive Web Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/accessibility-wcag-a11y",
+    "topic": "frontend",
+    "slug": "accessibility-wcag-a11y",
+    "title": "Accessibility (WCAG / a11y)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/html",
+      "frontend/css"
+    ],
+    "aliases": [
+      "WCAG",
+      "a11y"
+    ]
+  },
+  {
+    "id": "frontend/ui-components",
+    "topic": "frontend",
+    "slug": "ui-components",
+    "title": "UI Components",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/html",
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/browser-compatibility",
+    "topic": "frontend",
+    "slug": "browser-compatibility",
+    "title": "Browser Compatibility",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/html",
+      "frontend/css",
+      "frontend/javascript"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/ajax",
+    "topic": "frontend",
+    "slug": "ajax",
+    "title": "Ajax",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": [
+      "AJAX"
+    ]
+  },
+  {
+    "id": "frontend/react",
+    "topic": "frontend",
+    "slug": "react",
+    "title": "React",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "frontend/javascript",
+      "frontend/typescript"
+    ],
+    "aliases": [
+      "React.js"
+    ]
+  },
+  {
+    "id": "frontend/vuejs",
+    "topic": "frontend",
+    "slug": "vuejs",
+    "title": "Vue.js",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": [
+      "Vue"
+    ]
+  },
+  {
+    "id": "frontend/angular",
+    "topic": "frontend",
+    "slug": "angular",
+    "title": "Angular",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/typescript"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/bootstrap",
+    "topic": "frontend",
+    "slug": "bootstrap",
+    "title": "Bootstrap (Front-End Framework)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/tailwind-css",
+    "topic": "frontend",
+    "slug": "tailwind-css",
+    "title": "Tailwind CSS",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/sass",
+    "topic": "frontend",
+    "slug": "sass",
+    "title": "Sass",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": [
+      "SCSS"
+    ]
+  },
+  {
+    "id": "frontend/state-management",
+    "topic": "frontend",
+    "slug": "state-management",
+    "title": "State Management",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/motion-design",
+    "topic": "frontend",
+    "slug": "motion-design",
+    "title": "Motion Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/svg-icon-systems",
+    "topic": "frontend",
+    "slug": "svg-icon-systems",
+    "title": "SVG & Icon Systems",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/html",
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/web-typography",
+    "topic": "frontend",
+    "slug": "web-typography",
+    "title": "Web Typography",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/css"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/responsive-images",
+    "topic": "frontend",
+    "slug": "responsive-images",
+    "title": "Responsive Images",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/html"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/package-management-npm",
+    "topic": "frontend",
+    "slug": "package-management-npm",
+    "title": "Package Management (npm)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "npm"
+    ]
+  },
+  {
+    "id": "frontend/webpack",
+    "topic": "frontend",
+    "slug": "webpack",
+    "title": "Webpack",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/javascript",
+      "frontend/package-management-npm"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/vite",
+    "topic": "frontend",
+    "slug": "vite",
+    "title": "Vite",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/package-management-npm"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/seo",
+    "topic": "frontend",
+    "slug": "seo",
+    "title": "SEO",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/html"
+    ],
+    "aliases": [
+      "Search Engine Optimization"
+    ]
+  },
+  {
+    "id": "frontend/generative-engine-optimization-geo",
+    "topic": "frontend",
+    "slug": "generative-engine-optimization-geo",
+    "title": "Generative Engine Optimization (GEO)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/seo"
+    ],
+    "aliases": [
+      "GEO"
+    ]
+  },
+  {
+    "id": "frontend/progressive-web-apps-pwa",
+    "topic": "frontend",
+    "slug": "progressive-web-apps-pwa",
+    "title": "Progressive Web Apps (PWA)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": [
+      "PWA"
+    ]
+  },
+  {
+    "id": "frontend/web-performance-core-web-vitals",
+    "topic": "frontend",
+    "slug": "web-performance-core-web-vitals",
+    "title": "Web Performance (Core Web Vitals)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript",
+      "frontend/css"
+    ],
+    "aliases": [
+      "Core Web Vitals"
+    ]
+  },
+  {
+    "id": "frontend/lighthouse",
+    "topic": "frontend",
+    "slug": "lighthouse",
+    "title": "Lighthouse",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/browser-devtools"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "frontend/browser-devtools",
+    "topic": "frontend",
+    "slug": "browser-devtools",
+    "title": "Browser DevTools",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": [
+      "DevTools"
+    ]
+  },
+  {
+    "id": "frontend/front-end-web-development",
+    "topic": "frontend",
+    "slug": "front-end-web-development",
+    "title": "Front-End Web Development",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Front-End Development"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/computer-science",
+    "topic": "cs-fundamentals",
+    "slug": "computer-science",
+    "title": "Computer Science",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "CS"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/data-structures",
+    "topic": "cs-fundamentals",
+    "slug": "data-structures",
+    "title": "Data Structures",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/algorithms-big-o",
+    "topic": "cs-fundamentals",
+    "slug": "algorithms-big-o",
+    "title": "Algorithms & Big-O",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/data-structures"
+    ],
+    "aliases": [
+      "Big-O"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/operating-systems",
+    "topic": "cs-fundamentals",
+    "slug": "operating-systems",
+    "title": "Operating Systems",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/data-structures"
+    ],
+    "aliases": [
+      "OS"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/computer-networks",
+    "topic": "cs-fundamentals",
+    "slug": "computer-networks",
+    "title": "Computer Networks",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/database-internals",
+    "topic": "cs-fundamentals",
+    "slug": "database-internals",
+    "title": "Database Internals",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "backend-data/sql-relational-databases"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/concurrency-async-programming",
+    "topic": "cs-fundamentals",
+    "slug": "concurrency-async-programming",
+    "title": "Concurrency & Async Programming",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/regular-expressions-regex",
+    "topic": "cs-fundamentals",
+    "slug": "regular-expressions-regex",
+    "title": "Regular Expressions (Regex)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Regex"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/pseudocode",
+    "topic": "cs-fundamentals",
+    "slug": "pseudocode",
+    "title": "Pseudocode",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/clean-code",
+    "topic": "cs-fundamentals",
+    "slug": "clean-code",
+    "title": "Clean Code",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/code-reusability",
+    "topic": "cs-fundamentals",
+    "slug": "code-reusability",
+    "title": "Code Reusability",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cs-fundamentals/clean-code"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/refactoring",
+    "topic": "cs-fundamentals",
+    "slug": "refactoring",
+    "title": "Refactoring",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/clean-code",
+      "cs-fundamentals/unit-testing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/design-patterns",
+    "topic": "cs-fundamentals",
+    "slug": "design-patterns",
+    "title": "Design Patterns",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/solid-principles"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/solid-principles",
+    "topic": "cs-fundamentals",
+    "slug": "solid-principles",
+    "title": "SOLID Principles",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "SOLID"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/code-review",
+    "topic": "cs-fundamentals",
+    "slug": "code-review",
+    "title": "Code Review",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/clean-code"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/software-architecture",
+    "topic": "cs-fundamentals",
+    "slug": "software-architecture",
+    "title": "Software Architecture",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "cs-fundamentals/design-patterns",
+      "cs-fundamentals/clean-code"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/unit-testing",
+    "topic": "cs-fundamentals",
+    "slug": "unit-testing",
+    "title": "Unit Testing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/test-driven-development-tdd",
+    "topic": "cs-fundamentals",
+    "slug": "test-driven-development-tdd",
+    "title": "Test-Driven Development (TDD)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/unit-testing"
+    ],
+    "aliases": [
+      "TDD"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/integration-testing",
+    "topic": "cs-fundamentals",
+    "slug": "integration-testing",
+    "title": "Integration Testing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/unit-testing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/end-to-end-testing",
+    "topic": "cs-fundamentals",
+    "slug": "end-to-end-testing",
+    "title": "End-to-End Testing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/integration-testing"
+    ],
+    "aliases": [
+      "E2E"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/playwright",
+    "topic": "cs-fundamentals",
+    "slug": "playwright",
+    "title": "Playwright",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cs-fundamentals/end-to-end-testing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/debugging",
+    "topic": "cs-fundamentals",
+    "slug": "debugging",
+    "title": "Debugging",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/git",
+    "topic": "cs-fundamentals",
+    "slug": "git",
+    "title": "Git (Version Control System)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "Git"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/git-branching-strategies",
+    "topic": "cs-fundamentals",
+    "slug": "git-branching-strategies",
+    "title": "Git Branching Strategies",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cs-fundamentals/git"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/github",
+    "topic": "cs-fundamentals",
+    "slug": "github",
+    "title": "GitHub",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cs-fundamentals/git"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cs-fundamentals/unix-shell",
+    "topic": "cs-fundamentals",
+    "slug": "unix-shell",
+    "title": "Unix Shell",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "Bash"
+    ]
+  },
+  {
+    "id": "cs-fundamentals/command-line-interface",
+    "topic": "cs-fundamentals",
+    "slug": "command-line-interface",
+    "title": "Command-Line Interface",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cs-fundamentals/unix-shell"
+    ],
+    "aliases": [
+      "CLI"
+    ]
+  },
+  {
+    "id": "cloud-devops/cloud-computing",
+    "topic": "cloud-devops",
+    "slug": "cloud-computing",
+    "title": "Cloud Computing",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Cloud Infrastructure",
+      "Cloud Development",
+      "Cloud Applications",
+      "Cloud Deployment",
+      "Application Deployment"
+    ]
+  },
+  {
+    "id": "cloud-devops/aws",
+    "topic": "cloud-devops",
+    "slug": "aws",
+    "title": "AWS",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "cloud-devops/cloud-computing"
+    ],
+    "aliases": [
+      "Amazon Web Services"
+    ]
+  },
+  {
+    "id": "cloud-devops/microsoft-azure",
+    "topic": "cloud-devops",
+    "slug": "microsoft-azure",
+    "title": "Microsoft Azure",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/cloud-computing"
+    ],
+    "aliases": [
+      "Azure"
+    ]
+  },
+  {
+    "id": "cloud-devops/google-cloud-platform-gcp",
+    "topic": "cloud-devops",
+    "slug": "google-cloud-platform-gcp",
+    "title": "Google Cloud Platform (GCP)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/cloud-computing"
+    ],
+    "aliases": [
+      "GCP"
+    ]
+  },
+  {
+    "id": "cloud-devops/cloud-cost-management",
+    "topic": "cloud-devops",
+    "slug": "cloud-cost-management",
+    "title": "Cloud Cost Management",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/aws"
+    ],
+    "aliases": [
+      "FinOps"
+    ]
+  },
+  {
+    "id": "cloud-devops/serverless-computing",
+    "topic": "cloud-devops",
+    "slug": "serverless-computing",
+    "title": "Serverless Computing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/cloud-computing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/cloud-native-computing",
+    "topic": "cloud-devops",
+    "slug": "cloud-native-computing",
+    "title": "Cloud-Native Computing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/cloud-computing",
+      "cloud-devops/docker"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/docker",
+    "topic": "cloud-devops",
+    "slug": "docker",
+    "title": "Docker",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/kubernetes",
+    "topic": "cloud-devops",
+    "slug": "kubernetes",
+    "title": "Kubernetes",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "cloud-devops/docker"
+    ],
+    "aliases": [
+      "k8s"
+    ]
+  },
+  {
+    "id": "cloud-devops/openshift",
+    "topic": "cloud-devops",
+    "slug": "openshift",
+    "title": "OpenShift",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/kubernetes"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/helm",
+    "topic": "cloud-devops",
+    "slug": "helm",
+    "title": "Helm",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/kubernetes"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/istio",
+    "topic": "cloud-devops",
+    "slug": "istio",
+    "title": "Istio",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/kubernetes",
+      "cloud-devops/networking-fundamentals-http-dns-tls"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/terraform",
+    "topic": "cloud-devops",
+    "slug": "terraform",
+    "title": "Terraform",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/cloud-computing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/ci-cd",
+    "topic": "cloud-devops",
+    "slug": "ci-cd",
+    "title": "CI/CD",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/git"
+    ],
+    "aliases": [
+      "Continuous Integration",
+      "Continuous Delivery"
+    ]
+  },
+  {
+    "id": "cloud-devops/github-actions",
+    "topic": "cloud-devops",
+    "slug": "github-actions",
+    "title": "GitHub Actions",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/ci-cd",
+      "cs-fundamentals/github"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/jenkins",
+    "topic": "cloud-devops",
+    "slug": "jenkins",
+    "title": "Jenkins",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/ci-cd"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/azure-devops",
+    "topic": "cloud-devops",
+    "slug": "azure-devops",
+    "title": "Azure DevOps",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/ci-cd"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/nginx",
+    "topic": "cloud-devops",
+    "slug": "nginx",
+    "title": "Nginx",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "cloud-devops/networking-fundamentals-http-dns-tls"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/linux-administration",
+    "topic": "cloud-devops",
+    "slug": "linux-administration",
+    "title": "Linux Administration",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "cloud-devops/networking-fundamentals-http-dns-tls",
+    "topic": "cloud-devops",
+    "slug": "networking-fundamentals-http-dns-tls",
+    "title": "Networking Fundamentals (HTTP / DNS / TLS)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cs-fundamentals/computer-networks"
+    ],
+    "aliases": [
+      "HTTP",
+      "DNS",
+      "TLS"
+    ]
+  },
+  {
+    "id": "cloud-devops/monitoring-observability-prometheus-grafana",
+    "topic": "cloud-devops",
+    "slug": "monitoring-observability-prometheus-grafana",
+    "title": "Monitoring & Observability (Prometheus / Grafana)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/linux-administration"
+    ],
+    "aliases": [
+      "Prometheus",
+      "Grafana"
+    ]
+  },
+  {
+    "id": "cloud-devops/site-reliability-engineering",
+    "topic": "cloud-devops",
+    "slug": "site-reliability-engineering",
+    "title": "Site Reliability Engineering",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/monitoring-observability-prometheus-grafana"
+    ],
+    "aliases": [
+      "SRE"
+    ]
+  },
+  {
+    "id": "cloud-devops/cloud-security-iam",
+    "topic": "cloud-devops",
+    "slug": "cloud-security-iam",
+    "title": "Cloud Security & IAM",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/aws"
+    ],
+    "aliases": [
+      "IAM"
+    ]
+  },
+  {
+    "id": "backend-data/nodejs",
+    "topic": "backend-data",
+    "slug": "nodejs",
+    "title": "Node.JS",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "frontend/javascript"
+    ],
+    "aliases": [
+      "Node.js",
+      "Node"
+    ]
+  },
+  {
+    "id": "backend-data/expressjs",
+    "topic": "backend-data",
+    "slug": "expressjs",
+    "title": "Express.js",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "backend-data/nodejs"
+    ],
+    "aliases": [
+      "Express"
+    ]
+  },
+  {
+    "id": "backend-data/python-programming",
+    "topic": "backend-data",
+    "slug": "python-programming",
+    "title": "Python Programming",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": [
+      "Python"
+    ]
+  },
+  {
+    "id": "backend-data/java",
+    "topic": "backend-data",
+    "slug": "java",
+    "title": "Java",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/go",
+    "topic": "backend-data",
+    "slug": "go",
+    "title": "Go",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "Golang"
+    ]
+  },
+  {
+    "id": "backend-data/server-side",
+    "topic": "backend-data",
+    "slug": "server-side",
+    "title": "Server Side",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Server-Side Development"
+    ]
+  },
+  {
+    "id": "backend-data/restful-api",
+    "topic": "backend-data",
+    "slug": "restful-api",
+    "title": "Restful API",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "REST"
+    ]
+  },
+  {
+    "id": "backend-data/api-design-openapi-swagger",
+    "topic": "backend-data",
+    "slug": "api-design-openapi-swagger",
+    "title": "API Design (OpenAPI / Swagger)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/restful-api"
+    ],
+    "aliases": [
+      "OpenAPI",
+      "Swagger"
+    ]
+  },
+  {
+    "id": "backend-data/authentication-authorization-oauth2-jwt",
+    "topic": "backend-data",
+    "slug": "authentication-authorization-oauth2-jwt",
+    "title": "Authentication & Authorization (OAuth2 / JWT)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/restful-api"
+    ],
+    "aliases": [
+      "OAuth2",
+      "JWT"
+    ]
+  },
+  {
+    "id": "backend-data/websockets",
+    "topic": "backend-data",
+    "slug": "websockets",
+    "title": "WebSockets",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "backend-data/restful-api"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/sql-relational-databases",
+    "topic": "backend-data",
+    "slug": "sql-relational-databases",
+    "title": "SQL & Relational Databases",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": [
+      "SQL"
+    ]
+  },
+  {
+    "id": "backend-data/nosql",
+    "topic": "backend-data",
+    "slug": "nosql",
+    "title": "NoSQL",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/sql-relational-databases"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/mongodb",
+    "topic": "backend-data",
+    "slug": "mongodb",
+    "title": "MongoDB",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/nosql"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/database-design",
+    "topic": "backend-data",
+    "slug": "database-design",
+    "title": "Database Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/sql-relational-databases"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/object-relational-mapping",
+    "topic": "backend-data",
+    "slug": "object-relational-mapping",
+    "title": "Object-Relational Mapping",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "backend-data/sql-relational-databases"
+    ],
+    "aliases": [
+      "ORM"
+    ]
+  },
+  {
+    "id": "backend-data/prisma-orm",
+    "topic": "backend-data",
+    "slug": "prisma-orm",
+    "title": "Prisma ORM",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "backend-data/object-relational-mapping",
+      "backend-data/nodejs"
+    ],
+    "aliases": [
+      "Prisma"
+    ]
+  },
+  {
+    "id": "backend-data/caching-redis",
+    "topic": "backend-data",
+    "slug": "caching-redis",
+    "title": "Caching (Redis)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/sql-relational-databases"
+    ],
+    "aliases": [
+      "Redis"
+    ]
+  },
+  {
+    "id": "backend-data/microservices",
+    "topic": "backend-data",
+    "slug": "microservices",
+    "title": "Microservices",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/restful-api"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "backend-data/message-queues-kafka-rabbitmq",
+    "topic": "backend-data",
+    "slug": "message-queues-kafka-rabbitmq",
+    "title": "Message Queues (Kafka / RabbitMQ)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "backend-data/microservices"
+    ],
+    "aliases": [
+      "Kafka",
+      "RabbitMQ"
+    ]
+  },
+  {
+    "id": "design-ux/design-thinking",
+    "topic": "design-ux",
+    "slug": "design-thinking",
+    "title": "Design Thinking",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/user-centered-design",
+    "topic": "design-ux",
+    "slug": "user-centered-design",
+    "title": "User Centered Design",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/design-thinking"
+    ],
+    "aliases": [
+      "User-Centred Design"
+    ]
+  },
+  {
+    "id": "design-ux/lean-ux",
+    "topic": "design-ux",
+    "slug": "lean-ux",
+    "title": "Lean UX",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/user-centered-design"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/jobs-to-be-done",
+    "topic": "design-ux",
+    "slug": "jobs-to-be-done",
+    "title": "Jobs-to-be-Done",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": [
+      "JTBD"
+    ]
+  },
+  {
+    "id": "design-ux/service-design",
+    "topic": "design-ux",
+    "slug": "service-design",
+    "title": "Service Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/journey-mapping"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/facilitation-workshop-design",
+    "topic": "design-ux",
+    "slug": "facilitation-workshop-design",
+    "title": "Facilitation & Workshop Design",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/storyboarding",
+    "topic": "design-ux",
+    "slug": "storyboarding",
+    "title": "Storyboarding",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/sketching"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/sketching",
+    "topic": "design-ux",
+    "slug": "sketching",
+    "title": "Sketching",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/user-research",
+    "topic": "design-ux",
+    "slug": "user-research",
+    "title": "User Research",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/ui-ux-research",
+    "topic": "design-ux",
+    "slug": "ui-ux-research",
+    "title": "UI/UX Research",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/design-research",
+    "topic": "design-ux",
+    "slug": "design-research",
+    "title": "Design Research",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/user-interviews",
+    "topic": "design-ux",
+    "slug": "user-interviews",
+    "title": "User Interviews",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/survey-design",
+    "topic": "design-ux",
+    "slug": "survey-design",
+    "title": "Survey Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/card-sorting",
+    "topic": "design-ux",
+    "slug": "card-sorting",
+    "title": "Card Sorting",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/information-architecture"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/journey-mapping",
+    "topic": "design-ux",
+    "slug": "journey-mapping",
+    "title": "Journey Mapping",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/persona-user-experience",
+    "topic": "design-ux",
+    "slug": "persona-user-experience",
+    "title": "Persona (User Experience)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": [
+      "Persona"
+    ]
+  },
+  {
+    "id": "design-ux/quantitative-ux-research",
+    "topic": "design-ux",
+    "slug": "quantitative-ux-research",
+    "title": "Quantitative UX Research",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/ab-testing",
+    "topic": "design-ux",
+    "slug": "ab-testing",
+    "title": "A/B Testing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/quantitative-ux-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/google-analytics-4-ga4",
+    "topic": "design-ux",
+    "slug": "google-analytics-4-ga4",
+    "title": "Google Analytics 4 (GA4)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "GA4"
+    ]
+  },
+  {
+    "id": "design-ux/ux-writing-microcopy",
+    "topic": "design-ux",
+    "slug": "ux-writing-microcopy",
+    "title": "UX Writing & Microcopy",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Microcopy"
+    ]
+  },
+  {
+    "id": "design-ux/content-strategy",
+    "topic": "design-ux",
+    "slug": "content-strategy",
+    "title": "Content Strategy",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/information-architecture",
+    "topic": "design-ux",
+    "slug": "information-architecture",
+    "title": "Information Architecture",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": [
+      "IA"
+    ]
+  },
+  {
+    "id": "design-ux/wireframing",
+    "topic": "design-ux",
+    "slug": "wireframing",
+    "title": "Wireframing",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/information-architecture"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/prototyping",
+    "topic": "design-ux",
+    "slug": "prototyping",
+    "title": "Prototyping",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/wireframing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/interaction-design",
+    "topic": "design-ux",
+    "slug": "interaction-design",
+    "title": "Interaction Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/prototyping"
+    ],
+    "aliases": [
+      "IxD"
+    ]
+  },
+  {
+    "id": "design-ux/visual-design",
+    "topic": "design-ux",
+    "slug": "visual-design",
+    "title": "Visual Design",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/typography",
+    "topic": "design-ux",
+    "slug": "typography",
+    "title": "Typography",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/visual-design"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/color-theory",
+    "topic": "design-ux",
+    "slug": "color-theory",
+    "title": "Color Theory",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/visual-design"
+    ],
+    "aliases": [
+      "Colour Theory"
+    ]
+  },
+  {
+    "id": "design-ux/layout-grid-systems",
+    "topic": "design-ux",
+    "slug": "layout-grid-systems",
+    "title": "Layout & Grid Systems",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/visual-design"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/data-visualization",
+    "topic": "design-ux",
+    "slug": "data-visualization",
+    "title": "Data Visualization",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/visual-design"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/design-systems",
+    "topic": "design-ux",
+    "slug": "design-systems",
+    "title": "Design Systems",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [
+      "design-ux/visual-design",
+      "frontend/ui-components"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/design-tokens",
+    "topic": "design-ux",
+    "slug": "design-tokens",
+    "title": "Design Tokens",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/design-systems"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/design-handoff-specs",
+    "topic": "design-ux",
+    "slug": "design-handoff-specs",
+    "title": "Design Handoff & Specs",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/design-systems"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/usability",
+    "topic": "design-ux",
+    "slug": "usability",
+    "title": "Usability",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/usability-testing",
+    "topic": "design-ux",
+    "slug": "usability-testing",
+    "title": "Usability Testing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/usability"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/heuristic-evaluation",
+    "topic": "design-ux",
+    "slug": "heuristic-evaluation",
+    "title": "Heuristic Evaluation",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/usability"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/figma",
+    "topic": "design-ux",
+    "slug": "figma",
+    "title": "Figma (Design Software)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Figma"
+    ]
+  },
+  {
+    "id": "design-ux/adobe-xd",
+    "topic": "design-ux",
+    "slug": "adobe-xd",
+    "title": "Adobe XD",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/figma"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/framer",
+    "topic": "design-ux",
+    "slug": "framer",
+    "title": "Framer",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/figma"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/miro",
+    "topic": "design-ux",
+    "slug": "miro",
+    "title": "Miro",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/maze",
+    "topic": "design-ux",
+    "slug": "maze",
+    "title": "Maze",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/usability-testing"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/notion",
+    "topic": "design-ux",
+    "slug": "notion",
+    "title": "Notion",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/hotjar",
+    "topic": "design-ux",
+    "slug": "hotjar",
+    "title": "Hotjar",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "design-ux/google-analytics-4-ga4"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "design-ux/ui-ux-design",
+    "topic": "design-ux",
+    "slug": "ui-ux-design",
+    "title": "User Interface and User Experience (UI/UX) Design",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "UI/UX Design",
+      "UI",
+      "User Experience",
+      "User Experience Design"
+    ]
+  },
+  {
+    "id": "product-process/agile-methodology",
+    "topic": "product-process",
+    "slug": "agile-methodology",
+    "title": "Agile Methodology",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "Agile"
+    ]
+  },
+  {
+    "id": "product-process/agile-software-development",
+    "topic": "product-process",
+    "slug": "agile-software-development",
+    "title": "Agile Software Development",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/agile-methodology"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "product-process/scrum-software-development",
+    "topic": "product-process",
+    "slug": "scrum-software-development",
+    "title": "Scrum (Software Development)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "product-process/agile-methodology"
+    ],
+    "aliases": [
+      "Scrum"
+    ]
+  },
+  {
+    "id": "product-process/kanban",
+    "topic": "product-process",
+    "slug": "kanban",
+    "title": "Kanban",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/agile-methodology"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "product-process/user-story",
+    "topic": "product-process",
+    "slug": "user-story",
+    "title": "User Story",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/agile-methodology"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "product-process/estimation-story-points",
+    "topic": "product-process",
+    "slug": "estimation-story-points",
+    "title": "Estimation & Story Points",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/user-story"
+    ],
+    "aliases": [
+      "Story Points"
+    ]
+  },
+  {
+    "id": "product-process/jira-confluence",
+    "topic": "product-process",
+    "slug": "jira-confluence",
+    "title": "Jira & Confluence",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/agile-methodology"
+    ],
+    "aliases": [
+      "Jira",
+      "Confluence"
+    ]
+  },
+  {
+    "id": "product-process/product-management",
+    "topic": "product-process",
+    "slug": "product-management",
+    "title": "Product Management",
+    "type": "skill",
+    "tier": "large",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "product-process/product-discovery",
+    "topic": "product-process",
+    "slug": "product-discovery",
+    "title": "Product Discovery",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "design-ux/user-research"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "product-process/roadmapping",
+    "topic": "product-process",
+    "slug": "roadmapping",
+    "title": "Roadmapping",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/product-management"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "product-process/prioritization-frameworks-rice-moscow",
+    "topic": "product-process",
+    "slug": "prioritization-frameworks-rice-moscow",
+    "title": "Prioritization Frameworks (RICE / MoSCoW)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/product-management"
+    ],
+    "aliases": [
+      "RICE",
+      "MoSCoW"
+    ]
+  },
+  {
+    "id": "product-process/requirements-engineering",
+    "topic": "product-process",
+    "slug": "requirements-engineering",
+    "title": "Requirements Engineering",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "product-process/business-analysis",
+    "topic": "product-process",
+    "slug": "business-analysis",
+    "title": "Business Analysis",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "product-process/stakeholder-management",
+    "topic": "product-process",
+    "slug": "stakeholder-management",
+    "title": "Stakeholder Management",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "product-process/user-acceptance-testing",
+    "topic": "product-process",
+    "slug": "user-acceptance-testing",
+    "title": "User Acceptance Testing",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "product-process/requirements-engineering"
+    ],
+    "aliases": [
+      "UAT"
+    ]
+  },
+  {
+    "id": "product-process/technical-writing",
+    "topic": "product-process",
+    "slug": "technical-writing",
+    "title": "Technical Writing",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "product-process/software-development",
+    "topic": "product-process",
+    "slug": "software-development",
+    "title": "Software Development",
+    "type": "area",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Application Development",
+      "Software Development Life Cycle",
+      "SDLC"
+    ]
+  },
+  {
+    "id": "security/web-security-owasp-top-10",
+    "topic": "security",
+    "slug": "web-security-owasp-top-10",
+    "title": "Web Security (OWASP Top 10)",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "OWASP"
+    ]
+  },
+  {
+    "id": "security/https-tls",
+    "topic": "security",
+    "slug": "https-tls",
+    "title": "HTTPS & TLS",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [
+      "cloud-devops/networking-fundamentals-http-dns-tls"
+    ],
+    "aliases": [
+      "TLS"
+    ]
+  },
+  {
+    "id": "security/content-security-policy-csp",
+    "topic": "security",
+    "slug": "content-security-policy-csp",
+    "title": "Content Security Policy (CSP)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "security/web-security-owasp-top-10",
+      "security/https-tls"
+    ],
+    "aliases": [
+      "CSP"
+    ]
+  },
+  {
+    "id": "security/secrets-management",
+    "topic": "security",
+    "slug": "secrets-management",
+    "title": "Secrets Management",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "security/dependency-scanning-sca",
+    "topic": "security",
+    "slug": "dependency-scanning-sca",
+    "title": "Dependency Scanning (SCA)",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "frontend/package-management-npm"
+    ],
+    "aliases": [
+      "SCA"
+    ]
+  },
+  {
+    "id": "security/gdpr-data-privacy",
+    "topic": "security",
+    "slug": "gdpr-data-privacy",
+    "title": "GDPR & Data Privacy",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "GDPR"
+    ]
+  },
+  {
+    "id": "security/data-ethics",
+    "topic": "security",
+    "slug": "data-ethics",
+    "title": "Data Ethics",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "security/gdpr-data-privacy"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/communication",
+    "topic": "soft-skills",
+    "slug": "communication",
+    "title": "Communication",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/teamwork-collaboration",
+    "topic": "soft-skills",
+    "slug": "teamwork-collaboration",
+    "title": "Teamwork & Collaboration",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/mentoring",
+    "topic": "soft-skills",
+    "slug": "mentoring",
+    "title": "Mentoring",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/problem-solving",
+    "topic": "soft-skills",
+    "slug": "problem-solving",
+    "title": "Problem Solving",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/time-management",
+    "topic": "soft-skills",
+    "slug": "time-management",
+    "title": "Time Management",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/technical-presentation",
+    "topic": "soft-skills",
+    "slug": "technical-presentation",
+    "title": "Technical Presentation",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [
+      "soft-skills/communication"
+    ],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/portfolio-building",
+    "topic": "soft-skills",
+    "slug": "portfolio-building",
+    "title": "Portfolio Building",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": []
+  },
+  {
+    "id": "soft-skills/interview-prep-whiteboarding",
+    "topic": "soft-skills",
+    "slug": "interview-prep-whiteboarding",
+    "title": "Interview Prep & Whiteboarding",
+    "type": "skill",
+    "tier": "small",
+    "prereqs": [],
+    "aliases": [
+      "Whiteboarding"
+    ]
+  },
+  {
+    "id": "soft-skills/freelancing-client-work",
+    "topic": "soft-skills",
+    "slug": "freelancing-client-work",
+    "title": "Freelancing & Client Work",
+    "type": "skill",
+    "tier": "medium",
+    "prereqs": [],
+    "aliases": [
+      "Freelancing"
+    ]
+  }
+]
