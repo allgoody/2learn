@@ -121,8 +121,8 @@ That comparison needs a script over both trees.
 Write `.tmp/ru-audit.mjs` — a zero-dependency Node ESM script — and run it. It must report, and exit
 non-zero if any of these fail:
 
-1. **Mirror completeness.** For every `.md` file under `lessons/` excluding `lessons/AUTHORING.md`, `lessons/INDEX.md` and everything under `lessons/ru/`: an identical relative path exists under `lessons/ru/`. And conversely, no Russian file lacks an English original. The two file counts must be equal.
-2. **Structure.** For each pair: the same number of `##` headings, in the same shape order; the same ordered list of fence language tags; the same set of backticked ids; the same ordered `<!--` -free content — report the first differing line for any mismatch.
+1. **Mirror completeness.** For every `.md` file under `lessons/` excluding `lessons/AUTHORING.md`, `lessons/INDEX.md` and everything under `lessons/ru/`: an identical relative path exists under `lessons/ru/`. And conversely, no Russian file lacks an English original, excluding `lessons/ru/GLOSSARY.md` and `lessons/ru/INDEX.md`, which are Russian-only. The two file counts must be equal.
+2. **Structure.** For each pair: the same number of `##` headings, in the same shape order; the same ordered list of fence language tags; the same set of backticked ids; the same ordered sequence of `##` and `###` heading lines; and no HTML comments. Report the first differing line for any mismatch.
 3. **Frontmatter invariants.** For each pair: `type`, `tier`, `topic`, `aliases`, `prereqs`, `related` and `status` are byte-identical; the key order is identical; a child's keys are exactly `title`, `prereqs`; an examples file starts with `## Пример 1 — ` and has no frontmatter.
 4. **Bands and markers.** Every Russian body is inside its band (full 400–1100, landing 180–460, area 100–340, examples 100–500); every `Практика` section contains a `Готово, когда:` line; every `Частые ошибки` bullet matches the `; исправить: ` shape; an empty `Предварительные требования` body reads `Нет.`.
 5. **Glossary usage.** Every Russian `title` in an `index.md` appears verbatim in `lessons/ru/GLOSSARY.md`, and every Russian title referenced in a `**…**` bullet matches its target's Russian `title`.
@@ -134,7 +134,7 @@ non-zero if any of these fail:
 - DO: build both trees by walking the filesystem, not from a hard-coded list of 698 paths.
 - DO: read files as Buffers or as utf8 without newline normalisation; compare exactly.
 - DO: print one summary line per check, then the offending `path:line` lines, then exit non-zero if any check failed.
-- DO: treat `GLOSSARY.md` as a Russian-only file with no English twin, and exclude it from check 1.
+- DO: treat `GLOSSARY.md` and `INDEX.md` as Russian-only files with no English twin, and exclude both from check 1.
 - DO NOT: modify any file under `lessons/` — this WP is read-only apart from the script.
 - DO NOT: use regex shorthand escapes inside a shell command; write the script to `.tmp/` and run the file.
 
@@ -182,7 +182,8 @@ awaits review, with nothing committed.
 - [ ] Command: `node tools/validate-content.mjs --write-index --lang en` → exit 0
 - [ ] Command: `node tools/validate-content.mjs --strict --lang en` → the same line as before, exit 0
 - [ ] Command: `grep -c '^- \[' lessons/ru/INDEX.md` → `177`
-- [ ] Command: `grep -c '(pending)' lessons/ru/INDEX.md` → `0`
+- [ ] Command: `grep -c '(pending)' lessons/ru/INDEX.md` → `0` (grep exits 1 when it counts zero — read the printed number, not the exit code)
+- [ ] Check: every label in `lessons/ru/INDEX.md` is the Russian `title` from that entry's `index.md`, not the English inventory title
 - [ ] Command: `ls .tmp` → empty or the directory does not exist
 - [ ] Report: the handover summary is written out with both validator lines, the counts, the terminology decisions and the draft-status statement
 

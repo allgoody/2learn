@@ -124,7 +124,7 @@ Create the 23 Russian files for the ten directories listed below.
 
 **Success:**
 - [ ] Command: `node tools/validate-content.mjs --topic 03-design-ux --lang ru` → no error naming any of the 23 files
-- [ ] Command: `find lessons/ru/03-design-ux -name '*.md' | wc -l` → `61` (the topic total after this WP)
+- [ ] Command: `find lessons/ru/03-design-ux -name '*.md' | wc -l` → `63` (the topic total after this WP: 19 + 21 + 23)
 - [ ] Command: `ls lessons/ru/03-design-ux/12-figma lessons/ru/03-design-ux/13-miro lessons/ru/03-design-ux/14-notion` → each has exactly `index.md` and `examples.md`
 
 ### WP-22: Mirror interviews, surveys, journey mapping, personas and quantitative research

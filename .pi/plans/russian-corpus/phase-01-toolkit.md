@@ -17,9 +17,9 @@ are decided.
 
 The validator's filesystem scan walks `subdirs(LESSONS)` and builds `id = topic + "/" + slug` from
 the directory names (`tools/validate-content.mjs`, "filesystem scan" around line 84). With
-`lessons/ru/` present, `ru` would be read as a ninth topic and every entry under it would fail V1's
-unknown-topic check. The scan therefore has to become root-aware: one root for English, one for
-Russian, and `ru` skipped inside the English root.
+`lessons/ru/` present, `ru` would be read as a ninth topic and each of the eight directories under it
+would fail V14's unknown-entry-directory check. The scan therefore has to become root-aware: one root
+for English, one for Russian, and `ru` skipped inside the English root.
 
 The Russian tree keeps the English ids. A Russian `index.md` at
 `lessons/ru/01-cs-fundamentals/04-database-internals/index.md` carries
@@ -59,15 +59,19 @@ Russian file. The em dash in the examples heading is U+2014 with spaces around i
 
 **Context:**
 `tools/validate-content.mjs` derives everything from one `LESSONS` constant (line 9) and reports one
-summary line at the end (around line 352). The `--topic` and `--strict` flags are parsed around line
-27. `--write-index` writes to `join(LESSONS, "INDEX.md")` (around line 355).
+summary line at the end (line 429). The `--topic` and `--strict` flags are parsed around line 27.
+`--write-index` writes to `join(LESSONS, "INDEX.md")` (line 407). The counters (`present`, `pending`,
+`examplesPresent`, `examplesPending`) and the `errors` array are module-level globals, so each root
+needs its own state.
 
 **Task:**
 Introduce a language-root concept and a `--lang` flag:
 
 - `--lang en` — scan `lessons/` but skip the `ru` subdirectory. The default when no `--lang` is given, so existing commands and habits behave exactly as before.
 - `--lang ru` — scan `lessons/ru/` only.
-- `--lang all` — scan both roots and print one summary line per root.
+- `--lang all` — scan both roots and print one summary line per root. `--topic` still filters both roots by topic slug.
+- For the Russian root, `--write-index` labels each entry with the `title` read from that entry's Russian `index.md` (falling back to `(pending)` when the file is missing), not the English `e.title` from the inventory.
+- Give each root its own `seen`, `present`, `pending`, `examplesPresent`, `examplesPending` and `errors` state, so `--lang all` prints correct per-root lines.
 
 Each root prints its own summary line. With a single root selected the line format is unchanged from
 Plan A. `--strict`, `--topic` and `--write-index` all act on the selected roots only, and
@@ -76,13 +80,15 @@ Russian root. Running `--write-index --lang ru` before any Russian file exists m
 `lessons/ru/INDEX.md` listing all 177 entries as `(pending)`; that file is regenerated in Phase 8.
 
 **Files:**
-- `tools/validate-content.mjs` — MODIFY — the `LESSONS` constant, the argument parser, the filesystem scan, the report, and the `--write-index` target
+- `tools/validate-content.mjs` — MODIFY — the `LESSONS` constant, the argument parser, the filesystem scan, the report, the `--write-index` target and its label source
 
 **Constraints:**
-- DO: skip the `ru` directory when scanning the English root — otherwise `ru` fails V1's unknown-topic check.
+- DO: skip the `ru` directory when scanning the English root — otherwise `ru` fails V14's unknown-entry-directory check.
 - DO: keep `TOPICS` as the 8 prefixed topic directory names; both roots use the same names.
-- DO: leave every V1–V16 check body untouched in this WP — only the root plumbing changes.
+- DO: leave every V1–V16 check body untouched in this WP — only the root plumbing changes (the sole exception is the `--write-index` label source named in the Task).
 - DO: keep the file zero-dependency and LF, and keep `node --check` clean.
+- DO: keep one `errors` array and one set of counters per root, reset between roots.
+- DO: for the Russian root read the index label from the entry's `index.md`; keep the English root's label from the inventory.
 - DO: reject an unknown `--lang` value with exit code 2 and a message naming the accepted values.
 - DO NOT: create any Russian content in this WP.
 - DO NOT: change how `present`, `pending`, `examples` or `errors` are counted.
@@ -103,17 +109,31 @@ Russian root. Running `--write-index --lang ru` before any Russian file exists m
 the `; fix: ` pattern in `## Common mistakes`. With a Russian root in place, every Russian file would
 fail V4 on its headings alone.
 
+A second set of English literals sits outside `SHAPES`: the section lookups that drive the other
+lesson checks. `sec("Core ideas")`, `sec("Practice")`, `sec("Common mistakes")` and
+`sec("Go deeper")` drive V7; `sec("In this track")` drives V9; `sec("Prerequisites")` drives V10;
+`sec("Included skills")` and `sec("Where to start")` drive V11; and `hasPractice` greps for the
+literal `## Practice` for V16. If only `SHAPES` becomes per-language, every one of these lookups
+returns nothing for a Russian file, and V7, V9, V10, V11 and V16 silently stop guarding the whole
+Russian corpus.
+
 **Task:**
 Make the heading vocabulary, the word bands and the three literals per-language, using the tables in
 Shared Context, and add a title-consistency check (V17) that runs only for the Russian root.
 
+Route every English heading literal in a check through the same per-language map, not only `SHAPES`:
+`Core ideas`, `Practice`, `Common mistakes`, `Go deeper`, `In this track`, `Prerequisites`,
+`Included skills`, `Where to start`, and the `Practice` literal inside `hasPractice`. Make
+`EXAMPLES_WORDS` per-language too (Russian examples 100–500).
+
 **Files:**
-- `tools/validate-content.mjs` — MODIFY — `SHAPES`, `WORDS`, the literal matches, and a new V17
+- `tools/validate-content.mjs` — MODIFY — `SHAPES`, `WORDS`, `EXAMPLES_WORDS`, the section lookups, the literal matches, and a new V17
 
 **Constraints:**
 - DO: implement `SHAPES` and `WORDS` as per-language objects keyed by `lang`, leaving the English entries byte-identical to their current values.
 - DO: implement the Russian examples-file checks with `## Пример N — ` (em dash, U+2014) and `### Решение`, keeping the same structure rules as V15: 1–2 examples numbered from 1, one solution per example placed after its heading, a language tag on every opening fence, 100–500 words, no `https://`/`http://`.
-- DO: implement V17 for the Russian root only: for every bullet matching ``(`<id>`)`` in `## Предварительные требования`, `## Что в этом треке`, `## Входящие навыки` and `## Что читать дальше`, the text between the `**` markers must exactly equal the `title` from the target's frontmatter (the target entry's `index.md`, or the target child's own file). Report the mismatch with both strings and the id.
+- DO: implement V17 for the Russian root only: for every bullet matching ``(`<id>`)`` in `## Предварительные требования`, `## Что в этом треке`, `## Входящие навыки` and `## Что читать дальше` — both the `- ` and the numbered `1. ` shapes occur — the text between the `**` markers must exactly equal the `title` from the target's frontmatter (the target entry's `index.md`, or the target child's own file). Report the mismatch with both strings and the id.
+- DO: make V17 **skip** a bullet whose target file does not exist or is not yet Russian (its `title` is still the English one). An unwritten target is not a V17 error, because Phases 2–7 translate entry by entry and most targets are missing while a topic is in progress; completeness is WP-40's job, not V17's.
 - DO: leave V1–V16 numerically unchanged, and keep the tag numbering so `[V17]` is the only new tag.
 - DO: keep the English path through the code exactly as it behaves today.
 - DO NOT: change the English bands (450–950, 200–400, 120–300, 120–450).
@@ -124,18 +144,20 @@ Shared Context, and add a title-consistency check (V17) that runs only for the R
 - [ ] Command: `node --check tools/validate-content.mjs` → exit 0
 - [ ] Command: `node tools/validate-content.mjs --strict --lang en` → `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)`, exit 0
 - [ ] Command: `node tools/validate-content.mjs --lang ru` → no V4 heading errors (errors may still be `[V2]`/`[V16]` pending-style only)
-- [ ] Fixture check: copy `lessons/01-cs-fundamentals/06-regular-expressions-regex/index.md` to `lessons/ru/01-cs-fundamentals/06-regular-expressions-regex/index.md`, replace only its `##` headings with the Russian vocabulary from Shared Context, then run `node tools/validate-content.mjs --lang ru --topic 01-cs-fundamentals` and confirm the only remaining errors are about the missing examples file and the still-English prose band — record the output verbatim, then delete the fixture
-- [ ] Fixture check: change one bullet in that fixture to a wrong Russian title and confirm `[V17]` fires with both strings — then delete the fixture
+- [ ] Fixture check (no V4): copy `lessons/01-cs-fundamentals/06-regular-expressions-regex/index.md` to `lessons/ru/01-cs-fundamentals/06-regular-expressions-regex/index.md`, replace only its `##` headings with the Russian vocabulary from Shared Context, then run `node tools/validate-content.mjs --lang ru --topic 01-cs-fundamentals` and confirm no `[V4]` heading error names the fixture — record the output verbatim
+- [ ] Fixture check (V17 mismatch): in that fixture add a `## Что читать дальше` bullet whose `**…**` text is `Неверный заголовок` and whose backticked id is `01-cs-fundamentals/06-regular-expressions-regex`, so the bullet points at its own file with a title that differs from the fixture's `title`; rerun and confirm `[V17]` fires naming both strings
+- [ ] Fixture check (V17 skip): confirm `[V17]` does **not** fire for a bullet pointing at `01-cs-fundamentals/15-operating-systems`, which has no Russian file yet
+- [ ] Delete the fixture directory `lessons/ru/01-cs-fundamentals/06-regular-expressions-regex/` when the V17 checks are done
 
 ### WP-3: Write the Russian contract into AUTHORING.md
 
 **Context:**
-`lessons/AUTHORING.md` now ends at §15 "Examples files". The Russian corpus needs its own section
+`lessons/AUTHORING.md` now ends at `## 12. Examples files`. The Russian corpus needs its own section
 stating the mirror rule, the id rule, the heading vocabulary, the literals, the bands and the
 translation policy, so that later authors do not have to read this plan.
 
 **Task:**
-Append a `## 16. The Russian corpus` section to `lessons/AUTHORING.md` containing: the mirror rule
+Append a `## 13. The Russian corpus` section to `lessons/AUTHORING.md` containing: the mirror rule
 with the two-path example, the rule that ids, `prereqs`, `related`, `type`, `tier`, `aliases` and
 `status` are copied from the English file and never translated, the full heading vocabulary table,
 the three literal replacements, the Russian word bands, the rule that code identifiers and fence
@@ -149,22 +171,23 @@ language tags stay as they are while comments and prose strings are translated, 
 **Constraints:**
 - DO: reproduce the heading and literal tables exactly as they appear in Shared Context.
 - DO: state that nothing outside `lessons/ru/` is edited by Russian work.
-- DO: keep §1–§15 byte-identical.
+- DO: keep §1–§12 byte-identical.
 - DO NOT: restate the English shapes and bands.
 - DO NOT: mention this plan's phase names in the contract.
 
 **Success:**
-- [ ] Grep: `grep -n '^## 16\.' lessons/AUTHORING.md` → 1 match
+- [ ] Grep: `grep -n '^## 13\.' lessons/AUTHORING.md` → 1 match
 - [ ] Grep: `grep -c 'Что читать дальше' lessons/AUTHORING.md` → ≥ 1
-- [ ] Grep: `grep -n '^## ' lessons/AUTHORING.md` → §1–§15 present and unchanged, plus §16
+- [ ] Grep: `grep -n '^## ' lessons/AUTHORING.md` → §1–§12 present and unchanged, plus §13
 - [ ] Command: `node tools/validate-content.mjs --strict --lang en` → still `0 error(s)`
 
 ### WP-4: Write the glossary, including all 177 Russian titles
 
 **Context:**
-Titles appear twice: in the entry's own frontmatter and inside every `**Title**` bullet that points
-at it. There are 177 entries and a title can be referenced from many files, so the Russian rendering
-of each title has to be decided once, centrally, and then copied. `GLOSSARY.md` is that central
+Titles appear in two places a translator edits — the entry's own frontmatter and every `**Title**`
+bullet that points at it — and the generated `lessons/ru/INDEX.md` copies them from those files.
+There are 177 entries and a title can be referenced from many files, so the Russian rendering of each
+title has to be decided once, centrally, and then copied. `GLOSSARY.md` is that central
 record, and V17 enforces it.
 
 **Task:**
@@ -209,7 +232,7 @@ so it must be reviewed before any bulk translation starts.
 Create the two mirrored files —
 `lessons/ru/01-cs-fundamentals/04-database-internals/index.md` and
 `lessons/ru/01-cs-fundamentals/04-database-internals/examples.md` — by translating the English
-originals in full, using the vocabulary from WP-2 and the titles from WP-4.
+originals in full, using the headings and literals from WP-2 and the vocabulary and titles from WP-4.
 
 **Files:**
 - `lessons/ru/01-cs-fundamentals/04-database-internals/index.md` — CREATE — Russian translation of the English lesson
@@ -228,7 +251,7 @@ originals in full, using the vocabulary from WP-2 and the titles from WP-4.
 - DO NOT: promote the status — it stays `drafted`.
 
 **Success:**
-- [ ] Command: `node tools/validate-content.mjs --topic 01-cs-fundamentals --lang ru` → the exemplar's two files produce no errors; the only errors are the other 26 entries being unwritten (`[V2]`/`[V16]`)
+- [ ] Command: `node tools/validate-content.mjs --topic 01-cs-fundamentals --lang ru` → `1 present, 26 pending, 2 examples, 0 examples pending, 0 error(s)` — no error names either exemplar file, and without `--strict` an unwritten entry is not an error
 - [ ] Command: `head -12 lessons/ru/01-cs-fundamentals/04-database-internals/index.md` → frontmatter with the 8 keys in order and a Russian `title`
 - [ ] Command: `grep -n '^## ' lessons/ru/01-cs-fundamentals/04-database-internals/index.md` → exactly `## Что это такое`, `## Почему это важно`, `## Ключевые идеи`, `## Практика`, `## Частые ошибки`, `## Что читать дальше`
 - [ ] Command: `grep -c 'Готово, когда:' lessons/ru/01-cs-fundamentals/04-database-internals/index.md` → `2`
@@ -254,5 +277,5 @@ find lessons/ru -name '*.md' | wc -l
 - [ ] `--lang ru` reports 1 present, 176 pending, and no heading, band or title error for the exemplar
 - [ ] `--lang all` prints both roots' summary lines
 - [ ] `find lessons/ru -name '*.md' | wc -l` → `3` (the two exemplar files plus `GLOSSARY.md`)
-- [ ] `lessons/AUTHORING.md` §16 and `lessons/ru/GLOSSARY.md` agree with the tables in Shared Context
+- [ ] `lessons/AUTHORING.md` §13 and `lessons/ru/GLOSSARY.md` agree with the tables in Shared Context
 - [ ] The exemplar is ready for the user to review before bulk translation starts — say so in your report

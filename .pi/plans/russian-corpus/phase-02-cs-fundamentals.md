@@ -24,7 +24,7 @@ declaring a work package done.
 - Copy `type`, `tier`, `topic`, `aliases`, `prereqs`, `related` and `status: drafted` from the English frontmatter verbatim. Translate only `title`, using the wording in `lessons/ru/GLOSSARY.md`.
 - A child file carries exactly two keys, `title` (translated) then `prereqs` (copied).
 - An examples file has no frontmatter at all.
-- Use the Russian headings from `lessons/AUTHORING.md` §16, verbatim, in the same order as the English file. No synonyms, no extra headings.
+- Use the Russian headings from `lessons/AUTHORING.md` §13, verbatim, in the same order as the English file. No synonyms, no extra headings.
 - Keep every backticked id byte-identical to the English file — in `prereqs`, in `Предварительные требования`, in `Что в этом треке`, in `Входящие навыки` and in `Что читать дальше`.
 - Translate the `**Title**` text in every bullet exactly as `GLOSSARY.md` gives it, including for child titles, which must stay consistent with the parent's terminology. V17 checks this.
 - Translate code comments and prose strings inside fences; keep identifiers, keywords, command names, file names and fence language tags unchanged.
@@ -44,7 +44,7 @@ declaring a work package done.
 
 **Context:**
 `01-computer-science` is the topic's `area` entry — one `index.md` with the four area headings and a
-list of the 27 skills it covers. `02-data-structures` and `03-computer-networks` are `medium` skills,
+list of the 6 skills it covers. `02-data-structures` and `03-computer-networks` are `medium` skills,
 so each has `index.md`, two children and two child-level examples files.
 
 **Task:**
