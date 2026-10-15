@@ -1,54 +1,51 @@
 # Context — 2learn
 
 **Project:** 2learn — a 177-entry lesson corpus built from a seed skill list, plus (later) a static learning site.
-**Rules:** See `.pi/project-rules-memory.md` for tech stack, architecture and content constraints.
+**Rules:** See `.pi/project-rules-memory.md` for tech stack, architecture, and content/design constraints.
 
 Last updated: 2026-10-15
 
 ## Current Task
-**All tasks completed.** `.pi/plans/lessons-content-corpus/` is executed in full: all 8 phases, all 38 work packages. `node tools/validate-content.mjs --strict` reports `177 present, 0 pending, 0 error(s)` and exits 0. `lessons/INDEX.md` is generated. Nothing is committed — the user handles git.
+**Executing `.pi/plans/corpus-order-and-examples/` (Plan A) via `/skill:implement`.** Phases 1–2 are
+complete and verified; Phase 3 is part-written. Plan A must be fully green before
+`.pi/plans/russian-corpus/` (Plan B) starts, because Plan B mirrors Plan A's final paths.
 
-## What This Session Delivered (Phases 6–8, the last three)
-- **Phase 6 (design-ux, WP-24–WP-30)** — 44 entries, 88 files. Per-WP: `9/35`, `15/29`, `20/24`, `26/18`, `31/13`, `34/10`, `44/0`. Foundations, research, content/structure, visual design, design systems, evaluation, and the seven tool entries.
-- **Phase 7 (product-process, WP-31–WP-34)** — 17 entries, 35 files. Per-WP: `7/10`, `11/6`, `16/1`, `17/0`. Global 144 → **161**.
-- **Phase 8 (WP-35–WP-38)** — security 7 entries + soft-skills 9 entries (26 files); then the final audit: strict validation, `--write-index`, and the corpus-wide consistency pass.
-- `lessons/INDEX.md` generated (177 links, 0 `(pending)` markers). Never hand-edit it again.
-- `.tmp/` scratch directory removed (two audit scripts used during the phase runs).
+## Completed This Session
+- [x] Phase 1 (WP-1–WP-8) — prereq demotion, `tools/renumber-map.json`, 185 directory renames, id sweep, prefixed `TOPICS`, `INDEX.md` regenerated. All WP checks and Phase Verification pass.
+- [x] Phase 2 (WP-9–WP-11) — `AUTHORING.md` §12, validator V15/V16 + five-part summary + INDEX `[examples]` links, two exemplars (`02-frontend/05-css/examples.01-cascade-and-box-model.md`, `08-soft-skills/03-mentoring/examples.md`).
+- [x] Phase 3 WP-12 (7 files), WP-13 (7), WP-14 (10) — complete; `--topic 01-cs-fundamentals` reports `0 error(s)`.
 
 ## In Progress
-Nothing. The corpus is complete and validator-clean.
+- [ ] **Phase 3 WP-15 — 5 of 11 files written.** Done: `16-code-reusability/examples.md`, `17-code-review/examples.01-reading-a-diff-for-correctness.md`, `17-code-review/examples.02-reviewing-for-clarity-and-tone.md`, `18-design-patterns/examples.01-why-patterns-are-named.md`, `18-design-patterns/examples.02-the-patterns-that-earn-their-keep.md`. Remaining: `19-refactoring` 01+02, `20-test-driven-development-tdd` 01+02, `21-integration-testing` 01+02 — then run WP-15's Success checks.
 
 ## Blocked / Needs Decision
-- [?] **Two follow-ups are deliberately out of scope** and belong to a separate plan: (a) the Astro site in `astro/`; (b) promoting entries from `status: drafted` to `reviewed`. Promotion is the user's work, not the executor's.
-- [?] **Plan errata, now moot but on record.** The plan's global counts from Phase 3 onward were *not* uniformly one low: Phases 3, 4 and 5 were wrong (correct values 59, 82, 101), but Phases 6, 7 and 8 matched exactly (144, 161, 177). Older erratum notes also still stand for WP-3, WP-5 and WP-14.
+- [?] Nothing blocking. Both plan directories are still uncommitted (they show as untracked).
 
 ## Next Steps
-1. User: review the corpus entry by entry and promote `status: drafted` → `reviewed` (only the user may do this).
-2. Then write a **separate** plan for the Astro site in `astro/` — Astro 7 + Tailwind 4 + React islands + TypeScript + Pagefind, consuming `lessons/` through a content-collection schema mirroring `lessons/AUTHORING.md`. Re-verify those package versions on npm before installing.
-3. Optional cleanup: the nine `.pi/plans/**` files were never committed and are still the executor's record; decide whether they stay in the repo.
+1. Finish WP-15's remaining 6 files (read each lesson first; build two examples from two of its `### Core ideas`), then run its Success checks.
+2. WP-16 (10 files: `22-git-branching-strategies`, `23-github`, `24-command-line-interface`, `25-software-architecture` ×4, `26-end-to-end-testing` ×2, `27-playwright`), then Phase 3 verification (expect `45 examples, 0 examples pending`).
+3. Phases 4–7: WP-17–WP-50 (252 further examples files, then the WP-48–WP-50 audit).
 
 ## Key Decisions
-- **Every phase was executed sequentially, one work package at a time, with `node tools/validate-content.mjs --topic <topic>` run after each WP** — per the user's standing instruction. No subagents, no commits, no pushes.
-- **`--write-index` and `--strict` were run only in WP-38**, never during a content phase.
-- **The validator is the definition of done**, not the plan's expected numbers. Where the two disagreed the plan was reported as wrong and the code was left alone.
-- **`tools/inventory.json` and `lessons/AUTHORING.md` are frozen contracts** — every id, title, tier, alias and prereq came from the inventory, never from memory.
+- **Erratum, approved by the user mid-run:** the plan's "five id shapes" list missed the frontmatter `topic:` scalar. V3 requires `topic` to equal `inventory.topic`, so all 177 `index.md` files needed `topic: 01-cs-fundamentals` (otherwise WP-6 could never reach 0 errors).
+- **One `write` call per examples file**, per the plan — a long generation that emits several files can abort mid-stream.
+- **Target ~380 words per examples file, not 450** — the band counts fenced code.
+- **`--strict` is not the gate in Phases 3–6**; watch `W examples pending` fall by exactly the work package's file count.
 
-## File Map (this session only)
-- `lessons/design-ux/**` — 88 files, 44 entries (WP-24–WP-30)
-- `lessons/product-process/**` — 35 files, 17 entries (WP-31–WP-34)
-- `lessons/security/**` — 7 entries, 8 files (WP-35, WP-36)
-- `lessons/soft-skills/**` — 9 entries, 13 files (WP-36, WP-37)
-- `lessons/INDEX.md` — CREATED, generated by `--write-index`
-- `lessons/design-ux/*`, `lessons/product-process/*` etc. are all untracked; `git status --short` shows 47 new top-level entries under `lessons/`. `tools/` holds 2 tracked, unchanged files (`inventory.json`, `validate-content.mjs`).
-- Untouched: `seed/**`, `tools/**`, `.pi/plans/**`.
+## File Map
+- `tools/renumber-map.json` — CREATED (WP-2) — permanent old→new id record: 177 entries + 224 children
+- `tools/inventory.json` — MODIFIED — prefixed id/topic/slug/prereqs, stored in pedagogical order
+- `tools/validate-content.mjs` — MODIFIED — prefixed `TOPICS`, V15/V16, five-part summary, INDEX `[examples]` link
+- `lessons/AUTHORING.md` — MODIFIED — §1 + three §8 ids (WP-5), §4 sentence + new §12 (WP-9), §11 V15/V16 rows (WP-10)
+- `lessons/` — RENAMED + MODIFIED — 8 prefixed topic dirs, 177 entry dirs, every id and `topic:` value rewritten
+- `lessons/INDEX.md` — REGENERATED — 177 links, exactly 1 `[examples]` link (the Mentoring row)
+- 31 × `examples*.md` under `lessons/` — CREATED (2 Phase-2 exemplars + WP-12/13/14 + 5 of WP-15)
+- `.tmp/lessons-backup/` — the pre-Phase-1 copy of `lessons/`; must survive until WP-48 (WP-50 deletes it)
 
 ## Gotchas / Warnings
-- **The validator does not track fence state.** A line starting with `## ` inside a fenced code block is parsed as a real `##` heading and breaks V4/V7. Never put `## ` at the start of a line inside a fence; indent it or use a different marker. (`#` alone is safe — only `^## ` is matched.)
-- **Every fenced block needs a language tag** (`text`, `bash`, `ts`, …). The validator does not enforce it but the markdown linter flags it, and AUTHORING §9 requires it.
-- **Avoid inline HTML placeholders** like `<role>` in prose — the linter reports MD033. Use `*role*` or a plain word instead.
-- **Verify every cross-reference id against `tools/inventory.json` before writing it.** `frontend/accessibility` does not exist (the real id is `frontend/accessibility-wcag-a11y`) and `cs-fundamentals/documentation` does not exist at all.
-- **The area-page ceiling is 300 words and it bites** — `product-process/software-development` landed at 302 on first write. Landings (400) and small full lessons (450–950) were fine when budgeted at ~850.
-- **No external URL anywhere under `lessons/`** (V6). It caught a `https://` inside a redirect example in `security/https-tls/02`. Grep before declaring any file done, including inside code blocks.
-- **The plan's Phase-8 `pending` grep is a substring proxy** and produces false positives from "depending" and from legitimate technical uses (Kubernetes pods, a JS promise state).
-- `.tmp/` (leading dot, repo root) is the scratch directory; it was removed at the end of this session.
-- Final totals: 177 entries, 403 `.md` files (401 entry files + `AUTHORING.md` + `INDEX.md`), 8 topic directories, **268,372 words** (plan's sanity band: 200,000–320,000).
+- **Never edit `seed/**` or `.pi/plans/**` while executing**, and never `git add`/`commit`/`push` — the user handles all git.
+- **The id sweep excluded `.pi/**` and `lessons/INDEX.md`** — `.pi/CONTEXT.md` and the older plan files contain backticked id-shaped tokens (`frontend/css`, `9/35`) that a naive sweep would corrupt.
+- **`AUTHORING.md` §2 still shows `topic: frontend`** in its frontmatter example. WP-5 forbids touching §2 and the validator ignores that file, so it is harmless but stale — worth a later plan amendment.
+- **Phase 1 checks confirmed by measurement:** `grep -c 'sql-relational-databases' tools/inventory.json` → 6; `--topic design-ux` → `0 present, 0 pending, 0 error(s)`.
+- All lesson files are LF; scripted edits must read/write bytes. `git diff --numstat` is meaningless for the unstaged renames — `.tmp/lessons-backup/` is the real volume proof.
+- `legacy-ru` in the knowledge bases is the paradise-education blog — **not** a translation source for this corpus.
