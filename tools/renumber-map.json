@@ -1,0 +1,1149 @@
+{
+  "topics": [
+    {
+      "old": "cs-fundamentals",
+      "new": "01-cs-fundamentals"
+    },
+    {
+      "old": "frontend",
+      "new": "02-frontend"
+    },
+    {
+      "old": "design-ux",
+      "new": "03-design-ux"
+    },
+    {
+      "old": "product-process",
+      "new": "04-product-process"
+    },
+    {
+      "old": "backend-data",
+      "new": "05-backend-data"
+    },
+    {
+      "old": "cloud-devops",
+      "new": "06-cloud-devops"
+    },
+    {
+      "old": "security",
+      "new": "07-security"
+    },
+    {
+      "old": "soft-skills",
+      "new": "08-soft-skills"
+    }
+  ],
+  "entries": {
+    "backend-data/api-design-openapi-swagger": {
+      "newId": "05-backend-data/09-api-design-openapi-swagger",
+      "oldDir": "lessons/backend-data/api-design-openapi-swagger",
+      "newDir": "lessons/05-backend-data/09-api-design-openapi-swagger"
+    },
+    "backend-data/authentication-authorization-oauth2-jwt": {
+      "newId": "05-backend-data/10-authentication-authorization-oauth2-jwt",
+      "oldDir": "lessons/backend-data/authentication-authorization-oauth2-jwt",
+      "newDir": "lessons/05-backend-data/10-authentication-authorization-oauth2-jwt"
+    },
+    "backend-data/caching-redis": {
+      "newId": "05-backend-data/16-caching-redis",
+      "oldDir": "lessons/backend-data/caching-redis",
+      "newDir": "lessons/05-backend-data/16-caching-redis"
+    },
+    "backend-data/database-design": {
+      "newId": "05-backend-data/14-database-design",
+      "oldDir": "lessons/backend-data/database-design",
+      "newDir": "lessons/05-backend-data/14-database-design"
+    },
+    "backend-data/expressjs": {
+      "newId": "05-backend-data/08-expressjs",
+      "oldDir": "lessons/backend-data/expressjs",
+      "newDir": "lessons/05-backend-data/08-expressjs"
+    },
+    "backend-data/go": {
+      "newId": "05-backend-data/05-go",
+      "oldDir": "lessons/backend-data/go",
+      "newDir": "lessons/05-backend-data/05-go"
+    },
+    "backend-data/java": {
+      "newId": "05-backend-data/04-java",
+      "oldDir": "lessons/backend-data/java",
+      "newDir": "lessons/05-backend-data/04-java"
+    },
+    "backend-data/message-queues-kafka-rabbitmq": {
+      "newId": "05-backend-data/17-message-queues-kafka-rabbitmq",
+      "oldDir": "lessons/backend-data/message-queues-kafka-rabbitmq",
+      "newDir": "lessons/05-backend-data/17-message-queues-kafka-rabbitmq"
+    },
+    "backend-data/microservices": {
+      "newId": "05-backend-data/12-microservices",
+      "oldDir": "lessons/backend-data/microservices",
+      "newDir": "lessons/05-backend-data/12-microservices"
+    },
+    "backend-data/mongodb": {
+      "newId": "05-backend-data/18-mongodb",
+      "oldDir": "lessons/backend-data/mongodb",
+      "newDir": "lessons/05-backend-data/18-mongodb"
+    },
+    "backend-data/nodejs": {
+      "newId": "05-backend-data/02-nodejs",
+      "oldDir": "lessons/backend-data/nodejs",
+      "newDir": "lessons/05-backend-data/02-nodejs"
+    },
+    "backend-data/nosql": {
+      "newId": "05-backend-data/13-nosql",
+      "oldDir": "lessons/backend-data/nosql",
+      "newDir": "lessons/05-backend-data/13-nosql"
+    },
+    "backend-data/object-relational-mapping": {
+      "newId": "05-backend-data/15-object-relational-mapping",
+      "oldDir": "lessons/backend-data/object-relational-mapping",
+      "newDir": "lessons/05-backend-data/15-object-relational-mapping"
+    },
+    "backend-data/prisma-orm": {
+      "newId": "05-backend-data/19-prisma-orm",
+      "oldDir": "lessons/backend-data/prisma-orm",
+      "newDir": "lessons/05-backend-data/19-prisma-orm"
+    },
+    "backend-data/python-programming": {
+      "newId": "05-backend-data/03-python-programming",
+      "oldDir": "lessons/backend-data/python-programming",
+      "newDir": "lessons/05-backend-data/03-python-programming"
+    },
+    "backend-data/restful-api": {
+      "newId": "05-backend-data/06-restful-api",
+      "oldDir": "lessons/backend-data/restful-api",
+      "newDir": "lessons/05-backend-data/06-restful-api"
+    },
+    "backend-data/server-side": {
+      "newId": "05-backend-data/01-server-side",
+      "oldDir": "lessons/backend-data/server-side",
+      "newDir": "lessons/05-backend-data/01-server-side"
+    },
+    "backend-data/sql-relational-databases": {
+      "newId": "05-backend-data/07-sql-relational-databases",
+      "oldDir": "lessons/backend-data/sql-relational-databases",
+      "newDir": "lessons/05-backend-data/07-sql-relational-databases"
+    },
+    "backend-data/websockets": {
+      "newId": "05-backend-data/11-websockets",
+      "oldDir": "lessons/backend-data/websockets",
+      "newDir": "lessons/05-backend-data/11-websockets"
+    },
+    "cloud-devops/aws": {
+      "newId": "06-cloud-devops/02-aws",
+      "oldDir": "lessons/cloud-devops/aws",
+      "newDir": "lessons/06-cloud-devops/02-aws"
+    },
+    "cloud-devops/azure-devops": {
+      "newId": "06-cloud-devops/17-azure-devops",
+      "oldDir": "lessons/cloud-devops/azure-devops",
+      "newDir": "lessons/06-cloud-devops/17-azure-devops"
+    },
+    "cloud-devops/ci-cd": {
+      "newId": "06-cloud-devops/08-ci-cd",
+      "oldDir": "lessons/cloud-devops/ci-cd",
+      "newDir": "lessons/06-cloud-devops/08-ci-cd"
+    },
+    "cloud-devops/cloud-computing": {
+      "newId": "06-cloud-devops/01-cloud-computing",
+      "oldDir": "lessons/cloud-devops/cloud-computing",
+      "newDir": "lessons/06-cloud-devops/01-cloud-computing"
+    },
+    "cloud-devops/cloud-cost-management": {
+      "newId": "06-cloud-devops/11-cloud-cost-management",
+      "oldDir": "lessons/cloud-devops/cloud-cost-management",
+      "newDir": "lessons/06-cloud-devops/11-cloud-cost-management"
+    },
+    "cloud-devops/cloud-native-computing": {
+      "newId": "06-cloud-devops/13-cloud-native-computing",
+      "oldDir": "lessons/cloud-devops/cloud-native-computing",
+      "newDir": "lessons/06-cloud-devops/13-cloud-native-computing"
+    },
+    "cloud-devops/cloud-security-iam": {
+      "newId": "06-cloud-devops/12-cloud-security-iam",
+      "oldDir": "lessons/cloud-devops/cloud-security-iam",
+      "newDir": "lessons/06-cloud-devops/12-cloud-security-iam"
+    },
+    "cloud-devops/docker": {
+      "newId": "06-cloud-devops/06-docker",
+      "oldDir": "lessons/cloud-devops/docker",
+      "newDir": "lessons/06-cloud-devops/06-docker"
+    },
+    "cloud-devops/github-actions": {
+      "newId": "06-cloud-devops/15-github-actions",
+      "oldDir": "lessons/cloud-devops/github-actions",
+      "newDir": "lessons/06-cloud-devops/15-github-actions"
+    },
+    "cloud-devops/google-cloud-platform-gcp": {
+      "newId": "06-cloud-devops/04-google-cloud-platform-gcp",
+      "oldDir": "lessons/cloud-devops/google-cloud-platform-gcp",
+      "newDir": "lessons/06-cloud-devops/04-google-cloud-platform-gcp"
+    },
+    "cloud-devops/helm": {
+      "newId": "06-cloud-devops/21-helm",
+      "oldDir": "lessons/cloud-devops/helm",
+      "newDir": "lessons/06-cloud-devops/21-helm"
+    },
+    "cloud-devops/istio": {
+      "newId": "06-cloud-devops/22-istio",
+      "oldDir": "lessons/cloud-devops/istio",
+      "newDir": "lessons/06-cloud-devops/22-istio"
+    },
+    "cloud-devops/jenkins": {
+      "newId": "06-cloud-devops/16-jenkins",
+      "oldDir": "lessons/cloud-devops/jenkins",
+      "newDir": "lessons/06-cloud-devops/16-jenkins"
+    },
+    "cloud-devops/kubernetes": {
+      "newId": "06-cloud-devops/14-kubernetes",
+      "oldDir": "lessons/cloud-devops/kubernetes",
+      "newDir": "lessons/06-cloud-devops/14-kubernetes"
+    },
+    "cloud-devops/linux-administration": {
+      "newId": "06-cloud-devops/09-linux-administration",
+      "oldDir": "lessons/cloud-devops/linux-administration",
+      "newDir": "lessons/06-cloud-devops/09-linux-administration"
+    },
+    "cloud-devops/microsoft-azure": {
+      "newId": "06-cloud-devops/03-microsoft-azure",
+      "oldDir": "lessons/cloud-devops/microsoft-azure",
+      "newDir": "lessons/06-cloud-devops/03-microsoft-azure"
+    },
+    "cloud-devops/monitoring-observability-prometheus-grafana": {
+      "newId": "06-cloud-devops/18-monitoring-observability-prometheus-grafana",
+      "oldDir": "lessons/cloud-devops/monitoring-observability-prometheus-grafana",
+      "newDir": "lessons/06-cloud-devops/18-monitoring-observability-prometheus-grafana"
+    },
+    "cloud-devops/networking-fundamentals-http-dns-tls": {
+      "newId": "06-cloud-devops/10-networking-fundamentals-http-dns-tls",
+      "oldDir": "lessons/cloud-devops/networking-fundamentals-http-dns-tls",
+      "newDir": "lessons/06-cloud-devops/10-networking-fundamentals-http-dns-tls"
+    },
+    "cloud-devops/nginx": {
+      "newId": "06-cloud-devops/19-nginx",
+      "oldDir": "lessons/cloud-devops/nginx",
+      "newDir": "lessons/06-cloud-devops/19-nginx"
+    },
+    "cloud-devops/openshift": {
+      "newId": "06-cloud-devops/20-openshift",
+      "oldDir": "lessons/cloud-devops/openshift",
+      "newDir": "lessons/06-cloud-devops/20-openshift"
+    },
+    "cloud-devops/serverless-computing": {
+      "newId": "06-cloud-devops/05-serverless-computing",
+      "oldDir": "lessons/cloud-devops/serverless-computing",
+      "newDir": "lessons/06-cloud-devops/05-serverless-computing"
+    },
+    "cloud-devops/site-reliability-engineering": {
+      "newId": "06-cloud-devops/23-site-reliability-engineering",
+      "oldDir": "lessons/cloud-devops/site-reliability-engineering",
+      "newDir": "lessons/06-cloud-devops/23-site-reliability-engineering"
+    },
+    "cloud-devops/terraform": {
+      "newId": "06-cloud-devops/07-terraform",
+      "oldDir": "lessons/cloud-devops/terraform",
+      "newDir": "lessons/06-cloud-devops/07-terraform"
+    },
+    "cs-fundamentals/algorithms-big-o": {
+      "newId": "01-cs-fundamentals/14-algorithms-big-o",
+      "oldDir": "lessons/cs-fundamentals/algorithms-big-o",
+      "newDir": "lessons/01-cs-fundamentals/14-algorithms-big-o"
+    },
+    "cs-fundamentals/clean-code": {
+      "newId": "01-cs-fundamentals/08-clean-code",
+      "oldDir": "lessons/cs-fundamentals/clean-code",
+      "newDir": "lessons/01-cs-fundamentals/08-clean-code"
+    },
+    "cs-fundamentals/code-reusability": {
+      "newId": "01-cs-fundamentals/16-code-reusability",
+      "oldDir": "lessons/cs-fundamentals/code-reusability",
+      "newDir": "lessons/01-cs-fundamentals/16-code-reusability"
+    },
+    "cs-fundamentals/code-review": {
+      "newId": "01-cs-fundamentals/17-code-review",
+      "oldDir": "lessons/cs-fundamentals/code-review",
+      "newDir": "lessons/01-cs-fundamentals/17-code-review"
+    },
+    "cs-fundamentals/command-line-interface": {
+      "newId": "01-cs-fundamentals/24-command-line-interface",
+      "oldDir": "lessons/cs-fundamentals/command-line-interface",
+      "newDir": "lessons/01-cs-fundamentals/24-command-line-interface"
+    },
+    "cs-fundamentals/computer-networks": {
+      "newId": "01-cs-fundamentals/03-computer-networks",
+      "oldDir": "lessons/cs-fundamentals/computer-networks",
+      "newDir": "lessons/01-cs-fundamentals/03-computer-networks"
+    },
+    "cs-fundamentals/computer-science": {
+      "newId": "01-cs-fundamentals/01-computer-science",
+      "oldDir": "lessons/cs-fundamentals/computer-science",
+      "newDir": "lessons/01-cs-fundamentals/01-computer-science"
+    },
+    "cs-fundamentals/concurrency-async-programming": {
+      "newId": "01-cs-fundamentals/05-concurrency-async-programming",
+      "oldDir": "lessons/cs-fundamentals/concurrency-async-programming",
+      "newDir": "lessons/01-cs-fundamentals/05-concurrency-async-programming"
+    },
+    "cs-fundamentals/data-structures": {
+      "newId": "01-cs-fundamentals/02-data-structures",
+      "oldDir": "lessons/cs-fundamentals/data-structures",
+      "newDir": "lessons/01-cs-fundamentals/02-data-structures"
+    },
+    "cs-fundamentals/database-internals": {
+      "newId": "01-cs-fundamentals/04-database-internals",
+      "oldDir": "lessons/cs-fundamentals/database-internals",
+      "newDir": "lessons/01-cs-fundamentals/04-database-internals"
+    },
+    "cs-fundamentals/debugging": {
+      "newId": "01-cs-fundamentals/11-debugging",
+      "oldDir": "lessons/cs-fundamentals/debugging",
+      "newDir": "lessons/01-cs-fundamentals/11-debugging"
+    },
+    "cs-fundamentals/design-patterns": {
+      "newId": "01-cs-fundamentals/18-design-patterns",
+      "oldDir": "lessons/cs-fundamentals/design-patterns",
+      "newDir": "lessons/01-cs-fundamentals/18-design-patterns"
+    },
+    "cs-fundamentals/end-to-end-testing": {
+      "newId": "01-cs-fundamentals/26-end-to-end-testing",
+      "oldDir": "lessons/cs-fundamentals/end-to-end-testing",
+      "newDir": "lessons/01-cs-fundamentals/26-end-to-end-testing"
+    },
+    "cs-fundamentals/git": {
+      "newId": "01-cs-fundamentals/12-git",
+      "oldDir": "lessons/cs-fundamentals/git",
+      "newDir": "lessons/01-cs-fundamentals/12-git"
+    },
+    "cs-fundamentals/git-branching-strategies": {
+      "newId": "01-cs-fundamentals/22-git-branching-strategies",
+      "oldDir": "lessons/cs-fundamentals/git-branching-strategies",
+      "newDir": "lessons/01-cs-fundamentals/22-git-branching-strategies"
+    },
+    "cs-fundamentals/github": {
+      "newId": "01-cs-fundamentals/23-github",
+      "oldDir": "lessons/cs-fundamentals/github",
+      "newDir": "lessons/01-cs-fundamentals/23-github"
+    },
+    "cs-fundamentals/integration-testing": {
+      "newId": "01-cs-fundamentals/21-integration-testing",
+      "oldDir": "lessons/cs-fundamentals/integration-testing",
+      "newDir": "lessons/01-cs-fundamentals/21-integration-testing"
+    },
+    "cs-fundamentals/operating-systems": {
+      "newId": "01-cs-fundamentals/15-operating-systems",
+      "oldDir": "lessons/cs-fundamentals/operating-systems",
+      "newDir": "lessons/01-cs-fundamentals/15-operating-systems"
+    },
+    "cs-fundamentals/playwright": {
+      "newId": "01-cs-fundamentals/27-playwright",
+      "oldDir": "lessons/cs-fundamentals/playwright",
+      "newDir": "lessons/01-cs-fundamentals/27-playwright"
+    },
+    "cs-fundamentals/pseudocode": {
+      "newId": "01-cs-fundamentals/07-pseudocode",
+      "oldDir": "lessons/cs-fundamentals/pseudocode",
+      "newDir": "lessons/01-cs-fundamentals/07-pseudocode"
+    },
+    "cs-fundamentals/refactoring": {
+      "newId": "01-cs-fundamentals/19-refactoring",
+      "oldDir": "lessons/cs-fundamentals/refactoring",
+      "newDir": "lessons/01-cs-fundamentals/19-refactoring"
+    },
+    "cs-fundamentals/regular-expressions-regex": {
+      "newId": "01-cs-fundamentals/06-regular-expressions-regex",
+      "oldDir": "lessons/cs-fundamentals/regular-expressions-regex",
+      "newDir": "lessons/01-cs-fundamentals/06-regular-expressions-regex"
+    },
+    "cs-fundamentals/software-architecture": {
+      "newId": "01-cs-fundamentals/25-software-architecture",
+      "oldDir": "lessons/cs-fundamentals/software-architecture",
+      "newDir": "lessons/01-cs-fundamentals/25-software-architecture"
+    },
+    "cs-fundamentals/solid-principles": {
+      "newId": "01-cs-fundamentals/09-solid-principles",
+      "oldDir": "lessons/cs-fundamentals/solid-principles",
+      "newDir": "lessons/01-cs-fundamentals/09-solid-principles"
+    },
+    "cs-fundamentals/test-driven-development-tdd": {
+      "newId": "01-cs-fundamentals/20-test-driven-development-tdd",
+      "oldDir": "lessons/cs-fundamentals/test-driven-development-tdd",
+      "newDir": "lessons/01-cs-fundamentals/20-test-driven-development-tdd"
+    },
+    "cs-fundamentals/unit-testing": {
+      "newId": "01-cs-fundamentals/10-unit-testing",
+      "oldDir": "lessons/cs-fundamentals/unit-testing",
+      "newDir": "lessons/01-cs-fundamentals/10-unit-testing"
+    },
+    "cs-fundamentals/unix-shell": {
+      "newId": "01-cs-fundamentals/13-unix-shell",
+      "oldDir": "lessons/cs-fundamentals/unix-shell",
+      "newDir": "lessons/01-cs-fundamentals/13-unix-shell"
+    },
+    "design-ux/ab-testing": {
+      "newId": "03-design-ux/39-ab-testing",
+      "oldDir": "lessons/design-ux/ab-testing",
+      "newDir": "lessons/03-design-ux/39-ab-testing"
+    },
+    "design-ux/adobe-xd": {
+      "newId": "03-design-ux/35-adobe-xd",
+      "oldDir": "lessons/design-ux/adobe-xd",
+      "newDir": "lessons/03-design-ux/35-adobe-xd"
+    },
+    "design-ux/card-sorting": {
+      "newId": "03-design-ux/26-card-sorting",
+      "oldDir": "lessons/design-ux/card-sorting",
+      "newDir": "lessons/03-design-ux/26-card-sorting"
+    },
+    "design-ux/color-theory": {
+      "newId": "03-design-ux/29-color-theory",
+      "oldDir": "lessons/design-ux/color-theory",
+      "newDir": "lessons/03-design-ux/29-color-theory"
+    },
+    "design-ux/content-strategy": {
+      "newId": "03-design-ux/08-content-strategy",
+      "oldDir": "lessons/design-ux/content-strategy",
+      "newDir": "lessons/03-design-ux/08-content-strategy"
+    },
+    "design-ux/data-visualization": {
+      "newId": "03-design-ux/31-data-visualization",
+      "oldDir": "lessons/design-ux/data-visualization",
+      "newDir": "lessons/03-design-ux/31-data-visualization"
+    },
+    "design-ux/design-handoff-specs": {
+      "newId": "03-design-ux/42-design-handoff-specs",
+      "oldDir": "lessons/design-ux/design-handoff-specs",
+      "newDir": "lessons/03-design-ux/42-design-handoff-specs"
+    },
+    "design-ux/design-research": {
+      "newId": "03-design-ux/19-design-research",
+      "oldDir": "lessons/design-ux/design-research",
+      "newDir": "lessons/03-design-ux/19-design-research"
+    },
+    "design-ux/design-systems": {
+      "newId": "03-design-ux/32-design-systems",
+      "oldDir": "lessons/design-ux/design-systems",
+      "newDir": "lessons/03-design-ux/32-design-systems"
+    },
+    "design-ux/design-thinking": {
+      "newId": "03-design-ux/02-design-thinking",
+      "oldDir": "lessons/design-ux/design-thinking",
+      "newDir": "lessons/03-design-ux/02-design-thinking"
+    },
+    "design-ux/design-tokens": {
+      "newId": "03-design-ux/41-design-tokens",
+      "oldDir": "lessons/design-ux/design-tokens",
+      "newDir": "lessons/03-design-ux/41-design-tokens"
+    },
+    "design-ux/facilitation-workshop-design": {
+      "newId": "03-design-ux/03-facilitation-workshop-design",
+      "oldDir": "lessons/design-ux/facilitation-workshop-design",
+      "newDir": "lessons/03-design-ux/03-facilitation-workshop-design"
+    },
+    "design-ux/figma": {
+      "newId": "03-design-ux/12-figma",
+      "oldDir": "lessons/design-ux/figma",
+      "newDir": "lessons/03-design-ux/12-figma"
+    },
+    "design-ux/framer": {
+      "newId": "03-design-ux/36-framer",
+      "oldDir": "lessons/design-ux/framer",
+      "newDir": "lessons/03-design-ux/36-framer"
+    },
+    "design-ux/google-analytics-4-ga4": {
+      "newId": "03-design-ux/06-google-analytics-4-ga4",
+      "oldDir": "lessons/design-ux/google-analytics-4-ga4",
+      "newDir": "lessons/03-design-ux/06-google-analytics-4-ga4"
+    },
+    "design-ux/heuristic-evaluation": {
+      "newId": "03-design-ux/34-heuristic-evaluation",
+      "oldDir": "lessons/design-ux/heuristic-evaluation",
+      "newDir": "lessons/03-design-ux/34-heuristic-evaluation"
+    },
+    "design-ux/hotjar": {
+      "newId": "03-design-ux/25-hotjar",
+      "oldDir": "lessons/design-ux/hotjar",
+      "newDir": "lessons/03-design-ux/25-hotjar"
+    },
+    "design-ux/information-architecture": {
+      "newId": "03-design-ux/09-information-architecture",
+      "oldDir": "lessons/design-ux/information-architecture",
+      "newDir": "lessons/03-design-ux/09-information-architecture"
+    },
+    "design-ux/interaction-design": {
+      "newId": "03-design-ux/44-interaction-design",
+      "oldDir": "lessons/design-ux/interaction-design",
+      "newDir": "lessons/03-design-ux/44-interaction-design"
+    },
+    "design-ux/jobs-to-be-done": {
+      "newId": "03-design-ux/17-jobs-to-be-done",
+      "oldDir": "lessons/design-ux/jobs-to-be-done",
+      "newDir": "lessons/03-design-ux/17-jobs-to-be-done"
+    },
+    "design-ux/journey-mapping": {
+      "newId": "03-design-ux/22-journey-mapping",
+      "oldDir": "lessons/design-ux/journey-mapping",
+      "newDir": "lessons/03-design-ux/22-journey-mapping"
+    },
+    "design-ux/layout-grid-systems": {
+      "newId": "03-design-ux/30-layout-grid-systems",
+      "oldDir": "lessons/design-ux/layout-grid-systems",
+      "newDir": "lessons/03-design-ux/30-layout-grid-systems"
+    },
+    "design-ux/lean-ux": {
+      "newId": "03-design-ux/37-lean-ux",
+      "oldDir": "lessons/design-ux/lean-ux",
+      "newDir": "lessons/03-design-ux/37-lean-ux"
+    },
+    "design-ux/maze": {
+      "newId": "03-design-ux/43-maze",
+      "oldDir": "lessons/design-ux/maze",
+      "newDir": "lessons/03-design-ux/43-maze"
+    },
+    "design-ux/miro": {
+      "newId": "03-design-ux/13-miro",
+      "oldDir": "lessons/design-ux/miro",
+      "newDir": "lessons/03-design-ux/13-miro"
+    },
+    "design-ux/notion": {
+      "newId": "03-design-ux/14-notion",
+      "oldDir": "lessons/design-ux/notion",
+      "newDir": "lessons/03-design-ux/14-notion"
+    },
+    "design-ux/persona-user-experience": {
+      "newId": "03-design-ux/23-persona-user-experience",
+      "oldDir": "lessons/design-ux/persona-user-experience",
+      "newDir": "lessons/03-design-ux/23-persona-user-experience"
+    },
+    "design-ux/prototyping": {
+      "newId": "03-design-ux/40-prototyping",
+      "oldDir": "lessons/design-ux/prototyping",
+      "newDir": "lessons/03-design-ux/40-prototyping"
+    },
+    "design-ux/quantitative-ux-research": {
+      "newId": "03-design-ux/24-quantitative-ux-research",
+      "oldDir": "lessons/design-ux/quantitative-ux-research",
+      "newDir": "lessons/03-design-ux/24-quantitative-ux-research"
+    },
+    "design-ux/service-design": {
+      "newId": "03-design-ux/38-service-design",
+      "oldDir": "lessons/design-ux/service-design",
+      "newDir": "lessons/03-design-ux/38-service-design"
+    },
+    "design-ux/sketching": {
+      "newId": "03-design-ux/04-sketching",
+      "oldDir": "lessons/design-ux/sketching",
+      "newDir": "lessons/03-design-ux/04-sketching"
+    },
+    "design-ux/storyboarding": {
+      "newId": "03-design-ux/16-storyboarding",
+      "oldDir": "lessons/design-ux/storyboarding",
+      "newDir": "lessons/03-design-ux/16-storyboarding"
+    },
+    "design-ux/survey-design": {
+      "newId": "03-design-ux/21-survey-design",
+      "oldDir": "lessons/design-ux/survey-design",
+      "newDir": "lessons/03-design-ux/21-survey-design"
+    },
+    "design-ux/typography": {
+      "newId": "03-design-ux/28-typography",
+      "oldDir": "lessons/design-ux/typography",
+      "newDir": "lessons/03-design-ux/28-typography"
+    },
+    "design-ux/ui-ux-design": {
+      "newId": "03-design-ux/01-ui-ux-design",
+      "oldDir": "lessons/design-ux/ui-ux-design",
+      "newDir": "lessons/03-design-ux/01-ui-ux-design"
+    },
+    "design-ux/ui-ux-research": {
+      "newId": "03-design-ux/18-ui-ux-research",
+      "oldDir": "lessons/design-ux/ui-ux-research",
+      "newDir": "lessons/03-design-ux/18-ui-ux-research"
+    },
+    "design-ux/usability": {
+      "newId": "03-design-ux/11-usability",
+      "oldDir": "lessons/design-ux/usability",
+      "newDir": "lessons/03-design-ux/11-usability"
+    },
+    "design-ux/usability-testing": {
+      "newId": "03-design-ux/33-usability-testing",
+      "oldDir": "lessons/design-ux/usability-testing",
+      "newDir": "lessons/03-design-ux/33-usability-testing"
+    },
+    "design-ux/user-centered-design": {
+      "newId": "03-design-ux/15-user-centered-design",
+      "oldDir": "lessons/design-ux/user-centered-design",
+      "newDir": "lessons/03-design-ux/15-user-centered-design"
+    },
+    "design-ux/user-interviews": {
+      "newId": "03-design-ux/20-user-interviews",
+      "oldDir": "lessons/design-ux/user-interviews",
+      "newDir": "lessons/03-design-ux/20-user-interviews"
+    },
+    "design-ux/user-research": {
+      "newId": "03-design-ux/05-user-research",
+      "oldDir": "lessons/design-ux/user-research",
+      "newDir": "lessons/03-design-ux/05-user-research"
+    },
+    "design-ux/ux-writing-microcopy": {
+      "newId": "03-design-ux/07-ux-writing-microcopy",
+      "oldDir": "lessons/design-ux/ux-writing-microcopy",
+      "newDir": "lessons/03-design-ux/07-ux-writing-microcopy"
+    },
+    "design-ux/visual-design": {
+      "newId": "03-design-ux/10-visual-design",
+      "oldDir": "lessons/design-ux/visual-design",
+      "newDir": "lessons/03-design-ux/10-visual-design"
+    },
+    "design-ux/wireframing": {
+      "newId": "03-design-ux/27-wireframing",
+      "oldDir": "lessons/design-ux/wireframing",
+      "newDir": "lessons/03-design-ux/27-wireframing"
+    },
+    "frontend/accessibility-wcag-a11y": {
+      "newId": "02-frontend/11-accessibility-wcag-a11y",
+      "oldDir": "lessons/frontend/accessibility-wcag-a11y",
+      "newDir": "lessons/02-frontend/11-accessibility-wcag-a11y"
+    },
+    "frontend/ajax": {
+      "newId": "02-frontend/21-ajax",
+      "oldDir": "lessons/frontend/ajax",
+      "newDir": "lessons/02-frontend/21-ajax"
+    },
+    "frontend/angular": {
+      "newId": "02-frontend/30-angular",
+      "oldDir": "lessons/frontend/angular",
+      "newDir": "lessons/02-frontend/30-angular"
+    },
+    "frontend/bootstrap": {
+      "newId": "02-frontend/13-bootstrap",
+      "oldDir": "lessons/frontend/bootstrap",
+      "newDir": "lessons/02-frontend/13-bootstrap"
+    },
+    "frontend/browser-compatibility": {
+      "newId": "02-frontend/20-browser-compatibility",
+      "oldDir": "lessons/frontend/browser-compatibility",
+      "newDir": "lessons/02-frontend/20-browser-compatibility"
+    },
+    "frontend/browser-devtools": {
+      "newId": "02-frontend/27-browser-devtools",
+      "oldDir": "lessons/frontend/browser-devtools",
+      "newDir": "lessons/02-frontend/27-browser-devtools"
+    },
+    "frontend/css": {
+      "newId": "02-frontend/05-css",
+      "oldDir": "lessons/frontend/css",
+      "newDir": "lessons/02-frontend/05-css"
+    },
+    "frontend/front-end-web-development": {
+      "newId": "02-frontend/02-front-end-web-development",
+      "oldDir": "lessons/frontend/front-end-web-development",
+      "newDir": "lessons/02-frontend/02-front-end-web-development"
+    },
+    "frontend/generative-engine-optimization-geo": {
+      "newId": "02-frontend/28-generative-engine-optimization-geo",
+      "oldDir": "lessons/frontend/generative-engine-optimization-geo",
+      "newDir": "lessons/02-frontend/28-generative-engine-optimization-geo"
+    },
+    "frontend/html": {
+      "newId": "02-frontend/03-html",
+      "oldDir": "lessons/frontend/html",
+      "newDir": "lessons/02-frontend/03-html"
+    },
+    "frontend/html-and-css": {
+      "newId": "02-frontend/01-html-and-css",
+      "oldDir": "lessons/frontend/html-and-css",
+      "newDir": "lessons/02-frontend/01-html-and-css"
+    },
+    "frontend/javascript": {
+      "newId": "02-frontend/06-javascript",
+      "oldDir": "lessons/frontend/javascript",
+      "newDir": "lessons/02-frontend/06-javascript"
+    },
+    "frontend/lighthouse": {
+      "newId": "02-frontend/31-lighthouse",
+      "oldDir": "lessons/frontend/lighthouse",
+      "newDir": "lessons/02-frontend/31-lighthouse"
+    },
+    "frontend/motion-design": {
+      "newId": "02-frontend/16-motion-design",
+      "oldDir": "lessons/frontend/motion-design",
+      "newDir": "lessons/02-frontend/16-motion-design"
+    },
+    "frontend/package-management-npm": {
+      "newId": "02-frontend/04-package-management-npm",
+      "oldDir": "lessons/frontend/package-management-npm",
+      "newDir": "lessons/02-frontend/04-package-management-npm"
+    },
+    "frontend/progressive-web-apps-pwa": {
+      "newId": "02-frontend/25-progressive-web-apps-pwa",
+      "oldDir": "lessons/frontend/progressive-web-apps-pwa",
+      "newDir": "lessons/02-frontend/25-progressive-web-apps-pwa"
+    },
+    "frontend/react": {
+      "newId": "02-frontend/29-react",
+      "oldDir": "lessons/frontend/react",
+      "newDir": "lessons/02-frontend/29-react"
+    },
+    "frontend/responsive-images": {
+      "newId": "02-frontend/07-responsive-images",
+      "oldDir": "lessons/frontend/responsive-images",
+      "newDir": "lessons/02-frontend/07-responsive-images"
+    },
+    "frontend/responsive-web-design": {
+      "newId": "02-frontend/10-responsive-web-design",
+      "oldDir": "lessons/frontend/responsive-web-design",
+      "newDir": "lessons/02-frontend/10-responsive-web-design"
+    },
+    "frontend/sass": {
+      "newId": "02-frontend/15-sass",
+      "oldDir": "lessons/frontend/sass",
+      "newDir": "lessons/02-frontend/15-sass"
+    },
+    "frontend/seo": {
+      "newId": "02-frontend/08-seo",
+      "oldDir": "lessons/frontend/seo",
+      "newDir": "lessons/02-frontend/08-seo"
+    },
+    "frontend/state-management": {
+      "newId": "02-frontend/23-state-management",
+      "oldDir": "lessons/frontend/state-management",
+      "newDir": "lessons/02-frontend/23-state-management"
+    },
+    "frontend/svg-icon-systems": {
+      "newId": "02-frontend/17-svg-icon-systems",
+      "oldDir": "lessons/frontend/svg-icon-systems",
+      "newDir": "lessons/02-frontend/17-svg-icon-systems"
+    },
+    "frontend/tailwind-css": {
+      "newId": "02-frontend/14-tailwind-css",
+      "oldDir": "lessons/frontend/tailwind-css",
+      "newDir": "lessons/02-frontend/14-tailwind-css"
+    },
+    "frontend/typescript": {
+      "newId": "02-frontend/19-typescript",
+      "oldDir": "lessons/frontend/typescript",
+      "newDir": "lessons/02-frontend/19-typescript"
+    },
+    "frontend/ui-components": {
+      "newId": "02-frontend/12-ui-components",
+      "oldDir": "lessons/frontend/ui-components",
+      "newDir": "lessons/02-frontend/12-ui-components"
+    },
+    "frontend/vite": {
+      "newId": "02-frontend/09-vite",
+      "oldDir": "lessons/frontend/vite",
+      "newDir": "lessons/02-frontend/09-vite"
+    },
+    "frontend/vuejs": {
+      "newId": "02-frontend/22-vuejs",
+      "oldDir": "lessons/frontend/vuejs",
+      "newDir": "lessons/02-frontend/22-vuejs"
+    },
+    "frontend/web-performance-core-web-vitals": {
+      "newId": "02-frontend/26-web-performance-core-web-vitals",
+      "oldDir": "lessons/frontend/web-performance-core-web-vitals",
+      "newDir": "lessons/02-frontend/26-web-performance-core-web-vitals"
+    },
+    "frontend/web-typography": {
+      "newId": "02-frontend/18-web-typography",
+      "oldDir": "lessons/frontend/web-typography",
+      "newDir": "lessons/02-frontend/18-web-typography"
+    },
+    "frontend/webpack": {
+      "newId": "02-frontend/24-webpack",
+      "oldDir": "lessons/frontend/webpack",
+      "newDir": "lessons/02-frontend/24-webpack"
+    },
+    "product-process/agile-methodology": {
+      "newId": "04-product-process/02-agile-methodology",
+      "oldDir": "lessons/product-process/agile-methodology",
+      "newDir": "lessons/04-product-process/02-agile-methodology"
+    },
+    "product-process/agile-software-development": {
+      "newId": "04-product-process/09-agile-software-development",
+      "oldDir": "lessons/product-process/agile-software-development",
+      "newDir": "lessons/04-product-process/09-agile-software-development"
+    },
+    "product-process/business-analysis": {
+      "newId": "04-product-process/06-business-analysis",
+      "oldDir": "lessons/product-process/business-analysis",
+      "newDir": "lessons/04-product-process/06-business-analysis"
+    },
+    "product-process/estimation-story-points": {
+      "newId": "04-product-process/17-estimation-story-points",
+      "oldDir": "lessons/product-process/estimation-story-points",
+      "newDir": "lessons/04-product-process/17-estimation-story-points"
+    },
+    "product-process/jira-confluence": {
+      "newId": "04-product-process/13-jira-confluence",
+      "oldDir": "lessons/product-process/jira-confluence",
+      "newDir": "lessons/04-product-process/13-jira-confluence"
+    },
+    "product-process/kanban": {
+      "newId": "04-product-process/11-kanban",
+      "oldDir": "lessons/product-process/kanban",
+      "newDir": "lessons/04-product-process/11-kanban"
+    },
+    "product-process/prioritization-frameworks-rice-moscow": {
+      "newId": "04-product-process/15-prioritization-frameworks-rice-moscow",
+      "oldDir": "lessons/product-process/prioritization-frameworks-rice-moscow",
+      "newDir": "lessons/04-product-process/15-prioritization-frameworks-rice-moscow"
+    },
+    "product-process/product-discovery": {
+      "newId": "04-product-process/04-product-discovery",
+      "oldDir": "lessons/product-process/product-discovery",
+      "newDir": "lessons/04-product-process/04-product-discovery"
+    },
+    "product-process/product-management": {
+      "newId": "04-product-process/03-product-management",
+      "oldDir": "lessons/product-process/product-management",
+      "newDir": "lessons/04-product-process/03-product-management"
+    },
+    "product-process/requirements-engineering": {
+      "newId": "04-product-process/05-requirements-engineering",
+      "oldDir": "lessons/product-process/requirements-engineering",
+      "newDir": "lessons/04-product-process/05-requirements-engineering"
+    },
+    "product-process/roadmapping": {
+      "newId": "04-product-process/14-roadmapping",
+      "oldDir": "lessons/product-process/roadmapping",
+      "newDir": "lessons/04-product-process/14-roadmapping"
+    },
+    "product-process/scrum-software-development": {
+      "newId": "04-product-process/10-scrum-software-development",
+      "oldDir": "lessons/product-process/scrum-software-development",
+      "newDir": "lessons/04-product-process/10-scrum-software-development"
+    },
+    "product-process/software-development": {
+      "newId": "04-product-process/01-software-development",
+      "oldDir": "lessons/product-process/software-development",
+      "newDir": "lessons/04-product-process/01-software-development"
+    },
+    "product-process/stakeholder-management": {
+      "newId": "04-product-process/07-stakeholder-management",
+      "oldDir": "lessons/product-process/stakeholder-management",
+      "newDir": "lessons/04-product-process/07-stakeholder-management"
+    },
+    "product-process/technical-writing": {
+      "newId": "04-product-process/08-technical-writing",
+      "oldDir": "lessons/product-process/technical-writing",
+      "newDir": "lessons/04-product-process/08-technical-writing"
+    },
+    "product-process/user-acceptance-testing": {
+      "newId": "04-product-process/16-user-acceptance-testing",
+      "oldDir": "lessons/product-process/user-acceptance-testing",
+      "newDir": "lessons/04-product-process/16-user-acceptance-testing"
+    },
+    "product-process/user-story": {
+      "newId": "04-product-process/12-user-story",
+      "oldDir": "lessons/product-process/user-story",
+      "newDir": "lessons/04-product-process/12-user-story"
+    },
+    "security/content-security-policy-csp": {
+      "newId": "07-security/06-content-security-policy-csp",
+      "oldDir": "lessons/security/content-security-policy-csp",
+      "newDir": "lessons/07-security/06-content-security-policy-csp"
+    },
+    "security/data-ethics": {
+      "newId": "07-security/07-data-ethics",
+      "oldDir": "lessons/security/data-ethics",
+      "newDir": "lessons/07-security/07-data-ethics"
+    },
+    "security/dependency-scanning-sca": {
+      "newId": "07-security/04-dependency-scanning-sca",
+      "oldDir": "lessons/security/dependency-scanning-sca",
+      "newDir": "lessons/07-security/04-dependency-scanning-sca"
+    },
+    "security/gdpr-data-privacy": {
+      "newId": "07-security/05-gdpr-data-privacy",
+      "oldDir": "lessons/security/gdpr-data-privacy",
+      "newDir": "lessons/07-security/05-gdpr-data-privacy"
+    },
+    "security/https-tls": {
+      "newId": "07-security/02-https-tls",
+      "oldDir": "lessons/security/https-tls",
+      "newDir": "lessons/07-security/02-https-tls"
+    },
+    "security/secrets-management": {
+      "newId": "07-security/03-secrets-management",
+      "oldDir": "lessons/security/secrets-management",
+      "newDir": "lessons/07-security/03-secrets-management"
+    },
+    "security/web-security-owasp-top-10": {
+      "newId": "07-security/01-web-security-owasp-top-10",
+      "oldDir": "lessons/security/web-security-owasp-top-10",
+      "newDir": "lessons/07-security/01-web-security-owasp-top-10"
+    },
+    "soft-skills/communication": {
+      "newId": "08-soft-skills/01-communication",
+      "oldDir": "lessons/soft-skills/communication",
+      "newDir": "lessons/08-soft-skills/01-communication"
+    },
+    "soft-skills/freelancing-client-work": {
+      "newId": "08-soft-skills/08-freelancing-client-work",
+      "oldDir": "lessons/soft-skills/freelancing-client-work",
+      "newDir": "lessons/08-soft-skills/08-freelancing-client-work"
+    },
+    "soft-skills/interview-prep-whiteboarding": {
+      "newId": "08-soft-skills/07-interview-prep-whiteboarding",
+      "oldDir": "lessons/soft-skills/interview-prep-whiteboarding",
+      "newDir": "lessons/08-soft-skills/07-interview-prep-whiteboarding"
+    },
+    "soft-skills/mentoring": {
+      "newId": "08-soft-skills/03-mentoring",
+      "oldDir": "lessons/soft-skills/mentoring",
+      "newDir": "lessons/08-soft-skills/03-mentoring"
+    },
+    "soft-skills/portfolio-building": {
+      "newId": "08-soft-skills/06-portfolio-building",
+      "oldDir": "lessons/soft-skills/portfolio-building",
+      "newDir": "lessons/08-soft-skills/06-portfolio-building"
+    },
+    "soft-skills/problem-solving": {
+      "newId": "08-soft-skills/04-problem-solving",
+      "oldDir": "lessons/soft-skills/problem-solving",
+      "newDir": "lessons/08-soft-skills/04-problem-solving"
+    },
+    "soft-skills/teamwork-collaboration": {
+      "newId": "08-soft-skills/02-teamwork-collaboration",
+      "oldDir": "lessons/soft-skills/teamwork-collaboration",
+      "newDir": "lessons/08-soft-skills/02-teamwork-collaboration"
+    },
+    "soft-skills/technical-presentation": {
+      "newId": "08-soft-skills/09-technical-presentation",
+      "oldDir": "lessons/soft-skills/technical-presentation",
+      "newDir": "lessons/08-soft-skills/09-technical-presentation"
+    },
+    "soft-skills/time-management": {
+      "newId": "08-soft-skills/05-time-management",
+      "oldDir": "lessons/soft-skills/time-management",
+      "newDir": "lessons/08-soft-skills/05-time-management"
+    }
+  },
+  "children": {
+    "backend-data/api-design-openapi-swagger/01-writing-the-specification": "05-backend-data/09-api-design-openapi-swagger/01-writing-the-specification",
+    "backend-data/api-design-openapi-swagger/02-contract-testing": "05-backend-data/09-api-design-openapi-swagger/02-contract-testing",
+    "backend-data/authentication-authorization-oauth2-jwt/01-authentication-and-oauth2-flows": "05-backend-data/10-authentication-authorization-oauth2-jwt/01-authentication-and-oauth2-flows",
+    "backend-data/authentication-authorization-oauth2-jwt/02-jwt-verification-and-authorization": "05-backend-data/10-authentication-authorization-oauth2-jwt/02-jwt-verification-and-authorization",
+    "backend-data/caching-redis/01-caching-patterns": "05-backend-data/16-caching-redis/01-caching-patterns",
+    "backend-data/caching-redis/02-invalidation": "05-backend-data/16-caching-redis/02-invalidation",
+    "backend-data/database-design/01-keys-and-relations": "05-backend-data/14-database-design/01-keys-and-relations",
+    "backend-data/database-design/02-designing-for-the-queries-you-run": "05-backend-data/14-database-design/02-designing-for-the-queries-you-run",
+    "backend-data/go/01-the-toolchain": "05-backend-data/05-go/01-the-toolchain",
+    "backend-data/go/02-concurrency": "05-backend-data/05-go/02-concurrency",
+    "backend-data/java/01-the-language-and-the-jvm": "05-backend-data/04-java/01-the-language-and-the-jvm",
+    "backend-data/java/02-objects-and-type-design": "05-backend-data/04-java/02-objects-and-type-design",
+    "backend-data/java/03-builds-and-dependencies": "05-backend-data/04-java/03-builds-and-dependencies",
+    "backend-data/java/04-enterprise-backends": "05-backend-data/04-java/04-enterprise-backends",
+    "backend-data/message-queues-kafka-rabbitmq/01-queues-and-logs": "05-backend-data/17-message-queues-kafka-rabbitmq/01-queues-and-logs",
+    "backend-data/message-queues-kafka-rabbitmq/02-retries-ordering-and-back-pressure": "05-backend-data/17-message-queues-kafka-rabbitmq/02-retries-ordering-and-back-pressure",
+    "backend-data/microservices/01-boundaries-and-ownership": "05-backend-data/12-microservices/01-boundaries-and-ownership",
+    "backend-data/microservices/02-the-operational-cost": "05-backend-data/12-microservices/02-the-operational-cost",
+    "backend-data/mongodb/01-documents-and-collections": "05-backend-data/18-mongodb/01-documents-and-collections",
+    "backend-data/mongodb/02-schema-design-in-a-schemaless-store": "05-backend-data/18-mongodb/02-schema-design-in-a-schemaless-store",
+    "backend-data/nodejs/01-the-event-loop": "05-backend-data/02-nodejs/01-the-event-loop",
+    "backend-data/nodejs/02-modules-and-the-runtime": "05-backend-data/02-nodejs/02-modules-and-the-runtime",
+    "backend-data/nosql/01-when-a-relational-store-fits-badly": "05-backend-data/13-nosql/01-when-a-relational-store-fits-badly",
+    "backend-data/nosql/02-the-families-of-non-relational-stores": "05-backend-data/13-nosql/02-the-families-of-non-relational-stores",
+    "backend-data/python-programming/01-language-basics": "05-backend-data/03-python-programming/01-language-basics",
+    "backend-data/python-programming/02-data-and-iteration": "05-backend-data/03-python-programming/02-data-and-iteration",
+    "backend-data/python-programming/03-modules-and-packaging": "05-backend-data/03-python-programming/03-modules-and-packaging",
+    "backend-data/python-programming/04-scripting-and-automation": "05-backend-data/03-python-programming/04-scripting-and-automation",
+    "backend-data/restful-api/01-resources-verbs-and-status-codes": "05-backend-data/06-restful-api/01-resources-verbs-and-status-codes",
+    "backend-data/restful-api/02-versioning-pagination-and-n-plus-one": "05-backend-data/06-restful-api/02-versioning-pagination-and-n-plus-one",
+    "backend-data/sql-relational-databases/01-tables-and-relationships": "05-backend-data/07-sql-relational-databases/01-tables-and-relationships",
+    "backend-data/sql-relational-databases/02-queries-and-joins": "05-backend-data/07-sql-relational-databases/02-queries-and-joins",
+    "backend-data/sql-relational-databases/03-indexes-and-query-plans": "05-backend-data/07-sql-relational-databases/03-indexes-and-query-plans",
+    "backend-data/sql-relational-databases/04-transactions-and-isolation": "05-backend-data/07-sql-relational-databases/04-transactions-and-isolation",
+    "cloud-devops/aws/01-compute-and-ec2": "06-cloud-devops/02-aws/01-compute-and-ec2",
+    "cloud-devops/aws/02-storage-and-databases": "06-cloud-devops/02-aws/02-storage-and-databases",
+    "cloud-devops/aws/03-networking-and-vpc": "06-cloud-devops/02-aws/03-networking-and-vpc",
+    "cloud-devops/aws/04-identity-and-cost": "06-cloud-devops/02-aws/04-identity-and-cost",
+    "cloud-devops/ci-cd/01-pipeline-stages": "06-cloud-devops/08-ci-cd/01-pipeline-stages",
+    "cloud-devops/ci-cd/02-pipeline-failure-modes": "06-cloud-devops/08-ci-cd/02-pipeline-failure-modes",
+    "cloud-devops/cloud-native-computing/01-containers-and-declarative-configuration": "06-cloud-devops/13-cloud-native-computing/01-containers-and-declarative-configuration",
+    "cloud-devops/cloud-native-computing/02-elasticity-and-managed-services": "06-cloud-devops/13-cloud-native-computing/02-elasticity-and-managed-services",
+    "cloud-devops/cloud-security-iam/01-identities-and-roles": "06-cloud-devops/12-cloud-security-iam/01-identities-and-roles",
+    "cloud-devops/cloud-security-iam/02-least-privilege-in-practice": "06-cloud-devops/12-cloud-security-iam/02-least-privilege-in-practice",
+    "cloud-devops/docker/01-images-and-layers": "06-cloud-devops/06-docker/01-images-and-layers",
+    "cloud-devops/docker/02-running-containers-and-persisting-data": "06-cloud-devops/06-docker/02-running-containers-and-persisting-data",
+    "cloud-devops/github-actions/01-workflows-triggers-and-jobs": "06-cloud-devops/15-github-actions/01-workflows-triggers-and-jobs",
+    "cloud-devops/github-actions/02-caching-secrets-and-deployments": "06-cloud-devops/15-github-actions/02-caching-secrets-and-deployments",
+    "cloud-devops/google-cloud-platform-gcp/01-data-and-machine-learning": "06-cloud-devops/04-google-cloud-platform-gcp/01-data-and-machine-learning",
+    "cloud-devops/google-cloud-platform-gcp/02-kubernetes-and-managed-platforms": "06-cloud-devops/04-google-cloud-platform-gcp/02-kubernetes-and-managed-platforms",
+    "cloud-devops/kubernetes/01-the-object-model": "06-cloud-devops/14-kubernetes/01-the-object-model",
+    "cloud-devops/kubernetes/02-scheduling-and-scaling": "06-cloud-devops/14-kubernetes/02-scheduling-and-scaling",
+    "cloud-devops/kubernetes/03-configuration-and-secrets": "06-cloud-devops/14-kubernetes/03-configuration-and-secrets",
+    "cloud-devops/kubernetes/04-self-healing-and-observability": "06-cloud-devops/14-kubernetes/04-self-healing-and-observability",
+    "cloud-devops/linux-administration/01-users-and-permissions": "06-cloud-devops/09-linux-administration/01-users-and-permissions",
+    "cloud-devops/linux-administration/02-processes-and-services": "06-cloud-devops/09-linux-administration/02-processes-and-services",
+    "cloud-devops/linux-administration/03-the-filesystem": "06-cloud-devops/09-linux-administration/03-the-filesystem",
+    "cloud-devops/linux-administration/04-logs-and-troubleshooting": "06-cloud-devops/09-linux-administration/04-logs-and-troubleshooting",
+    "cloud-devops/microsoft-azure/01-enterprise-identity-and-active-directory": "06-cloud-devops/03-microsoft-azure/01-enterprise-identity-and-active-directory",
+    "cloud-devops/microsoft-azure/02-running-workloads-on-azure": "06-cloud-devops/03-microsoft-azure/02-running-workloads-on-azure",
+    "cloud-devops/monitoring-observability-prometheus-grafana/01-metrics-logs-and-traces": "06-cloud-devops/18-monitoring-observability-prometheus-grafana/01-metrics-logs-and-traces",
+    "cloud-devops/monitoring-observability-prometheus-grafana/02-dashboards-and-alerting": "06-cloud-devops/18-monitoring-observability-prometheus-grafana/02-dashboards-and-alerting",
+    "cloud-devops/networking-fundamentals-http-dns-tls/01-http-requests-and-responses": "06-cloud-devops/10-networking-fundamentals-http-dns-tls/01-http-requests-and-responses",
+    "cloud-devops/networking-fundamentals-http-dns-tls/02-names-addresses-and-tls": "06-cloud-devops/10-networking-fundamentals-http-dns-tls/02-names-addresses-and-tls",
+    "cloud-devops/serverless-computing/01-functions-and-managed-runtimes": "06-cloud-devops/05-serverless-computing/01-functions-and-managed-runtimes",
+    "cloud-devops/serverless-computing/02-designing-for-serverless": "06-cloud-devops/05-serverless-computing/02-designing-for-serverless",
+    "cloud-devops/site-reliability-engineering/01-service-level-objectives": "06-cloud-devops/23-site-reliability-engineering/01-service-level-objectives",
+    "cloud-devops/site-reliability-engineering/02-error-budgets": "06-cloud-devops/23-site-reliability-engineering/02-error-budgets",
+    "cloud-devops/terraform/01-declaring-infrastructure": "06-cloud-devops/07-terraform/01-declaring-infrastructure",
+    "cloud-devops/terraform/02-state-and-planning": "06-cloud-devops/07-terraform/02-state-and-planning",
+    "cs-fundamentals/algorithms-big-o/01-how-cost-grows-big-o": "01-cs-fundamentals/14-algorithms-big-o/01-how-cost-grows-big-o",
+    "cs-fundamentals/algorithms-big-o/02-sorting-searching-and-traversal": "01-cs-fundamentals/14-algorithms-big-o/02-sorting-searching-and-traversal",
+    "cs-fundamentals/clean-code/01-names-and-small-functions": "01-cs-fundamentals/08-clean-code/01-names-and-small-functions",
+    "cs-fundamentals/clean-code/02-structure-and-error-handling": "01-cs-fundamentals/08-clean-code/02-structure-and-error-handling",
+    "cs-fundamentals/code-review/01-reading-a-diff-for-correctness": "01-cs-fundamentals/17-code-review/01-reading-a-diff-for-correctness",
+    "cs-fundamentals/code-review/02-reviewing-for-clarity-and-tone": "01-cs-fundamentals/17-code-review/02-reviewing-for-clarity-and-tone",
+    "cs-fundamentals/computer-networks/01-packets-tcp-ip-and-ports": "01-cs-fundamentals/03-computer-networks/01-packets-tcp-ip-and-ports",
+    "cs-fundamentals/computer-networks/02-dns-and-the-path-of-a-request": "01-cs-fundamentals/03-computer-networks/02-dns-and-the-path-of-a-request",
+    "cs-fundamentals/concurrency-async-programming/01-threads-locks-and-races": "01-cs-fundamentals/05-concurrency-async-programming/01-threads-locks-and-races",
+    "cs-fundamentals/concurrency-async-programming/02-async-promises-and-event-loops": "01-cs-fundamentals/05-concurrency-async-programming/02-async-promises-and-event-loops",
+    "cs-fundamentals/data-structures/01-arrays-lists-and-hash-maps": "01-cs-fundamentals/02-data-structures/01-arrays-lists-and-hash-maps",
+    "cs-fundamentals/data-structures/02-trees-heaps-and-graphs": "01-cs-fundamentals/02-data-structures/02-trees-heaps-and-graphs",
+    "cs-fundamentals/debugging/01-reproduce-before-you-fix": "01-cs-fundamentals/11-debugging/01-reproduce-before-you-fix",
+    "cs-fundamentals/debugging/02-isolate-and-prove-the-cause": "01-cs-fundamentals/11-debugging/02-isolate-and-prove-the-cause",
+    "cs-fundamentals/design-patterns/01-why-patterns-are-named": "01-cs-fundamentals/18-design-patterns/01-why-patterns-are-named",
+    "cs-fundamentals/design-patterns/02-the-patterns-that-earn-their-keep": "01-cs-fundamentals/18-design-patterns/02-the-patterns-that-earn-their-keep",
+    "cs-fundamentals/end-to-end-testing/01-driving-the-system-like-a-user": "01-cs-fundamentals/26-end-to-end-testing/01-driving-the-system-like-a-user",
+    "cs-fundamentals/end-to-end-testing/02-making-end-to-end-tests-trustworthy": "01-cs-fundamentals/26-end-to-end-testing/02-making-end-to-end-tests-trustworthy",
+    "cs-fundamentals/git/01-the-object-model-and-history": "01-cs-fundamentals/12-git/01-the-object-model-and-history",
+    "cs-fundamentals/git/02-the-daily-workflow": "01-cs-fundamentals/12-git/02-the-daily-workflow",
+    "cs-fundamentals/integration-testing/01-testing-across-a-real-boundary": "01-cs-fundamentals/21-integration-testing/01-testing-across-a-real-boundary",
+    "cs-fundamentals/integration-testing/02-fixtures-databases-and-cleanup": "01-cs-fundamentals/21-integration-testing/02-fixtures-databases-and-cleanup",
+    "cs-fundamentals/operating-systems/01-processes-threads-and-scheduling": "01-cs-fundamentals/15-operating-systems/01-processes-threads-and-scheduling",
+    "cs-fundamentals/operating-systems/02-memory-and-filesystems": "01-cs-fundamentals/15-operating-systems/02-memory-and-filesystems",
+    "cs-fundamentals/refactoring/01-safe-refactoring-steps": "01-cs-fundamentals/19-refactoring/01-safe-refactoring-steps",
+    "cs-fundamentals/refactoring/02-refactorings-you-will-actually-use": "01-cs-fundamentals/19-refactoring/02-refactorings-you-will-actually-use",
+    "cs-fundamentals/software-architecture/01-boundaries-and-coupling": "01-cs-fundamentals/25-software-architecture/01-boundaries-and-coupling",
+    "cs-fundamentals/software-architecture/02-data-and-state-ownership": "01-cs-fundamentals/25-software-architecture/02-data-and-state-ownership",
+    "cs-fundamentals/software-architecture/03-deployment-shape": "01-cs-fundamentals/25-software-architecture/03-deployment-shape",
+    "cs-fundamentals/software-architecture/04-documenting-decisions": "01-cs-fundamentals/25-software-architecture/04-documenting-decisions",
+    "cs-fundamentals/test-driven-development-tdd/01-the-red-green-refactor-loop": "01-cs-fundamentals/20-test-driven-development-tdd/01-the-red-green-refactor-loop",
+    "cs-fundamentals/test-driven-development-tdd/02-where-tdd-does-and-does-not-pay-off": "01-cs-fundamentals/20-test-driven-development-tdd/02-where-tdd-does-and-does-not-pay-off",
+    "cs-fundamentals/unit-testing/01-what-makes-a-good-unit-test": "01-cs-fundamentals/10-unit-testing/01-what-makes-a-good-unit-test",
+    "cs-fundamentals/unit-testing/02-test-doubles-and-test-data": "01-cs-fundamentals/10-unit-testing/02-test-doubles-and-test-data",
+    "cs-fundamentals/unix-shell/01-pipelines-and-filters": "01-cs-fundamentals/13-unix-shell/01-pipelines-and-filters",
+    "cs-fundamentals/unix-shell/02-files-permissions-and-environment": "01-cs-fundamentals/13-unix-shell/02-files-permissions-and-environment",
+    "design-ux/ab-testing/01-designing-the-test": "03-design-ux/39-ab-testing/01-designing-the-test",
+    "design-ux/ab-testing/02-interpreting-the-result": "03-design-ux/39-ab-testing/02-interpreting-the-result",
+    "design-ux/content-strategy/01-content-audit-and-inventory": "03-design-ux/08-content-strategy/01-content-audit-and-inventory",
+    "design-ux/content-strategy/02-voice-rules-and-maintenance": "03-design-ux/08-content-strategy/02-voice-rules-and-maintenance",
+    "design-ux/data-visualization/01-choosing-the-right-chart": "03-design-ux/31-data-visualization/01-choosing-the-right-chart",
+    "design-ux/data-visualization/02-drawing-it-honestly": "03-design-ux/31-data-visualization/02-drawing-it-honestly",
+    "design-ux/design-systems/01-when-a-system-pays-for-itself": "03-design-ux/32-design-systems/01-when-a-system-pays-for-itself",
+    "design-ux/design-systems/02-component-api-and-documentation": "03-design-ux/32-design-systems/02-component-api-and-documentation",
+    "design-ux/design-systems/03-governance-and-versioning": "03-design-ux/32-design-systems/03-governance-and-versioning",
+    "design-ux/design-systems/04-adoption-inside-a-team": "03-design-ux/32-design-systems/04-adoption-inside-a-team",
+    "design-ux/design-thinking/01-empathise-define-ideate": "03-design-ux/02-design-thinking/01-empathise-define-ideate",
+    "design-ux/design-thinking/02-prototype-and-test": "03-design-ux/02-design-thinking/02-prototype-and-test",
+    "design-ux/google-analytics-4-ga4/01-events-and-conversions": "03-design-ux/06-google-analytics-4-ga4/01-events-and-conversions",
+    "design-ux/google-analytics-4-ga4/02-funnels-and-acquisition-reports": "03-design-ux/06-google-analytics-4-ga4/02-funnels-and-acquisition-reports",
+    "design-ux/information-architecture/01-labelling": "03-design-ux/09-information-architecture/01-labelling",
+    "design-ux/information-architecture/02-hierarchy-and-navigation": "03-design-ux/09-information-architecture/02-hierarchy-and-navigation",
+    "design-ux/information-architecture/03-findability-testing": "03-design-ux/09-information-architecture/03-findability-testing",
+    "design-ux/information-architecture/04-the-hand-off-to-layout": "03-design-ux/09-information-architecture/04-the-hand-off-to-layout",
+    "design-ux/interaction-design/01-states-and-feedback": "03-design-ux/44-interaction-design/01-states-and-feedback",
+    "design-ux/interaction-design/02-flow": "03-design-ux/44-interaction-design/02-flow",
+    "design-ux/journey-mapping/01-laying-out-the-journey": "03-design-ux/22-journey-mapping/01-laying-out-the-journey",
+    "design-ux/journey-mapping/02-finding-the-moments-that-matter": "03-design-ux/22-journey-mapping/02-finding-the-moments-that-matter",
+    "design-ux/layout-grid-systems/01-columns-and-gutters": "03-design-ux/30-layout-grid-systems/01-columns-and-gutters",
+    "design-ux/layout-grid-systems/02-breakpoints": "03-design-ux/30-layout-grid-systems/02-breakpoints",
+    "design-ux/prototyping/01-prototype-fidelity": "03-design-ux/40-prototyping/01-prototype-fidelity",
+    "design-ux/prototyping/02-testing-a-prototype-with-real-users": "03-design-ux/40-prototyping/02-testing-a-prototype-with-real-users",
+    "design-ux/quantitative-ux-research/01-what-to-measure": "03-design-ux/24-quantitative-ux-research/01-what-to-measure",
+    "design-ux/quantitative-ux-research/02-instrumenting-and-reading-the-numbers": "03-design-ux/24-quantitative-ux-research/02-instrumenting-and-reading-the-numbers",
+    "design-ux/service-design/01-frontstage-backstage-and-support-processes": "03-design-ux/38-service-design/01-frontstage-backstage-and-support-processes",
+    "design-ux/service-design/02-designing-across-channels": "03-design-ux/38-service-design/02-designing-across-channels",
+    "design-ux/survey-design/01-writing-neutral-questions": "03-design-ux/21-survey-design/01-writing-neutral-questions",
+    "design-ux/survey-design/02-sampling-and-reading-the-results": "03-design-ux/21-survey-design/02-sampling-and-reading-the-results",
+    "design-ux/typography/01-setting-a-type-scale": "03-design-ux/28-typography/01-setting-a-type-scale",
+    "design-ux/typography/02-line-length-and-rhythm": "03-design-ux/28-typography/02-line-length-and-rhythm",
+    "design-ux/usability-testing/01-running-the-session": "03-design-ux/33-usability-testing/01-running-the-session",
+    "design-ux/usability-testing/02-analysis-and-severity": "03-design-ux/33-usability-testing/02-analysis-and-severity",
+    "design-ux/user-interviews/01-writing-the-interview-script": "03-design-ux/20-user-interviews/01-writing-the-interview-script",
+    "design-ux/user-interviews/02-follow-up-questions-and-past-behaviour": "03-design-ux/20-user-interviews/02-follow-up-questions-and-past-behaviour",
+    "design-ux/user-research/01-choosing-a-method": "03-design-ux/05-user-research/01-choosing-a-method",
+    "design-ux/user-research/02-recruiting-participants": "03-design-ux/05-user-research/02-recruiting-participants",
+    "design-ux/user-research/03-running-a-session": "03-design-ux/05-user-research/03-running-a-session",
+    "design-ux/user-research/04-from-findings-to-decisions": "03-design-ux/05-user-research/04-from-findings-to-decisions",
+    "design-ux/visual-design/01-hierarchy-and-spacing": "03-design-ux/10-visual-design/01-hierarchy-and-spacing",
+    "design-ux/visual-design/02-contrast-and-alignment": "03-design-ux/10-visual-design/02-contrast-and-alignment",
+    "frontend/accessibility-wcag-a11y/01-semantics-and-aria": "02-frontend/11-accessibility-wcag-a11y/01-semantics-and-aria",
+    "frontend/accessibility-wcag-a11y/02-keyboard-and-focus": "02-frontend/11-accessibility-wcag-a11y/02-keyboard-and-focus",
+    "frontend/angular/01-components-and-templates": "02-frontend/30-angular/01-components-and-templates",
+    "frontend/angular/02-dependency-injection-and-rxjs": "02-frontend/30-angular/02-dependency-injection-and-rxjs",
+    "frontend/browser-devtools/01-elements-and-styles": "02-frontend/27-browser-devtools/01-elements-and-styles",
+    "frontend/browser-devtools/02-network-and-performance": "02-frontend/27-browser-devtools/02-network-and-performance",
+    "frontend/css/01-cascade-and-box-model": "02-frontend/05-css/01-cascade-and-box-model",
+    "frontend/css/02-flexbox-and-grid": "02-frontend/05-css/02-flexbox-and-grid",
+    "frontend/css/03-media-and-container-queries": "02-frontend/05-css/03-media-and-container-queries",
+    "frontend/css/04-modern-css": "02-frontend/05-css/04-modern-css",
+    "frontend/javascript/01-syntax-and-semantics": "02-frontend/06-javascript/01-syntax-and-semantics",
+    "frontend/javascript/02-the-dom-and-events": "02-frontend/06-javascript/02-the-dom-and-events",
+    "frontend/javascript/03-asynchronous-javascript": "02-frontend/06-javascript/03-asynchronous-javascript",
+    "frontend/javascript/04-modules-and-tooling": "02-frontend/06-javascript/04-modules-and-tooling",
+    "frontend/motion-design/01-purposeful-motion": "02-frontend/16-motion-design/01-purposeful-motion",
+    "frontend/motion-design/02-reduced-motion-and-performance": "02-frontend/16-motion-design/02-reduced-motion-and-performance",
+    "frontend/package-management-npm/01-packages-and-versions": "02-frontend/04-package-management-npm/01-packages-and-versions",
+    "frontend/package-management-npm/02-scripts-and-workspaces": "02-frontend/04-package-management-npm/02-scripts-and-workspaces",
+    "frontend/progressive-web-apps-pwa/01-service-workers-and-offline": "02-frontend/25-progressive-web-apps-pwa/01-service-workers-and-offline",
+    "frontend/progressive-web-apps-pwa/02-installability-and-the-app-manifest": "02-frontend/25-progressive-web-apps-pwa/02-installability-and-the-app-manifest",
+    "frontend/react/01-rendering-and-jsx": "02-frontend/29-react/01-rendering-and-jsx",
+    "frontend/react/02-components-and-props": "02-frontend/29-react/02-components-and-props",
+    "frontend/react/03-state-and-hooks": "02-frontend/29-react/03-state-and-hooks",
+    "frontend/react/04-effects-and-data-fetching": "02-frontend/29-react/04-effects-and-data-fetching",
+    "frontend/responsive-web-design/01-mobile-first-layout": "02-frontend/10-responsive-web-design/01-mobile-first-layout",
+    "frontend/responsive-web-design/02-fluid-type-and-spacing": "02-frontend/10-responsive-web-design/02-fluid-type-and-spacing",
+    "frontend/seo/01-technical-seo": "02-frontend/08-seo/01-technical-seo",
+    "frontend/seo/02-content-and-structured-data": "02-frontend/08-seo/02-content-and-structured-data",
+    "frontend/state-management/01-local-versus-shared-state": "02-frontend/23-state-management/01-local-versus-shared-state",
+    "frontend/state-management/02-client-and-server-state": "02-frontend/23-state-management/02-client-and-server-state",
+    "frontend/svg-icon-systems/01-svg-fundamentals": "02-frontend/17-svg-icon-systems/01-svg-fundamentals",
+    "frontend/svg-icon-systems/02-icon-systems-and-accessibility": "02-frontend/17-svg-icon-systems/02-icon-systems-and-accessibility",
+    "frontend/tailwind-css/01-utility-first-thinking": "02-frontend/14-tailwind-css/01-utility-first-thinking",
+    "frontend/tailwind-css/02-configuration-and-design-tokens": "02-frontend/14-tailwind-css/02-configuration-and-design-tokens",
+    "frontend/typescript/01-the-type-system": "02-frontend/19-typescript/01-the-type-system",
+    "frontend/typescript/02-narrowing-and-unions": "02-frontend/19-typescript/02-narrowing-and-unions",
+    "frontend/typescript/03-generics": "02-frontend/19-typescript/03-generics",
+    "frontend/typescript/04-configuration-and-migration": "02-frontend/19-typescript/04-configuration-and-migration",
+    "frontend/ui-components/01-designing-a-component-api": "02-frontend/12-ui-components/01-designing-a-component-api",
+    "frontend/ui-components/02-composing-and-theming-components": "02-frontend/12-ui-components/02-composing-and-theming-components",
+    "frontend/vuejs/01-reactivity-and-templates": "02-frontend/22-vuejs/01-reactivity-and-templates",
+    "frontend/vuejs/02-single-file-components": "02-frontend/22-vuejs/02-single-file-components",
+    "frontend/web-performance-core-web-vitals/01-the-core-web-vitals": "02-frontend/26-web-performance-core-web-vitals/01-the-core-web-vitals",
+    "frontend/web-performance-core-web-vitals/02-measuring-and-diagnosing": "02-frontend/26-web-performance-core-web-vitals/02-measuring-and-diagnosing",
+    "frontend/web-typography/01-type-scales-and-rhythm": "02-frontend/18-web-typography/01-type-scales-and-rhythm",
+    "frontend/web-typography/02-web-fonts-and-performance": "02-frontend/18-web-typography/02-web-fonts-and-performance",
+    "product-process/agile-methodology/01-values-and-principles": "04-product-process/02-agile-methodology/01-values-and-principles",
+    "product-process/agile-methodology/02-short-iterations-and-feedback": "04-product-process/02-agile-methodology/02-short-iterations-and-feedback",
+    "product-process/business-analysis/01-mapping-the-current-process": "04-product-process/06-business-analysis/01-mapping-the-current-process",
+    "product-process/business-analysis/02-gap-analysis-and-options": "04-product-process/06-business-analysis/02-gap-analysis-and-options",
+    "product-process/product-discovery/01-finding-a-problem-worth-solving": "04-product-process/04-product-discovery/01-finding-a-problem-worth-solving",
+    "product-process/product-discovery/02-testing-a-solution-cheaply": "04-product-process/04-product-discovery/02-testing-a-solution-cheaply",
+    "product-process/product-management/01-the-decision-role": "04-product-process/03-product-management/01-the-decision-role",
+    "product-process/product-management/02-working-with-engineering-and-design": "04-product-process/03-product-management/02-working-with-engineering-and-design",
+    "product-process/product-management/03-the-evidence-behind-a-decision": "04-product-process/03-product-management/03-the-evidence-behind-a-decision",
+    "product-process/product-management/04-saying-no": "04-product-process/03-product-management/04-saying-no",
+    "product-process/requirements-engineering/01-specifying-behaviour-testably": "04-product-process/05-requirements-engineering/01-specifying-behaviour-testably",
+    "product-process/requirements-engineering/02-reviewing-and-tracing-requirements": "04-product-process/05-requirements-engineering/02-reviewing-and-tracing-requirements",
+    "product-process/scrum-software-development/01-roles-and-ceremonies": "04-product-process/10-scrum-software-development/01-roles-and-ceremonies",
+    "product-process/scrum-software-development/02-the-backlog-and-sprint-flow": "04-product-process/10-scrum-software-development/02-the-backlog-and-sprint-flow",
+    "product-process/stakeholder-management/01-the-power-and-interest-map": "04-product-process/07-stakeholder-management/01-the-power-and-interest-map",
+    "product-process/stakeholder-management/02-keeping-people-aligned-and-informed": "04-product-process/07-stakeholder-management/02-keeping-people-aligned-and-informed",
+    "product-process/technical-writing/01-structure-of-a-spec-or-readme": "04-product-process/08-technical-writing/01-structure-of-a-spec-or-readme",
+    "product-process/technical-writing/02-editing-for-the-reader": "04-product-process/08-technical-writing/02-editing-for-the-reader",
+    "security/gdpr-data-privacy/01-lawful-basis-consent-and-retention": "07-security/05-gdpr-data-privacy/01-lawful-basis-consent-and-retention",
+    "security/gdpr-data-privacy/02-the-right-to-be-forgotten-in-a-database": "07-security/05-gdpr-data-privacy/02-the-right-to-be-forgotten-in-a-database",
+    "security/https-tls/01-certificates-and-the-handshake": "07-security/02-https-tls/01-certificates-and-the-handshake",
+    "security/https-tls/02-why-plain-http-is-a-hard-fail": "07-security/02-https-tls/02-why-plain-http-is-a-hard-fail",
+    "security/web-security-owasp-top-10/01-injection-and-access-control": "07-security/01-web-security-owasp-top-10/01-injection-and-access-control",
+    "security/web-security-owasp-top-10/02-cross-site-scripting-and-the-browser-side-classes": "07-security/01-web-security-owasp-top-10/02-cross-site-scripting-and-the-browser-side-classes",
+    "soft-skills/communication/01-explaining-to-any-audience": "08-soft-skills/01-communication/01-explaining-to-any-audience",
+    "soft-skills/communication/02-disagreeing-productively": "08-soft-skills/01-communication/02-disagreeing-productively",
+    "soft-skills/freelancing-client-work/01-scoping-and-pricing": "08-soft-skills/08-freelancing-client-work/01-scoping-and-pricing",
+    "soft-skills/freelancing-client-work/02-contracts-and-getting-paid": "08-soft-skills/08-freelancing-client-work/02-contracts-and-getting-paid"
+  }
+}

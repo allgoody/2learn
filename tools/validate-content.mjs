@@ -9,7 +9,7 @@ const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const LESSONS = join(ROOT, "lessons");
 const INVENTORY = join(ROOT, "tools", "inventory.json");
 
-const TOPICS = ["frontend", "cs-fundamentals", "cloud-devops", "backend-data", "design-ux", "product-process", "security", "soft-skills"];
+const TOPICS = ["01-cs-fundamentals", "02-frontend", "03-design-ux", "04-product-process", "05-backend-data", "06-cloud-devops", "07-security", "08-soft-skills"];
 const SHAPES = {
   full: ["What it is", "Why it matters", "Core ideas", "Practice", "Common mistakes", "Go deeper"],
   landing: ["What it is", "Why it matters", "In this track", "Prerequisites", "Go deeper"],
@@ -20,6 +20,8 @@ const CHILDREN = { small: 0, medium: 2, large: 4, area: 0 };
 const INDEX_KEYS = ["title", "type", "topic", "tier", "status", "aliases", "prereqs", "related"];
 const CHILD_KEYS = ["title", "prereqs"];
 const CHILD_NAME = /^\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/;
+const EXAMPLES_NAME = /^examples\.md$|^examples\.\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/;
+const EXAMPLES_WORDS = [120, 450];
 
 const argv = process.argv.slice(2);
 let strict = false;
@@ -90,7 +92,7 @@ for (const topic of subdirs(LESSONS)) {
     const id = `${topic}/${slug}`;
     const dir = join(LESSONS, topic, slug);
     const md = readdirSync(dir).filter((n) => n.endsWith(".md")).sort();
-    dirs.push({ id, topic, slug, dir, index: join(dir, "index.md"), children: md.filter((n) => /^\d{2}-/.test(n)), files: md });
+    dirs.push({ id, topic, slug, dir, index: join(dir, "index.md"), children: md.filter((n) => /^\d{2}-/.test(n)), examples: md.filter((n) => /^examples/.test(n)), files: md });
   }
 }
 
@@ -157,6 +159,55 @@ function shapeOf(entry, p) {
   const tier = fmv(p, "tier");
   if (type === "area") return "area";
   return tier === "medium" || tier === "large" ? "landing" : "full";
+}
+
+// ---- V15/V16: examples files ----------------------------------------------
+function hasPractice(file) {
+  try { return sections(parse(file)).some((s) => s.title === "Practice"); } catch { return false; }
+}
+function checkExamplesFile(file) {
+  const p = parse(file);
+  const lines = p.lines;
+  if (p.text.startsWith("---")) err("V15", file, 1, "examples file must not start with frontmatter");
+
+  const heads = [];
+  for (let i = 0; i < lines.length; i++) if (lines[i].startsWith("## ")) heads.push({ line: i, text: lines[i] });
+  const parsed = heads.map((h) => /^## Example ([1-2]) — .+$/.exec(h.text));
+  if (heads.length < 1 || heads.length > 2 || parsed.some((m) => !m)) {
+    err("V15", file, heads.length ? heads[0].line + 1 : 1, `examples headings must be 1-2 matching '## Example N — …', found ${heads.length}`);
+  } else if (parsed[0][1] !== "1" || (parsed.length === 2 && parsed[1][1] !== "2")) {
+    err("V15", file, heads[0].line + 1, "examples must be numbered 1 then 2");
+  }
+
+  const fenceAt = [];
+  let inFence = false;
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (!/^```[^`]*$/.test(l)) continue;
+    fenceAt.push(i);
+    if (!inFence) {
+      if (l.slice(3).trim() === "") err("V15", file, i + 1, "fenced block needs a language tag");
+      inFence = true;
+    } else {
+      inFence = false;
+    }
+  }
+
+  const bounds = heads.map((h) => h.line).concat([lines.length]);
+  for (let k = 0; k < heads.length; k++) {
+    const start = bounds[k];
+    const end = bounds[k + 1];
+    const sols = [];
+    for (let i = start; i < end; i++) if (/^### Solution$/.test(lines[i])) sols.push(i);
+    if (sols.length !== 1) { err("V15", file, start + 1, `example ${k + 1} needs exactly one '### Solution', found ${sols.length}`); continue; }
+    if (!fenceAt.some((i) => i > start && i < sols[0])) err("V15", file, start + 1, `example ${k + 1} needs a fenced block before '### Solution'`);
+    if (!fenceAt.some((i) => i > sols[0] && i < end)) err("V15", file, start + 1, `example ${k + 1} needs a fenced block after '### Solution'`);
+  }
+
+  const words = p.lines.slice(p.bodyStart).join("\n").split(/\s+/).filter(Boolean).length;
+  if (words < EXAMPLES_WORDS[0] || words > EXAMPLES_WORDS[1]) err("V15", file, 1, `examples body is ${words} words, expected ${EXAMPLES_WORDS[0]}-${EXAMPLES_WORDS[1]}`);
+  const urlAt = lines.findIndex((l) => /https?:\/\//.test(l));
+  if (urlAt >= 0) err("V15", file, urlAt + 1, "external URL is not allowed");
 }
 
 // ---- V3-V11: one lesson file ----------------------------------------------
@@ -272,6 +323,8 @@ function checkLesson(p, shape, entry, ownPrereqs, childIds) {
 // ---- V2 coverage, V14 unknown entries, V8 children -------------------------
 let present = 0;
 let pending = 0;
+let examplesPresent = 0;
+let examplesPending = 0;
 const seen = new Set();
 for (const d of dirs) {
   if (!inScope(d.topic)) continue;
@@ -315,6 +368,27 @@ for (const d of dirs) {
       checkLesson(cp, "full", null, cpre, []);
     }
   }
+
+  for (const name of d.examples) {
+    const file = join(d.dir, name);
+    checkExamplesFile(file);
+    examplesPresent++;
+    if (!EXAMPLES_NAME.test(name)) {
+      err("V16", file, 1, `examples filename '${name}' does not match examples.md / examples.NN-slug.md`);
+      continue;
+    }
+    const lessonName = name === "examples.md" ? "index.md" : `${name.slice("examples.".length, -3)}.md`;
+    if (!d.files.includes(lessonName)) err("V16", file, 1, `examples file has no lesson file '${lessonName}' beside it`);
+    else if (!hasPractice(join(d.dir, lessonName))) err("V16", file, 1, `lesson file '${lessonName}' has no '## Practice' section`);
+  }
+  for (const name of d.files) {
+    if (!name.endsWith(".md") || name.startsWith("examples")) continue;
+    if (!hasPractice(join(d.dir, name))) continue;
+    const exName = name === "index.md" ? "examples.md" : `examples.${name}`;
+    if (d.examples.includes(exName)) continue;
+    examplesPending++;
+    if (strict) err("V16", join(d.dir, name), 0, `lesson file has no examples file '${exName}'`);
+  }
 }
 for (const e of inventory) {
   if (!inScope(e.topic)) continue;
@@ -342,7 +416,9 @@ if (writeIndex) {
       let status = null;
       try { if (statSync(f).isFile()) status = fmv(parse(f), "status"); } catch { /* unwritten */ }
       const suffix = status ? `, ${status}` : " (pending)";
-      out.push(`- [${e.title}](${e.id}/index.md) — ${e.type}, ${e.tier}${suffix}`);
+      let ex = "";
+      try { if (statSync(join(LESSONS, e.id, "examples.md")).isFile()) ex = ` · [examples](${e.id}/examples.md)`; } catch { /* no examples file */ }
+      out.push(`- [${e.title}](${e.id}/index.md) — ${e.type}, ${e.tier}${suffix}${ex}`);
     }
     out.push("");
   }
@@ -354,5 +430,5 @@ if (writeIndex) {
 errors.sort((a, b) => (a.file < b.file ? -1 : a.file > b.file ? 1 : a.line - b.line));
 for (const e of errors.slice(0, 20)) console.log(`${e.file}:${e.line} — [${e.tag}] ${e.message}`);
 if (errors.length > 20) console.log(`… ${errors.length - 20} more error(s)`);
-console.log(`${present} present, ${pending} pending, ${errors.length} error(s)`);
+console.log(`${present} present, ${pending} pending, ${examplesPresent} examples, ${examplesPending} examples pending, ${errors.length} error(s)`);
 process.exitCode = errors.length ? 1 : 0;
