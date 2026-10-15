@@ -241,3 +241,62 @@ Write one or two examples, numbered from 1, in order, each as `## Example N — 
 3. `### Solution`, followed by one fenced block with the finished artefact, followed by 2–4 sentences saying why it is right and the one thing that usually goes wrong.
 
 Every fenced block carries a language tag: the real language where the example is code (`html`, `css`, `ts`, `bash`, `sql`, and so on), and `text` for a non-code topic. The body is **120–450 words**, counted the way §4 counts a lesson body. The voice rules of §9 apply, including the ban on external URLs.
+
+## 13. The Russian corpus
+
+The Russian corpus is a full mirror of the English one under `lessons/ru/`. Every file at `lessons/<relative path>` becomes `lessons/ru/<same relative path>`:
+
+```text
+lessons/01-cs-fundamentals/04-database-internals/index.md
+lessons/01-cs-fundamentals/04-database-internals/examples.md
+  ↓
+lessons/ru/01-cs-fundamentals/04-database-internals/index.md
+lessons/ru/01-cs-fundamentals/04-database-internals/examples.md
+```
+
+Nothing is renamed, added, dropped or reordered: the same eight topic directories, the same entry directories, the same child filenames, the same examples filenames. Nothing outside `lessons/ru/` is edited by Russian work.
+
+**Ids stay language-free.** A Russian `index.md` keeps the English `type`, `tier`, `topic`, `aliases`, `prereqs` and `related` verbatim, and always `status: drafted`. Only `title` and the body prose are translated. A child file keeps its `prereqs` verbatim and translates only its `title`. Both roots share one id namespace, so the site tells the languages apart by the path root, not by a frontmatter field.
+
+**Titles come from `lessons/ru/GLOSSARY.md`.** It holds the agreed Russian title of every entry and the terminology table. A title is decided once there and copied, never improvised per file. V17 checks that every `**Title**` bullet matches the `title` in its target file.
+
+**The heading vocabulary** is fixed. Use these headings verbatim, in the same order as the English file — no synonyms, no variants, no extra headings, no trailing punctuation. The em dash is U+2014 with spaces around it.
+
+| English heading | Russian heading | Shape |
+| --- | --- | --- |
+| `What it is` | `Что это такое` | full, landing |
+| `Why it matters` | `Почему это важно` | full, landing, area |
+| `Core ideas` | `Ключевые идеи` | full |
+| `Practice` | `Практика` | full |
+| `Common mistakes` | `Частые ошибки` | full |
+| `Go deeper` | `Что читать дальше` | full, landing |
+| `In this track` | `Что в этом треке` | landing |
+| `Prerequisites` | `Предварительные требования` | landing |
+| `What it covers` | `Что охватывает` | area |
+| `Included skills` | `Входящие навыки` | area |
+| `Where to start` | `С чего начать` | area |
+| `## Example N — …` | `## Пример N — …` | examples |
+| `### Solution` | `### Решение` | examples |
+
+An area page therefore keeps the English four-heading shape (`Что охватывает`, `Почему это важно`, `Входящие навыки`, `С чего начать`); `Что это такое` belongs to full lessons and track landings only.
+
+**Three literals change:**
+
+| English | Russian |
+| --- | --- |
+| `Done when:` (start of a line in `## Практика`) | `Готово, когда:` |
+| `None.` (the whole `## Предварительные требования` body) | `Нет.` |
+| `; fix: ` (inside a `## Частые ошибки` bullet) | `; исправить: ` |
+
+**Russian word bands** replace the English ones (Russian renders the same content in fewer words):
+
+| Shape | Russian band |
+| --- | --- |
+| full | 400–1100 |
+| landing | 180–460 |
+| area | 100–340 |
+| examples | 100–500 |
+
+**Code stays as it is, prose is translated.** Keep identifiers, keywords, command names, file names, regex patterns and every fence's language tag unchanged. Translate the comments and the prose strings inside the fences, and keep a `text` diagram's column alignment readable while translating its labels. Product and language names stay in Latin script (React, Git, Docker, Kubernetes, Figma, npm, TypeScript); acronyms keep their common Latin form (HTML, CSS, SQL, API, CI/CD, AWS, GCP). British English does not apply to the Russian corpus.
+
+**Definition of done.** `node tools/validate-content.mjs --strict --lang ru` reports `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)` and exits 0. To check one topic while translating: `node tools/validate-content.mjs --topic <topic dir> --lang ru`. `--write-index --lang ru` regenerates `lessons/ru/INDEX.md`; never edit that file by hand.
