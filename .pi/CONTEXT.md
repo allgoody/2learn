@@ -6,46 +6,45 @@
 Last updated: 2026-10-15
 
 ## Current Task
-**Executing `.pi/plans/corpus-order-and-examples/` (Plan A) via `/skill:implement`.** Phases 1–2 are
-complete and verified; Phase 3 is part-written. Plan A must be fully green before
-`.pi/plans/russian-corpus/` (Plan B) starts, because Plan B mirrors Plan A's final paths.
+**Plan A (`.pi/plans/corpus-order-and-examples/`) is complete and green.** All 7 phases and 50 work
+packages are done and nothing is in flight. What remains is a decision, not a task: commit the
+result, then optionally start Plan B (`.pi/plans/russian-corpus/`).
 
 ## Completed This Session
-- [x] Phase 1 (WP-1–WP-8) — prereq demotion, `tools/renumber-map.json`, 185 directory renames, id sweep, prefixed `TOPICS`, `INDEX.md` regenerated. All WP checks and Phase Verification pass.
-- [x] Phase 2 (WP-9–WP-11) — `AUTHORING.md` §12, validator V15/V16 + five-part summary + INDEX `[examples]` links, two exemplars (`02-frontend/05-css/examples.01-cascade-and-box-model.md`, `08-soft-skills/03-mentoring/examples.md`).
-- [x] Phase 3 WP-12 (7 files), WP-13 (7), WP-14 (10) — complete; `--topic 01-cs-fundamentals` reports `0 error(s)`.
+- [x] **Phase 5 done** — WP-25…WP-33 (design-ux, 68 files) and WP-34…WP-36 (product-process, 26 files) = 94 files. Topic runs `68` / `26 examples, 0 examples pending, 0 error(s)`; `find` → 94; URL grep empty; 0 lesson files modified.
+- [x] **Phase 6 done** — WP-37…WP-47 = 101 files (backend-data 38, cloud-devops 43, security 10, soft-skills 10). All four topic runs clean; the global line reached `297 examples, 0 examples pending, 0 error(s)`.
+- [x] **Phase 7 done** — WP-48 audit script (prose integrity against `.tmp/lessons-backup/`, examples contract, counts) → `AUDIT PASSED`, exit 0; WP-49 regenerated the index and ran the gate green before and after; WP-50 removed `.tmp/` entirely.
+- [x] **Plan A's objective line holds**: `node tools/validate-content.mjs --strict` → `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)`, exit 0.
 
 ## In Progress
-- [ ] **Phase 3 WP-15 — 5 of 11 files written.** Done: `16-code-reusability/examples.md`, `17-code-review/examples.01-reading-a-diff-for-correctness.md`, `17-code-review/examples.02-reviewing-for-clarity-and-tone.md`, `18-design-patterns/examples.01-why-patterns-are-named.md`, `18-design-patterns/examples.02-the-patterns-that-earn-their-keep.md`. Remaining: `19-refactoring` 01+02, `20-test-driven-development-tdd` 01+02, `21-integration-testing` 01+02 — then run WP-15's Success checks.
+- [ ] **Nothing part-written. Plan A is closed.**
 
 ## Blocked / Needs Decision
-- [?] Nothing blocking. Both plan directories are still uncommitted (they show as untracked).
+- [?] **The work is uncommitted.** 266 new examples files plus the regenerated `lessons/INDEX.md` exist only in the working tree. The user handles all git.
+- [?] **No prose quality review of the 297 examples files has ever been done.** Every automated gate passes; nothing has read them for style or depth.
+- [?] Whether to correct Plan A's errata inside `.pi/plans/**` now that execution has ended (see Gotchas).
 
 ## Next Steps
-1. Finish WP-15's remaining 6 files (read each lesson first; build two examples from two of its `### Core ideas`), then run its Success checks.
-2. WP-16 (10 files: `22-git-branching-strategies`, `23-github`, `24-command-line-interface`, `25-software-architecture` ×4, `26-end-to-end-testing` ×2, `27-playwright`), then Phase 3 verification (expect `45 examples, 0 examples pending`).
-3. Phases 4–7: WP-17–WP-50 (252 further examples files, then the WP-48–WP-50 audit).
+1. Ask the user to commit — there is no backup left, because WP-50 deleted `.tmp/lessons-backup/`.
+2. If wanted, fix the Plan A errata in `.pi/plans/corpus-order-and-examples/` (execution is over, so `.pi/plans/**` is no longer read-only).
+3. Only when the user asks: Plan B, `.pi/plans/russian-corpus/` (8 phases, 41 WPs, 698 files under `lessons/ru/`). It mirrors Plan A's final paths, which now exist.
 
 ## Key Decisions
-- **Erratum, approved by the user mid-run:** the plan's "five id shapes" list missed the frontmatter `topic:` scalar. V3 requires `topic` to equal `inventory.topic`, so all 177 `index.md` files needed `topic: 01-cs-fundamentals` (otherwise WP-6 could never reach 0 errors).
-- **One `write` call per examples file**, per the plan — a long generation that emits several files can abort mid-stream.
-- **Target ~380 words per examples file, not 450** — the band counts fenced code.
-- **`--strict` is not the gate in Phases 3–6**; watch `W examples pending` fall by exactly the work package's file count.
+- **One `write` call per examples file**, and at most 4 `worker` subagents in parallel — one work package each, in disjoint entry directories, with the parent re-running the validator at every WP boundary.
+- **Budget ~380 words per examples file; ~330 when the artefact is a `text` fence** (panels, readings, log excerpts, report tables) — those measure 50–120 words above how they read.
+- **`--strict` is unrestricted now** — Phases 3–6 kept it out of the loop because it reported one `[V16]` per missing examples file. That is finished.
+- **MD041 on every examples file is the deliberate §12 deviation**; do not "fix" it.
 
 ## File Map
-- `tools/renumber-map.json` — CREATED (WP-2) — permanent old→new id record: 177 entries + 224 children
-- `tools/inventory.json` — MODIFIED — prefixed id/topic/slug/prereqs, stored in pedagogical order
-- `tools/validate-content.mjs` — MODIFIED — prefixed `TOPICS`, V15/V16, five-part summary, INDEX `[examples]` link
-- `lessons/AUTHORING.md` — MODIFIED — §1 + three §8 ids (WP-5), §4 sentence + new §12 (WP-9), §11 V15/V16 rows (WP-10)
-- `lessons/` — RENAMED + MODIFIED — 8 prefixed topic dirs, 177 entry dirs, every id and `topic:` value rewritten
-- `lessons/INDEX.md` — REGENERATED — 177 links, exactly 1 `[examples]` link (the Mentoring row)
-- 31 × `examples*.md` under `lessons/` — CREATED (2 Phase-2 exemplars + WP-12/13/14 + 5 of WP-15)
-- `.tmp/lessons-backup/` — the pre-Phase-1 copy of `lessons/`; must survive until WP-48 (WP-50 deletes it)
+- 195 × `examples*.md` created this session across `03-design-ux`, `04-product-process`, `05-backend-data`, `06-cloud-devops`, `07-security`, `08-soft-skills` (WP-25…WP-47). 297 exist in total.
+- `lessons/INDEX.md` — regenerated by `--write-index` in WP-49; carries 73 `[examples]` links.
+- `.tmp/audit.mjs` — created in WP-48, deleted in WP-50. Gone.
+- `.tmp/lessons-backup/` — deleted in WP-50. Gone; no copy of the pre-renumber corpus exists anywhere.
+- No lesson body, tool, seed file or plan file was edited this session.
 
 ## Gotchas / Warnings
-- **Never edit `seed/**` or `.pi/plans/**` while executing**, and never `git add`/`commit`/`push` — the user handles all git.
-- **The id sweep excluded `.pi/**` and `lessons/INDEX.md`** — `.pi/CONTEXT.md` and the older plan files contain backticked id-shaped tokens (`frontend/css`, `9/35`) that a naive sweep would corrupt.
-- **`AUTHORING.md` §2 still shows `topic: frontend`** in its frontmatter example. WP-5 forbids touching §2 and the validator ignores that file, so it is harmless but stale — worth a later plan amendment.
-- **Phase 1 checks confirmed by measurement:** `grep -c 'sql-relational-databases' tools/inventory.json` → 6; `--topic design-ux` → `0 present, 0 pending, 0 error(s)`.
-- All lesson files are LF; scripted edits must read/write bytes. `git diff --numstat` is meaningless for the unstaged renames — `.tmp/lessons-backup/` is the real volume proof.
+- **Never edit `seed/**`, and never `git add`/`commit`/`push`** — the user handles all git.
+- **A transient `[V15]` error naming a file you did not create is normal during a parallel fan-out** — another writer is mid-file. Verify your own files at the WP boundary and re-check; never edit another writer's file.
+- **`--topic` needs the prefixed directory name** (`03-design-ux`), or the run selects nothing and reports `0 present`.
+- **Plan A errata, reported but not applied**: WP-37's Java `03-builds-and-dependencies` DO asks to "name the tool" although the lesson never names a build product (it says "the build tool" throughout); WP-48's two `find lessons -mindepth 3 -name '*.md' | wc -l` checks expect `401` but return `698`, because examples files also sit at depth 3 (add `-not -name 'examples*'`); WP-48's "apply the WP-4 id replacement" recipe also needs the frontmatter `topic:` scalar rewrite or it reports 177 false differences; Phase 4's verification still carries the stale `--strict` parenthetical.
 - `legacy-ru` in the knowledge bases is the paradise-education blog — **not** a translation source for this corpus.
