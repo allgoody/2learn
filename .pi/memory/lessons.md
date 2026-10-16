@@ -2,6 +2,60 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-16 · Pivot: Plan C paused, the Astro site planned as Plan D]**: The user chose
+  to stop the Russian prose recast and build the site instead — the corpus is usable now, and a site
+  is worth more than 148 more recast files. **Plan C is PAUSED at 550 of 698** (nothing half-written,
+  `git status` clean at `b86c489`); resume at Phase 7 / WP-58 (`06-cloud-devops`). **The site plan is
+  written and NOT started**: `.pi/plans/astro-site/` — 6 phases, 25 WPs, 2381 lines across 7 files,
+  every WP with all five CTCS+ fields and at least one command-based Success check. Durable lessons:
+  (1) **Pausing a per-file-atomic content pass costs almost nothing, and that is checkable rather than
+  a matter of nerve.** The recast writes one file at a time, so no file is ever half-done; and prose
+  style is not a content gate, so both root gates report `0 error(s)` no matter how much prose has been
+  recast. Before treating a pause as risky, look for (a) partially written artifacts and (b) whether any
+  gate reads the thing you are pausing. Here both answers were no, so the pause is free. The only cost
+  is re-reading the Phase 7 brief later.
+  (2) **A question about why a rule exists turned out to answer a design problem.** "How did this
+  decision happen?" — about `lessons/` banning external URLs — produced the fact that the rule predates
+  the site by eight months, comes from the first plan's Global Constraints, and that the whole link
+  graph is **id-based** (V12 resolves ids; a URL is not an id, so it cannot participate). That is why
+  the video feature must live in `content/videos.json` **outside** `lessons/` rather than as a
+  frontmatter key: adding a field would break V3 across 1396 files in two roots, and a URL in the prose
+  is already a V6 error. Prefer answering "why is this rule here" from the repo's own record over
+  designing around a rule you have not read.
+  (3) **The font question for this project is a *Cyrillic* question, and the expert review rejects the
+  defaults.** The site ships Russian, so every family needs real Cyrillic. `type.today`'s panel of
+  Cyrillic type designers (Strukov, Ruderman, Ostromentsky) reviewed the Google Fonts library and:
+  **Inter "lacks attention to details … should not be used"; Noto Serif "is not usable"; Roboto
+  "questionable"**; and Merriweather, Vollkorn, Tinos, Arimo, Manrope, Overpass and Alumni Sans are all
+  broken in Cyrillic. The ones judged good: **Literata "no questions to structures, design, rhythm"**,
+  Source Serif 4, PT Serif, Lora, Golos Text, IBM Plex Sans. Chosen: **Literata (body) + Golos Text
+  (UI)**. Never reach for Inter or Noto for a bilingual Latin+Cyrillic site without checking.
+  (4) **Astro's Fonts API has been stable since `astro@6.0` and is the lazy correct answer to
+  "self-host the woff2".** It downloads from a provider at **build time** and self-hosts into our own
+  origin, so there is no runtime request to `fonts.googleapis.com` — which is what also makes the
+  consent banner coherent instead of theatre. That is ~15 lines of config versus hand-downloading and
+  vendoring a dozen woff2 files. Related: the pins in the rules index were stale (astro `7.3.8` is now
+  `7.4.0`), and the old note recommending `new Function("s","return import(s)")` to hide
+  `/pagefind/pagefind.js` from Vite is now **superseded** — loading the built UI with an ordinary
+  `<script src>` from `dist/pagefind/` avoids Vite entirely and sidesteps the trap rather than working
+  around it.
+  (5) **Run the plan skill's review pass, because it caught three real defects in a plan I had just
+  written and believed.** (a) The page-count arithmetic ignored the pages a *later* phase adds, so the
+  parity checks would have failed against a **correct** build — the fix is to write the arithmetic into
+  the Success check (`706 = 8 + 177 + 224 + 297`) instead of stating a bare number. (b) A `find` glob
+  that did not unambiguously select what it claimed. (c) **A Success check testing a
+  `data-lesson-prereqs` attribute the plan never told anyone to write** — a verification that could
+  never pass and would have been blamed on the implementation. Every Success check must name something
+  the plan itself instructed, and the arithmetic behind a count belongs next to the count.
+  (6) **Two facts about `tools/inventory.json` that a site author would otherwise guess wrong:** it has
+  **no `related` key** (that field is frontmatter-only and non-empty in exactly 3 of 177 files) and **no
+  topic display titles**, so the eight topic names are site-authored labels. And **`07-security` and
+  `08-soft-skills` contain no `type: area` entry at all** (`02-frontend` has two), so a topic page must
+  be generated from the inventory and must not assume an area page exists.
+  (7) **Two of my own tooling mistakes, both already in global memory and both repeated anyway:**
+  `find -maxdepth 2` over `lessons/` returns nothing because the real depth is 3; and `curl -o /tmp/...`
+  is blocked by the shell path guard, which reports it as `Access to D:\tmp\...` — scratch files go in
+  the repo's `.tmp/`.
 - **[Session 2026-10-16 · Phase 6 — `05-backend-data` COMPLETE]**: Ran the 91 files of
   `05-backend-data` as **10 `worker` children in three waves** — wave 1 p6a (6) / p6b (9) / p6c (9) /
   p6d (10) = 34, wave 2 p6e (9) / p6f (9) / p6g (10) / p6h (10) = 38, wave 3 p6i (9) / p6j (10) = 19.

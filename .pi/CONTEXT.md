@@ -1,66 +1,72 @@
 # Context — 2learn
 
-**Project:** 2learn — a 177-entry lesson corpus built from a seed skill list, mirrored into Russian, plus (later) a static learning site.
-**Rules:** See `.pi/project-rules-memory.md` for tech stack, architecture, and content/design constraints. Session history lives in `.pi/memory/lessons.md`.
+**Project:** 2learn — a 177-entry lesson corpus (English plus a full Russian mirror), and the public bilingual reading site now planned around it.
+**Rules:** See `.pi/project-rules-memory.md` for tech stack, architecture, and content/design constraints. Session history lives in `.pi/memory/lessons.md`; the long-form status of Plans A–D now lives in `.pi/memory/plan-a-b-c-history.md`.
 
 Last updated: 2026-10-16
 
 ## Current Task
-**Plan C (`.pi/plans/russian-prose/`): Phase 6 is COMPLETE.** All 91 files under `lessons/ru/05-backend-data/` are recast; `--strict --topic 05-backend-data` exits **0** and contributes **zero** `[S1]` lines, and the phase's headline target is done — `14-database-design/index.md`, the corpus's last-but-one blacklist hit, is cleared.
+**The site plan is written and ready to execute.** `.pi/plans/astro-site/` — 6 phases, 25 work packages, 2381 lines across 7 files. **No code has been written.** Start with `.pi/plans/astro-site/_index.md`.
 
-**Progress: 550 of 698 files** — `01-cs-fundamentals` 108, `02-frontend` 133, `03-design-ux` 156, `04-product-process` 61, `05-backend-data` **91**. Remaining **148**: `06-cloud-devops` 102, `07-security` 23, `08-soft-skills` 23 (its `01-communication/index.md` calibration landing is already recast).
+**The Russian prose recast (Plan C) is PAUSED, deliberately, at 550 of 698 files.** Nothing is mid-file. Resume at Phase 7 / WP-58 (`06-cloud-devops`) whenever you like; the pause costs nothing, because the recast is per-file atomic and both root gates stay green regardless of how much prose has been recast.
 
 ## Completed This Session
-- [x] **Phase 6, 91 files, 10 packages, 3 waves of `worker` children.** Wave 1: p6a (6), p6b (9), p6c (9), p6d (10) = 34. Wave 2: p6e (9), p6f (9), p6g (10), p6h (10) = 38. Wave 3: p6i (9), p6j (10) = 19. All 10 reported success; the parent verified the **disk** against `.tmp/p6-baseline.txt` → `91 of 91 COMPLETE`, exactly 91 paths changed under the topic, no strays, nothing touched outside it.
-- [x] **Packages repacked, entry dirs kept whole.** The plan's WP-53/54/56/57 are 11–12 files each, over the 10-file child cap. Rather than split WPs arbitrarily, the topic was repacked into 10 packages of 6–10 files, every entry directory whole — so the plan's per-directory `ls` contract survives. All 9 plan WP-level lists (`wp49…wp57-files.txt`: 6,9,9,10,11,12,10,12,12) also verify `91 of 91 COMPLETE` against the same manifest.
-- [x] **Phase 6 clears every target.** `--diff --topic 05-backend-data` → 0 structural differences; `--strict --topic` → **exit 0**; `validate-content --topic … --lang ru` → 0 error(s), 19 present / 38 examples; topic still 91 files; the plan's 19 per-entry-dir counts match exactly (`1 5 9 9 5 5 9 2 5 5 2 5 5 5 2 5 5 5 2`).
-- [x] **Topic metrics, baseline → now:** correlation 0.898 → **0.215**, same sentence count 90.2% → **0.0%**, median ratio 1.047 → **1.099**, `однако` 0.00 → **1.79**, `— это` 2.82 → **0.30**, participles 2.03 → **0.55**, blacklist 0 → **0**.
-- [x] **The corpus blacklist blocker is cleared.** `05-backend-data/14-database-design/index.md` was one of the corpus's two remaining hits; p6h took it to 0. Whole-corpus blacklist **2 in 2 files → 1 in 1 file**, and the survivor (`06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`) belongs to **Phase 7**.
-- [x] **All three topic `[S1]` warnings cleared:** `02-nodejs/02-modules-and-the-runtime.md` ×4 → 1, `03-python-programming/01-language-basics.md` ×4 → 1, `14-database-design/index.md` blacklist ×1 → 0. Corpus `[S1]` total 17 → **14**, of which `05-backend-data` contributes 0.
-- [x] **`git diff --numstat` over the 91: +604 / −604, zero imbalanced files** — the tightest structural result of any phase so far. `git diff -U0` over the topic yields **0** hunks matching `---`, `##`, `###` or a fence line.
-- [x] Both root gates re-run green (`177 present / 297 examples / 0 error(s)` on both roots); whole-corpus `--diff` → 0 structural differences over 698 files.
-- [x] Two spot-reads against the English twins (`14-database-design/index.md` landing, `18-mongodb/examples.02-…` examples) — facts, numbers, ids, claims and code byte-identical; sentence order genuinely changed; `Однако` sits at real turns in both.
-- [x] **Found a hole in the gate: `--diff` does not check `###` subheadings.** `[D2]` compares `/^## /`, which matches `## ` and not `### `; `[D6]` covers `## Пример` only. A drifted `### ` inside `## Ключевые идеи` passes silently — a p6d file had two drift on a first pass and the gate never would have said so. The parent's `-U0` grep (which matches `###` because it matches `##`) is the compensating control and is now **load-bearing**. Recorded in the rules index.
-- [x] `.tmp/` swept: 18 worker helper scripts and scratch test files plus 15 superseded Phase-4/5 briefs and file lists deleted; 61 files remain — the 4 manifests, the verifier, 26 `*-report.md` evidence files, the Phase 6 briefs/lists.
+- [x] **Pivoted from Plan C to the site.** The corpus is usable now; Plan C is token-heavy with a usable end state only after 148 more files.
+- [x] **Settled the requirements** — public site; both languages at launch, English unprefixed and Russian at `/ru/`; Cloudflare Pages; mobile-first; burger under 1024px; cookie banner as a real consent gate; scroll-to-top; dark/light with system default; placeholder GA; WCAG 2.2 AA; no React.
+- [x] **Typography research, and the finding that changed the answer.** The font question is a *Cyrillic* question, because the site ships Russian. Settled on **Literata** (body) + **Golos Text** (UI), both self-hosted. An expert Cyrillic review rejects the obvious defaults — **Inter "should not be used", Noto Serif "not usable", Roboto "questionable"** — so never substitute them.
+- [x] **Spacing spec fixed** — measure `65ch` (a `ch` unit, so the character count holds across both scripts), body 17px → 18px at 1024px, line-height 1.5 → 1.6 at 1024px, headings 1.1/1.2, 4px rhythm.
+- [x] **Established why the corpus bans external URLs**, asked as a question about its history: the rule predates the site by eight months, comes from the first plan's Global Constraints, and the whole link graph is id-based (V12 resolves ids; a URL is not an id). That is exactly why video data must live in `content/videos.json`, outside `lessons/`.
+- [x] **Investigated the real corpus and the real Astro 7 APIs rather than assuming.** Per root: 177 `index.md` + 224 children + 297 examples = **698**. `tools/inventory.json` has **no `related` key** and **no topic display titles**. `07-security` and `08-soft-skills` have **no area entry**; `02-frontend` has two. Verified every npm pin against the registry and read the Astro docs for the Fonts API, `glob`/`generateId`, Shiki dual themes and the sitemap's `i18n` option.
+- [x] **Wrote the plan** — `.pi/plans/astro-site/{_index,phase-01…phase-06}.md`. 25 WPs; every one carries all five CTCS+ fields and at least one command-based Success check.
+- [x] **Reviewed the plan and fixed three real defects in it** — page-count arithmetic that ignored the Phase 2 privacy pages (the parity checks would have failed a *correct* build); a fragile `find` glob; and a Success check testing a `data-lesson-prereqs` attribute the plan never told anyone to write. Verified every cited path exists, and that the corpus facts behind the checks are true (`02-frontend/05-css` really is in `03-html`'s *Go deeper*; `Done when:` really occurs twice there).
 
 ## In Progress
-- Nothing is mid-file. Phase 7 is **not started**.
+- Nothing is mid-file. `astro/` has not been created and no site code exists.
 
 ## Blocked / Needs Decision
-- [?] **91 files are uncommitted** (the whole of Phase 6). Last commit: `4e25cac chore: update session context`.
-- [?] **Two Plan-B defects sit inside *frozen* fences** and cannot be fixed without failing `--diff`. (a) `06-restful-api/examples.01-resources-verbs-and-status-codes.md` renders "client timed out" as «клиент дождался тайм-аута» — wrong sense. (b) `07-sql-relational-databases` carries three `text` fences holding translated Russian prose, one with an English `-- the report:` comment left inside. Both belong to the WP-74/WP-75 audit, not to Phase 7.
-- [?] **One corpus number is still short and it is Phase 7's to fix:** blacklist **1 in 1 file** against a target of 0, in `06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`. Every other corpus row now passes: corr 0.364, same-count **18.9%**, ratio 1.122, `однако` **1.11**, `— это` 1.06, participles 1.32.
+- [?] **`site` in `astro/astro.config.mjs` is still the placeholder `https://2learn.example.com`**, and it is load-bearing — canonical URLs, hreflang, the sitemap, both RSS feeds and `robots.txt` all derive from it. WP-23 treats this as a hard `BLOCKER` rather than inventing a domain. **Supply the real domain before deploying.**
+- [?] **Six deliberate deviations from what was approved**, all flagged in the plan and none of them silent: `/privacy/` + `/ru/privacy/` were **added** (GA plus a consent banner with no privacy statement is a real gap); the glossary ships as **`/ru/glossary/`, Russian-only** (its terminology table maps English→Russian, so it is meaningless to an English reader); the theme toggle is **two-state** (system default on first visit; no way back to "follow the system" without clearing site data — recorded as a `shortcut:` comment); the video strip sits **after** the lesson body; the RSS feeds carry **no dates**, because the corpus records none and a fabricated `pubDate` is worse than a missing one; and the `/about` + `/privacy` copy needs your review — WP-17 requires every unknown to become a visible `TODO: confirm` rather than a guess.
+- [?] **The rules index is over its own size budget — 17.6 KB / 99 lines against a stated 11 KB Stage B target.** Two rounds of the prescribed remedy are done: the long-form Plan A–D status moved to `.pi/memory/plan-a-b-c-history.md`, and the corpus contract's detail moved to `.pi/memory/content-rules.md` (the index keeps only the rules that have actually bitten). What remains is almost entirely `## Active Constraints`, which must **not** be moved to a chunk. Getting to 11 KB needs a judgement call on which constraints are no longer live — your call, not a mechanical move.
 
 ## Next Steps
-1. Commit the checkpoint (user).
-2. **Phase 7: WP-58… — `06-cloud-devops`, 102 files.** Read `.pi/plans/russian-prose/phase-07-cloud-devops.md`. Repeat the Phase 6 recipe: repack into ≤10-file packages with entry dirs whole, take a pre-run sha256 manifest, fan out ≤4 children per wave, verify the disk. **Phase 7 owns the last blacklist hit** and 10 of the 14 remaining `[S1]` warnings (including `07-terraform/01-declaring-infrastructure.md` at `— это` ×9).
-3. Phase 8 (`07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit and handover).
+1. Execute the site plan: `Read .pi/plans/astro-site/_index.md, then execute the plan phase by phase.`
+2. Supply the production domain, then `/skill:deploy`.
+3. Resolve the `TODO: confirm` lines WP-17 produces, and review the privacy copy.
+4. (Later) Resume Plan C at **Phase 7 / WP-58** — `06-cloud-devops`, 102 files. It owns the corpus's **last blacklist hit** and 10 of the 14 remaining `[S1]` warnings.
+5. (Later) Phase 8 — `07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit.
 
 ## Key Decisions
-- **Fan-out, never parent-written prose.** ≤4 concurrent `worker` children (`ollama/deepseek-v4.1-flash:cloud`, thinking high), one package per child, disjoint entry dirs, one `write` per file. The parent owns the briefs, every validator run, every scope decision and the phase verification; it never recasts a file itself. 12 children used 12 of the 64-run budget across 3 waves.
-- **Repack WPs over 10 files into entry-dir-whole packages; do not split a WP arbitrarily.** The entry directory is the plan's real contract (its Success blocks `ls` it), so it must stay whole. The plan's WP-level list files are still written and still verified, so nothing is lost.
-- **Verify the disk, never the child's report.** Twelve children reported success and twelve were honest — the parent still counted changed paths. `git status --porcelain <topic-dir>` must equal the package contract exactly.
-- **The `-U0` structural grep is now load-bearing, not merely cheap.** `git diff -U0 -- <files> | grep -E '^[+-](---|##|```)'` catches `###` drift that `--diff` cannot. Add the explicit `grep -E '^[+-]### '` line; it must print nothing.
-- **Regenerate briefs with a separate script from the file lists and manifest.** Re-running the setup generator after wave 1 would re-hash already-recast files and destroy the phase baseline. The manifest is taken once, before the first write.
-- **`GLOSSARY.md` stays off-limits during a fan-out** (one shared file, four writers); a child that finds a calque row reports the before/after line and the parent applies it once. No row needed changing in Phases 5 or 6.
-- **Record, never bend.** Where the gate disagreed with the plan, the run's own values went into `BASELINE_METRICS` and were reported. No target was weakened and the script was never tuned to the plan's numbers.
+- **The site is Plan D and is independent of Plans A–C.** Each plan minds its own features. It needed a new plan because all four existing plan directories explicitly forbid creating `astro/`, `package.json` or any site code.
+- **The corpus stays byte-frozen.** `astro/` reads `lessons/` through the content layer and writes nothing. Every phase ends with `git status --porcelain lessons/ seed/` printing nothing.
+- **No UI framework.** The burger drawer is a native `<dialog>` (which supplies the focus trap, Escape-to-close and background inerting for free), and the theme toggle and scroll-to-top are ~30 lines of vanilla `<script>` each. No React, no MDX, no typography plugin, no Partytown.
+- **Dependencies live only in `astro/`.** No root `package.json`, ever — `tools/validate-content.mjs` must keep running on bare Node ≥ 22.
+- **Video data lives outside `lessons/`** in `content/videos.json`, keyed by corpus entry id, storing the 11-character `videoId` and **never the URL**. Thumbnails are downloaded at ingest, never hotlinked, so no visitor's IP reaches Google.
+- **Theming is `light-dark()` + `color-scheme`**, with `data-theme` written by the project's **only** `<script is:inline>` (the pre-paint boot). No duplicated per-theme tokens, and no white flash on load.
+- **The gate is Lighthouse plus a manual WCAG 2.2 AA checklist.** `lighthouserc.json` is created at the repo root, so your existing Lighthouse skills read the same file.
+- **Fonts download at build time and self-host.** No runtime third-party request — which is also what makes the consent banner coherent rather than theatre.
 
 ## File Map
-- `tools/check-ru-style.mjs` — the gate. Report mode (nine signals, per-file rules, corpus block), `--diff` mode (`[D1]`–`[D10]` against `b713de1d`), `TARGETS`, `BASELINE_METRICS`, `--topic` / `--file` filters. **`[D2]` covers `## ` only — not `### `.**
-- `lessons/ru/05-backend-data/**` — **91/91 recast. Phase 6 done.**
-- `.tmp/brief-phase6.md` + `.tmp/brief-p6a.md`…`brief-p6j.md` — the current briefs (Phase 7 reuses the wording).
-- `.tmp/p6{a..j}-files.txt`, `.tmp/p6-all-files.txt`, `.tmp/wp49-files.txt`…`wp57-files.txt` — the packages' and the plan's exact file lists.
-- `.tmp/p6-baseline.txt` — sha256 of all 91 Phase 6 files, taken before wave 1. `.tmp/wp34-41-baseline.txt` and `.tmp/wp42-48-baseline.txt` — the Phase 4 and 5 manifests, kept.
-- `.tmp/verify-wp.mjs` — verifies list files against a manifest; `MANIFEST=<path> node .tmp/verify-wp.mjs <list-file>...`, defaulting to the Phase 4 manifest.
-- `.tmp/p6a-report.md`…`p6j-report.md` — the ten children's per-file `--file` evidence. 26 reports in total, Phases 4–6.
+- `.pi/plans/astro-site/_index.md` — CREATE — objective, global context and constraints, the route map, the route→WP table, the file map. **Read this first.**
+- `.pi/plans/astro-site/phase-01-foundation.md` — CREATE — WP-1–4: scaffold, design tokens, fonts, content layer + graph.
+- `.pi/plans/astro-site/phase-02-shell.md` — CREATE — WP-5–9: urls + dictionary, base layout, header/nav/toggle, footer/scroll-top, consent + privacy.
+- `.pi/plans/astro-site/phase-03-reader.md` — CREATE — WP-10–15: rehype link transform, data access, presentational components, the corpus router, home pages, 404/robots/sitemap.
+- `.pi/plans/astro-site/phase-04-discovery.md` — CREATE — WP-16–20: `/entries/`, about, `/ru/glossary/`, feeds, Pagefind search.
+- `.pi/plans/astro-site/phase-05-videos.md` — CREATE — WP-21–22: `content/videos.json`, `tools/check-videos.mjs`, the video card.
+- `.pi/plans/astro-site/phase-06-verify-ship.md` — CREATE — WP-23–25: Cloudflare config, WCAG/perf verification, corpus regression + acceptance.
+- `.pi/memory/plan-a-b-c-history.md` — CREATE — long-form status of Plans A–D, moved out of the rules index.
+- `.pi/memory/content-rules.md` — CREATE — the corpus contract's detail (shapes, word bands, field order, examples sidecars, Russian overrides), moved out of the rules index.
+- `.pi/CONTEXT.md` — MODIFY — this file.
+- `.pi/project-rules-memory.md` — MODIFY — site stack, new constraints, condensed architecture.
+- `.pi/memory/lessons.md` — MODIFY — one appended session entry.
+- `lessons/**`, `seed/**`, `tools/validate-content.mjs` — **UNTOUCHED** (verified: `git status --porcelain lessons/ seed/` prints nothing).
 
 ## Gotchas / Warnings
-- **`--diff` does NOT check `###` subheadings** (see Key Decisions). Never treat a green `--diff` as proof that every heading is intact; run the `-U0` grep.
-- **`--lang ru` is not optional.** The validator defaults to `en` and prints a green line that says nothing about the Russian tree.
-- **`corr` is not a quality signal for a single file.** Two files this phase scored 0.63 and 0.96 individually while the topic mean was 0.215 — short files (14–17 sentences) have too few points for the statistic to mean anything. Judge a file by `same sentence count` plus reading it, and never distort prose to move a single correlation number.
-- **`--strict` exits 1 corpus-wide for reasons unrelated to your topic.** Use `--strict --topic <dir>` while working; the sha256 manifest is what proves the work happened.
-- **Never `git checkout` a file that `--diff` reported** — and never on one of the four Phase-1 calibration files, where the revert destroys the user-approved voice.
-- **`--topic` needs the prefixed directory name** (`05-backend-data`); an unprefixed name selects nothing.
-- **A fence's *contents* are frozen, not just its delimiters** — and this is the code-heaviest topic in the corpus, so a writer's urge to reword a "formulaic line" lands inside a fence almost every time. Check before rewriting.
-- **Sweep `.tmp/` at every batch boundary.** This phase's 10 children left 18 scratch files (`p6d-fencechk.mjs`, `p6h-metrics.cjs`, `p6j-sents.js`, `p6d-body-test.md`…). Two children reported they could not delete their own scratch because the shell path guard blocked `rm` — expect that and sweep centrally.
-- **Measure the `однако` density the children actually delivered**, don't assume it. Phase 6 delivered 1.79 per 1000 against a 0.80 floor — the highest of any phase, and what carried the corpus row to 1.11.
+- **`site` is a placeholder, so everything derived from it is wrong until it is set.** WP-23 reports it as a blocker rather than quietly shipping wrong canonicals.
+- **The one genuinely uncertain mechanism in the plan is WP-10's rehype plugin reading `file.path`** to choose the `/ru` link prefix. WP-10 fails loudly at the earliest possible point — a grep for `href="/ru/…"` in the built Russian output — rather than silently mis-prefixing ~700 Russian links. If it fails, **stop and report**; do not improvise a replacement mechanism.
+- **Astro's default `generateId` produces `…/index`, which breaks every corpus id.** The plan passes an explicit `generateId`; never remove it.
+- **The Fonts API downloads at build time**, so a build needs network. The fonts land as 4+ files under `dist/_astro/*.woff2`; that assertion belongs to WP-6, not WP-3, because nothing references the fonts until the layout exists.
+- **The Pagefind index only exists after a build.** Search must be tested against `npm run preview`, never `npm run dev`, where the search page correctly shows a "built site only" message.
+- **Page-count arithmetic for verification, per tree:** 706 corpus pages (8 topic + 177 entry + 224 child + 297 examples) → **708** at the end of Phase 3 (+ home + privacy) → **711 EN / 712 RU** at the end, the Russian extra being `/ru/glossary/`.
+- **Two documented GA traps must not be reintroduced:** `gtag.js` silently ignores array-form `dataLayer.push(['config', …])`, and Partytown loses the landing pageview. Use the canonical `gtag()` function form, and verify with a real `g/collect` request — "no error and no request" is a fail, not a pass.
+- **Never use `opacity` to mute the footer credit** (opacity-60 measured 2.26:1, failing WCAG AA). The `--fg-muted` token alone passes in both themes.
+- **The corpus's own traps are unchanged** and apply again if Plan C resumes: `--diff` does **not** check `###` subheadings (so the `git diff -U0` grep is load-bearing), a fence's *contents* are frozen and not just its delimiters, and `--lang ru` is never optional.
