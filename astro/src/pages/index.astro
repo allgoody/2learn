@@ -36,10 +36,12 @@ const topics = TOPICS.map((topic) => ({
     {
       topics.map((item) => (
         <li class="topic-card">
-          <a class="topic-link" href={item.url}>
-            {item.title}
-          </a>
-          <span class="topic-count">{item.count}</span>
+          <p class="topic-head">
+            <a class="topic-link" href={item.url}>
+              {item.title}
+            </a>
+            <span class="topic-count">{item.count}</span>
+          </p>
           <p class="topic-blurb">{item.blurb}</p>
         </li>
       ))
@@ -78,6 +80,10 @@ const topics = TOPICS.map((topic) => ({
     border-radius: 6px;
   }
 
+  .topic-card:hover {
+    background-color: var(--bg-subtle);
+  }
+
   /* The link's own pseudo-element covers the card, so the whole card is the
      click target while the link text stays the accessible name. */
   .topic-link::after {
@@ -86,14 +92,36 @@ const topics = TOPICS.map((topic) => ({
     inset: 0;
   }
 
+  /* The ring is drawn on the overlay, not the inline link, so keyboard focus
+     outlines the whole card instead of just the words inside it. */
+  .topic-link:focus-visible {
+    outline: none;
+  }
+
+  .topic-link:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .topic-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
   .topic-link {
     font-weight: 600;
   }
 
   .topic-count {
-    margin-inline-start: 0.5rem;
+    flex: none;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
     font-family: var(--font-sans);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     color: var(--fg-muted);
   }
 
