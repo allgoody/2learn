@@ -4,8 +4,9 @@ import sitemap from "@astrojs/sitemap";
 import { satteri } from "@astrojs/markdown-satteri";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeContent from "./src/lib/rehype-content.mjs";
-// TODO: replace with the real domain before deploy (WP-24)
-export const SITE = "https://2learn.example.com";
+// The Cloudflare Pages URL. Every canonical, hreflang pair, the sitemap, both
+// feeds and robots.txt derive from it, so it changes only with a redeploy.
+export const SITE = "https://2learn.pages.dev";
 
 export default defineConfig({
   site: SITE,
