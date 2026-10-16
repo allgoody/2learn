@@ -23,7 +23,7 @@ const dict = getDict(locale);
 
 const other: Locale = locale === "en" ? "ru" : "en";
 const otherUrl = switchLocale(path, locale, other);
-const otherName = other === "ru" ? "Русский" : "English";
+const otherShort = other.toUpperCase();
 
 const items = [
   { href: homeUrl(locale), en: homeUrl("en"), label: dict.navHome },
@@ -39,85 +39,74 @@ const items = [
 ];
 ---
 
-<dialog id="nav-drawer" aria-label={dict.navLabel}>
-  <div class="drawer-head">
-    <ThemeToggle locale={locale} />
-    <button class="close" id="nav-close" type="button" aria-label={dict.menuClose}>
-      <span aria-hidden="true">✕</span>
-    </button>
-  </div>
-  <nav aria-label={dict.navLabel}>
-    <ul>
-      {
-        items.map((item) => (
-          <li>
-            <a href={item.href} aria-current={path === item.en ? "page" : undefined}>
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <a href={otherUrl} hreflang={other} aria-label={`${otherName} — ${dict.langSwitch}`}>
-          {otherName}
-        </a>
-      </li>
-    </ul>
-  </nav>
-</dialog>
+{
+  /*
+    Rendered hidden; Header's script reveals it and turns the burger into a
+    close button. `hidden` keeps the links out of the tab order while closed,
+    and the panel is absolutely positioned against the header bar, so it opens
+    under the burger at every width instead of against the viewport edge.
+  */
+}
 
-<script>
-  const drawer = document.getElementById("nav-drawer");
+<nav id="nav-drawer" hidden aria-label={dict.navLabel}>
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          <a href={item.href} aria-current={path === item.en ? "page" : undefined}>
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 
-  if (drawer instanceof HTMLDialogElement) {
-    // The burger lives in Header and cannot call this directly, so it asks.
-    drawer.addEventListener("nav:open", () => drawer.showModal());
-
-    // Close on activation: on a phone the drawer is the only way to navigate.
-    drawer.querySelectorAll("a[href]").forEach((link) => {
-      link.addEventListener("click", () => drawer.close());
-    });
-    document.getElementById("nav-close")?.addEventListener("click", () => drawer.close());
+  {
+    /*
+      Controls, not navigation: a separator and a different shape keep the
+      language switch from reading as one more menu link. Its visible text is
+      the two-letter code, which the accessible name repeats, so WCAG 2.5.3
+      still holds.
+    */
   }
-</script>
+  <div class="drawer-tools">
+    <ThemeToggle locale={locale} />
+    <a
+      class="lang-switch"
+      href={otherUrl}
+      hreflang={other}
+      aria-label={`${otherShort} — ${dict.langSwitch}`}
+    >
+      {otherShort}
+    </a>
+  </div>
+</nav>
 
 <style>
   #nav-drawer {
-    width: min(22rem, 90vw);
-    margin: 0 0 0 auto;
-    padding: 1rem;
-    border: 0;
-    max-height: 100dvh;
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    right: 1rem;
+    z-index: 30;
+    width: min(22rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 8rem);
     overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
     background-color: var(--bg);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
     color: var(--fg);
     font-family: var(--font-sans);
   }
 
-  #nav-drawer::backdrop {
-    background-color: rgb(0 0 0 / 40%);
-  }
-
-  .drawer-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  #nav-drawer .close {
-    min-width: 44px;
-    min-height: 44px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: none;
-    color: var(--fg);
-    font-size: 1rem;
-    cursor: pointer;
+  /* Not `display: none` from a class — the attribute has to win here. */
+  #nav-drawer[hidden] {
+    display: none;
   }
 
   #nav-drawer ul {
-    margin: 0.5rem 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
@@ -126,19 +115,49 @@ const items = [
     margin-bottom: 0.25rem;
   }
 
-  #nav-drawer a {
+  #nav-drawer li a {
     display: block;
     padding: 0.5rem 0.25rem;
     color: var(--fg);
     text-decoration: none;
   }
 
-  #nav-drawer a:hover {
+  #nav-drawer li a:hover {
     text-decoration: underline;
   }
 
-  #nav-drawer a[aria-current="page"] {
+  #nav-drawer li a[aria-current="page"] {
     color: var(--accent);
     font-weight: 600;
+  }
+
+  .drawer-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Same box as the theme toggle beside it, so the two read as one group of
+     controls and nothing like the plain links above. */
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .lang-switch:hover {
+    border-color: var(--fg-muted);
+    text-decoration: none;
   }
 </style>
