@@ -2,6 +2,90 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-16 · Phase 5 — `04-product-process` COMPLETE]**: Ran the 61 files of
+  `04-product-process` as **8 `worker` children in two waves of 4** — wave 1 WP-46b (7) / WP-44 (10) /
+  WP-45 (10) / WP-43 (9) = 36, wave 2 WP-46a (5) / WP-47 (8) / WP-42 (6) / WP-48 (6) = 25. Both waves
+  verified on the **disk** against a fresh `.tmp/wp42-48-baseline.txt` → `61 of 61 COMPLETE`;
+  `git status --porcelain lessons/ru/04-product-process/` listed exactly those 61 paths and nothing
+  else; `GLOSSARY.md` untouched. **Phase 5 is done.** `--diff --topic 04-product-process` → 0 structural
+  differences; `--strict --topic` → exit 0 with **no `[S1]` line at all**; `validate-content --topic
+  04-product-process --lang ru` → 0 error(s), 17 present / 26 examples; the topic is still 61 files.
+  Topic metrics: corr 0.898→**0.183**, same-count 90.2%→**0.0%**, ratio 1.047→**1.138**, `однако`
+  0.00→**2.11**, `— это` 2.82→**0.48**, participles 2.03→**0.59**, blacklist **0**. Both topic `[S1]`s
+  cleared (`03-product-management/01-the-decision-role.md` ×6→0 via WP-43;
+  `17-estimation-story-points/index.md` ×4→1 via WP-48). Whole corpus **459 of 698**; both root gates
+  still `177 present / 297 examples / 0 error(s)`; whole-corpus `--diff` → 0 structural differences.
+  **Three of the four previously-short corpus numbers crossed this session**: `однако` 0.70→**0.86**
+  (≥0.80), same-count 38.7%→**30.8%** (≤40%), copula 1.44→**1.25** (≤1.50); corr 0.457, participles
+  1.71. Only the **blacklist is still short** (2 hits in 2 files, both in untouched topics), and 17
+  `[S1]` warnings remain, **none in `04-product-process`**. Durable lessons:
+  (1) **Split any work package larger than 10 files before it goes to a child.** WP-46 (12 files)
+  became 46a (5) + 46b (7), and the two halves are still verified as *one* package against WP-46's own
+  list file — so the plan's contract survives the split. Twelve files is the size at which a fan-out
+  child truncated silently in the earlier session's lesson; the cheap move is to spend one extra
+  child rather than re-run a dead one.
+  (2) **A fence's *contents* are frozen, not just its delimiters.** `--diff` compares the bytes between
+  the opening and closing fence lines, so the *translated* tables and `text` blocks Plan B produced are
+  untouchable. A writer who decides to reword a "formulaic line" will almost always find it inside one
+  — `Reach × Impact × Confidence / Effort` lives in a paragraph, but the table under it does not.
+  (3) **`git diff -U0 -- <files> | grep -E '^[+-](---|##|```)'` returning nothing is the cheapest
+  structural regression check in the repo** — cheaper than reasoning about numstat, and it names the
+  offending line. Phase 5 was +396/−398 over 61 files with one file off by 2 lines (a paragraph split)
+  and zero structural hits. Run it before reading any child's report; it takes a second.
+  (4) **The children overshot the `однако` floor on purpose, and that overshoot is the only reason the
+  corpus row crossed.** Topic `однако` 0.00→2.11 against a 0.80 floor; the brief's "roughly one per
+  file" produced ≈1.3 per file because unpicking `— это` forces real connective work. **Count the
+  delivered density from the `--file` lines every phase** — a light phase reverses the corpus number,
+  and a crossing is never permanent while 239 mirrors are still in the denominator.
+  (5) **Declare `lessons/ru/GLOSSARY.md` off-limits *in the brief* during a fan-out.** Four writers,
+  one shared file. No row needed changing this phase, but the collision was avoided by instruction,
+  not by luck. A child that finds a calque row reports the exact before/after line; the parent applies
+  it once, after every writer has stopped.
+  (6) **Both spot-reads held.** `15-prioritization-frameworks-rice-moscow/index.md` and
+  `03-product-management/examples.01-the-decision-role.md` matched their English twins fact-for-fact
+  (numbers, ids, claims, table rows) while the prose was genuinely rebuilt — the "failure mode"
+  sentence moved to the end of *Why it matters*, and `— это` survived only in the opening definition,
+  exactly where R4 permits it. Read two files every phase; it is the only check `--diff` cannot make.
+  (7) **The eight children left 22 scratch files** (`wp42-lens.mjs`, `wp42-median.mjs`, `med.mjs`,
+  `flow-dump.mjs`, `wp43-sents.mjs`, `wp44-scan.mjs`, `wp46b-sents.mjs`, `wp48-o1.txt`…). Swept at the
+  boundary; briefs, file lists, manifests, the verifier and the `wp*-report.md` evidence kept.
+
+- **[Session 2026-10-16 · Phase 4 batch B — Phase 4 COMPLETE]**: Ran WP-38…WP-41 as 4 parallel
+  `worker` children — the remaining 39 files of `03-design-ux` across 12 entry dirs (11 / 12 / 9 / 7).
+  All 39 verified changed on disk with `node .tmp/verify-wp.mjs` against `.tmp/wp34-41-baseline.txt`
+  → `39 of 39 COMPLETE`, and `git status --porcelain` showed exactly 39 modified files. **Phase 4 is
+  done.** `--diff --topic 03-design-ux` → 0 structural differences; `--strict --topic` → exit 0 with
+  **zero** warnings (the live `[S1]` on `37-lean-ux/index.md`, `— это ×5`, is now 0);
+  `validate-content --topic 03-design-ux --lang ru` → 0 error(s); both roots still
+  `177 present / 297 examples / 0 error(s)`; the topic is still 156 files. Topic 03-design-ux moved
+  corr 0.398→0.208, same-count 23.1%→**0.0%**, ratio 1.150→1.181, `однако` 1.73→2.17,
+  `— это` 0.91→0.48, participles 1.21→0.89, blacklist 0. Durable lessons:
+  (1) **`git diff --numstat` is the cheapest structural proof that a recast happened.** Prose lines
+  are whole paragraph lines and the gate has already frozen everything else, so every file must show
+  a *balanced* small diff — this batch was +218/−218 over 39 files, 2–10 lines each, and 9 changed
+  lines in a file with 6 headings and 9 prose paragraphs means every prose line was rewritten.
+  An asymmetric numstat, or one larger than the file's heading+prose line count, means a heading,
+  fence or frontmatter line moved. Read this before reading any child's report.
+  (2) **Per-file `corr` is noise in *both* directions.** Batch A's lesson was that an *untouched*
+  mirror can score 0.154; batch B adds the converse — a genuinely recast file scored **0.909**
+  (`33-usability-testing/examples.02-analysis-and-severity.md`). Short files (9–18 sentences) have too
+  few points for the statistic to mean anything. Only the topic-level mean is a signal.
+  (3) **The `однако` density a child actually delivers varies by 4×.** WP-40 delivered exactly one per
+  file across all 9; WP-39 delivered 3 across its 12 (0.62/1000, below the 0.80 rate). Both received
+  the identical brief. Never assume a child honoured "roughly one `однако` per file" — count it from
+  the `--file` lines in its report and state it in the batch summary.
+  (4) **The whole-corpus numbers lag the topic numbers by design.** `03-design-ux` clears every
+  target while the 698-file corpus still reads `однако` **0.70** (≥0.80), same-count **38.7%** (≤40%),
+  copula 1.44 (≤1.50) and blacklist 2 in 2 files — because 301 untouched files are still in the
+  denominator. Do not "fix" these by weakening a target; they move when phases 5–8 run.
+  (5) **`--topic --strict` is the right acceptance command only once every writer has stopped.**
+  Run mid-fan-out it names files other writers are still holding; run at the batch boundary it exits 0.
+  (6) **The children left twelve scratch files** (`sent.mjs`, `sent2.mjs`, `part.mjs`, `base-fid.md`,
+  `cmp-fence.mjs`, `dump-wp40.mjs`, `wp38-scan.mjs`, `wp38-spans.mjs`, `wp38-med.mjs`, `wp38-eol.mjs`).
+  Swept at the batch boundary; the briefs, file lists, manifest, verifiers and `wp*-report.md`
+  evidence were kept.
+  (7) **CRLF integrity held.** No recast file's line endings diverged from `HEAD` — worth checking
+  after any scripted sweep, but the `write`-per-file pattern does not disturb them.
 - **[Session 2026-10-16 · Phase 4 batch A]**: Ran WP-34…WP-37 as 4 parallel `worker` children —
   batch A of Phase 4. All 44 assigned files changed on disk; `--diff --topic 03-design-ux` → 0 structural
   differences, `validate-content --topic 03-design-ux --lang ru` → 0 error(s), global `--strict --lang ru` →
