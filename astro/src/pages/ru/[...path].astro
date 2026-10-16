@@ -228,7 +228,8 @@ const examplesEntry = kind === "lesson" ? await examplesFor(locale, id) : undefi
 
     .lesson-layout.has-toc :global([data-toc]) {
       position: sticky;
-      top: 1rem;
+      /* Clears the sticky header rather than sliding under it. */
+      top: var(--sticky-offset);
     }
   }
 

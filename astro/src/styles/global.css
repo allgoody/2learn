@@ -37,6 +37,9 @@
   --measure: 65ch;
   /* One centred column shared by the header bar, the page body and the footer. */
   --content-max: 1024px;
+  /* The sticky header plus a gutter: what a sticky element must clear, and how
+     far a jumped-to heading must stay clear of the bar. */
+  --sticky-offset: 5rem;
 }
 
 :root[data-theme="light"] {
@@ -137,6 +140,11 @@ h3 {
   max-width: var(--measure);
   font-family: var(--font-serif);
   line-height: 1.5;
+}
+
+/* A jumped-to heading must not land underneath the sticky header. */
+.prose :is(h2, h3, h4) {
+  scroll-margin-top: var(--sticky-offset);
 }
 
 .prose p {

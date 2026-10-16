@@ -37,12 +37,16 @@ const dict = getDict(locale);
   const burger = document.getElementById("nav-trigger");
   const drawer = document.getElementById("nav-drawer");
   const glyph = burger?.querySelector("span");
+  const header = document.querySelector(".site-header");
+
+  let menuOpen = false;
 
   if (burger && drawer && glyph) {
     // The burger is the toggle in both directions and becomes a close button
     // while the menu is open. That is why the menu is a plain panel rather than
     // a modal dialog: a modal backdrop would make the burger unclickable.
     const setOpen = (open: boolean) => {
+      menuOpen = open;
       drawer.hidden = !open;
       burger.setAttribute("aria-expanded", String(open));
       glyph.textContent = open ? "✕" : "☰";
@@ -75,11 +79,44 @@ const dict = getDict(locale);
       if (!drawer.contains(target) && !burger.contains(target)) setOpen(false);
     });
   }
+
+  // The header slides away on the way down and comes straight back on the first
+  // upward scroll, so the menu is one small pull away at any depth in a lesson.
+  if (header) {
+    const HIDE_AFTER = 200;
+    const THRESHOLD = 4;
+    let lastY = window.scrollY;
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+        // Ignore sub-pixel jitter, which would otherwise flicker the header.
+        if (Math.abs(delta) < THRESHOLD) return;
+        // Never hide it while its own menu is open: the menu lives inside it.
+        const hide = delta > 0 && y > HIDE_AFTER && !menuOpen;
+        header.classList.toggle("is-hidden", hide);
+        lastY = y;
+      },
+      { passive: true },
+    );
+  }
 </script>
 
 <style>
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    /* Opaque, or the page shows through the bar as it scrolls underneath. */
+    background-color: var(--bg);
     border-bottom: 1px solid var(--border);
+    transition: transform 0.2s ease;
+  }
+
+  .site-header.is-hidden {
+    transform: translateY(-100%);
   }
 
   .bar {
