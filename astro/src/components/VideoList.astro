@@ -1,0 +1,102 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { thumbUrl, videosFor, watchUrl } from "../lib/videos";
+
+interface Props {
+  entryId: string;
+  locale: Locale;
+}
+
+const { entryId, locale } = Astro.props;
+const dict = getDict(locale);
+const videos = videosFor(entryId);
+---
+
+{
+  videos.length > 0 && (
+    <section class="videos" data-videos>
+      <h2>{dict.watchTitle}</h2>
+      <ul>
+        {videos.map((video) => (
+          <li>
+            <a
+              class="video-link"
+              href={watchUrl(video.videoId)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* The title is adjacent text, so an empty alt avoids announcing it twice. */}
+              <img
+                class="video-thumb"
+                src={thumbUrl(video.videoId)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="video-title">{video.title}</span>
+              <span class="visually-hidden"> ({dict.watchNewTab})</span>
+            </a>
+            <p class="video-meta">{video.channel}</p>
+            <p class="video-desc">{video.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .videos {
+    margin-top: 2.5rem;
+  }
+
+  .videos ul {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .video-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .video-link:hover .video-title {
+    text-decoration: underline;
+  }
+
+  /* A 1280x720 and a 320x180 file render at the same size, and the box is reserved
+     before the image loads so nothing shifts. */
+  .video-thumb {
+    display: block;
+    width: 100%;
+    max-width: 20rem;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    object-fit: cover;
+  }
+
+  .video-title {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
+  .video-meta,
+  .video-desc {
+    margin: 0.125rem 0 0;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .video-desc {
+    max-width: 60ch;
+  }
+</style>

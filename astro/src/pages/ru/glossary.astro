@@ -1,0 +1,138 @@
+---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import { topicTitle, type Locale } from "../../lib/corpus";
+import { getDict } from "../../lib/dictionary";
+import { LESSONS_DIR } from "../../lib/graph";
+import { allEntries } from "../../lib/lessons";
+import { lessonUrl } from "../../lib/urls";
+
+const locale: Locale = "ru";
+const dict = getDict(locale);
+const path = "/glossary/";
+
+// `LESSONS_DIR` is the repository root resolver from `graph.ts`.
+const source = readFileSync(join(LESSONS_DIR, "ru", "GLOSSARY.md"), "utf8");
+
+/** Split the file on its `## ` headings, then each table row on `|`. */
+const parseSection = (heading: string): string[][] | undefined => {
+  const start = source.indexOf(`\n## ${heading}\n`);
+  if (start === -1) return undefined;
+  const body = source.slice(start + heading.length + 5).split("\n## ")[0];
+  return body
+    .split("\n")
+    .filter((line) => line.startsWith("|"))
+    .map((line) => line.split("|").slice(1, -1).map((cell) => cell.trim()))
+    .filter((cells) => !cells.every((cell) => /^-+$/.test(cell)));
+};
+
+const terms = parseSection("Терминология");
+const titles = parseSection("Названия записей");
+
+const known = new Set((await allEntries(locale)).map((entry) => entry.id));
+const plain = (cell: string) => cell.split("`").join("");
+
+// `split` on a backtick alternates text and code, so odd indices are code spans.
+const parts = (cell: string) => cell.split("`");
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.glossaryTitle}
+  description={dict.siteTagline}
+  path={path}
+  noAlternates
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.glossaryTitle}</h1>
+
+  <h2>Терминология</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          {terms?.[0]?.map((cell) => <th scope="col">{cell}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          terms?.slice(1).map((row) => (
+            <tr>
+              {row.map((cell) => (
+                <td>
+                  {parts(cell).map((part, index) =>
+                    index % 2 === 1 ? <code>{part}</code> : part,
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Названия записей</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          {titles?.[0]?.map((cell) => <th scope="col">{cell}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          titles?.slice(1).map(([idCell, english, russian]) => (
+            <tr>
+              <td>
+                {parts(idCell).map((part, index) =>
+                  index % 2 === 1 ? <code>{part}</code> : part,
+                )}
+              </td>
+              <td>{english}</td>
+              <td>
+                {/* The topic disambiguates a one-word title in a link list, and keeps a
+                    title like "Go" out of Lighthouse's non-descriptive-link blocklist. */}
+                {known.has(plain(idCell)) ? <a href={lessonUrl(locale, plain(idCell))}>{russian}<span class="visually-hidden"> — {topicTitle(plain(idCell).split("/")[0])}</span></a> : russian}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .table-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+  }
+
+  .table-scroll th,
+  .table-scroll td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .table-scroll th {
+    white-space: nowrap;
+  }
+</style>

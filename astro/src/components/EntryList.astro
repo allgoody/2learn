@@ -1,0 +1,66 @@
+---
+import { type Locale } from "../lib/corpus";
+import { lessonUrl } from "../lib/urls";
+
+interface Item {
+  id: string;
+  title: string;
+  tier: string;
+  blurb?: string;
+}
+
+interface Props {
+  locale: Locale;
+  items: Item[];
+}
+
+const { locale, items } = Astro.props;
+---
+
+<ul class="entry-list">
+  {
+    items.map((item) => (
+      <li class="entry-item">
+        <a class="entry-link" href={lessonUrl(locale, item.id)}>
+          {item.title}
+        </a>
+        <span class="entry-tier" data-tier={item.tier}>
+          {item.tier}
+        </span>
+        {item.blurb && <p class="entry-blurb">{item.blurb}</p>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .entry-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry-item {
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .entry-link {
+    font-weight: 600;
+  }
+
+  .entry-tier {
+    margin-inline-start: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fg-muted);
+  }
+
+  .entry-blurb {
+    margin: 0.25rem 0 0;
+    max-width: var(--measure);
+    color: var(--fg-muted);
+  }
+</style>

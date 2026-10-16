@@ -1,0 +1,73 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  locale: Locale;
+}
+
+const { headings, locale } = Astro.props;
+const dict = getDict(locale);
+
+const items = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+---
+
+{
+  items.length > 0 && (
+    <nav data-toc data-pagefind-ignore aria-label={dict.tocTitle}>
+      <h2 class="toc-title">{dict.tocTitle}</h2>
+      <ul>
+        {items.map((heading) => (
+          <li class:list={[`toc-depth-${heading.depth}`]}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  [data-toc] {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+  }
+
+  .toc-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  [data-toc] ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  [data-toc] li {
+    margin-bottom: 0.25rem;
+  }
+
+  /* WCAG 2.2 AA 2.5.8: a bare inline link is 18px tall, under the 24x24 minimum. */
+  [data-toc] a {
+    display: inline-block;
+    min-height: 24px;
+    padding-block: 2px;
+  }
+
+  [data-toc] .toc-depth-3 {
+    margin-inline-start: 1rem;
+    font-size: 0.875rem;
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import { TOPICS, topicBlurb, topicTitle, type Locale } from "../../lib/corpus";
+import { getDict } from "../../lib/dictionary";
+import { entriesOfTopic } from "../../lib/graph";
+import { topicUrl } from "../../lib/urls";
+
+const locale: Locale = "ru";
+const dict = getDict(locale);
+const path = "/";
+
+const topics = TOPICS.map((topic) => ({
+  topic,
+  url: topicUrl(locale, topic),
+  title: topicTitle(topic),
+  blurb: topicBlurb(topic),
+  count: entriesOfTopic(topic).length,
+}));
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.siteName}
+  description={dict.siteTagline}
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.siteName}</h1>
+  <p class="tagline">{dict.siteTagline}</p>
+
+  <ul class="topic-grid">
+    {
+      topics.map((item) => (
+        <li class="topic-card">
+          <a class="topic-link" href={item.url}>
+            {item.title}
+          </a>
+          <span class="topic-count">{item.count}</span>
+          <p class="topic-blurb">{item.blurb}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .tagline {
+    margin-top: 0;
+    color: var(--fg-muted);
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .topic-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .topic-card {
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .topic-link {
+    font-weight: 600;
+  }
+
+  .topic-count {
+    margin-inline-start: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .topic-blurb {
+    margin: 0.25rem 0 0;
+    color: var(--fg-muted);
+  }
+</style>

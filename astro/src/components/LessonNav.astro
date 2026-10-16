@@ -1,0 +1,138 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { lessonUrl } from "../lib/urls";
+
+interface Item {
+  id: string;
+  title: string;
+}
+
+interface Props {
+  locale: Locale;
+  /** The entry these controls belong to; the lists below are already resolved. */
+  entryId: string;
+  prev?: Item;
+  next?: Item;
+  prereqs: Item[];
+  related: Item[];
+}
+
+const { locale, prev, next, prereqs, related } = Astro.props;
+const dict = getDict(locale);
+
+const prevNextLabel = `${dict.prevLabel} / ${dict.nextLabel}`;
+---
+
+<div class="lesson-nav">
+  {
+    (prev || next) && (
+      <nav class="prev-next" aria-label={prevNextLabel}>
+        {prev ? (
+          <a class="prev-next-link" href={lessonUrl(locale, prev.id)} rel="prev">
+            <span class="prev-next-label">{dict.prevLabel}</span>
+            <span class="prev-next-title">{prev.title}</span>
+          </a>
+        ) : (
+          <span class="prev-next-end">
+            <span class="prev-next-label">{dict.prevLabel}</span>
+          </span>
+        )}
+        {next ? (
+          <a class="prev-next-link" href={lessonUrl(locale, next.id)} rel="next">
+            <span class="prev-next-label">{dict.nextLabel}</span>
+            <span class="prev-next-title">{next.title}</span>
+          </a>
+        ) : (
+          <span class="prev-next-end">
+            <span class="prev-next-label">{dict.nextLabel}</span>
+          </span>
+        )}
+      </nav>
+    )
+  }
+
+  {
+    prereqs.length > 0 && (
+      <nav class="nav-list" data-lesson-prereqs aria-label={dict.prereqsTitle}>
+        <h2 class="nav-list-title">{dict.prereqsTitle}</h2>
+        <ul>
+          {prereqs.map((item) => (
+            <li>
+              <a href={lessonUrl(locale, item.id)}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <nav class="nav-list" data-lesson-related aria-label={dict.relatedTitle}>
+        <h2 class="nav-list-title">{dict.relatedTitle}</h2>
+        <ul>
+          {related.map((item) => (
+            <li>
+              <a href={lessonUrl(locale, item.id)}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+</div>
+
+<style>
+  .lesson-nav {
+    margin-top: 2.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+  }
+
+  .prev-next {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .prev-next-link {
+    display: grid;
+    max-width: 45%;
+  }
+
+  .prev-next-link:last-child {
+    text-align: right;
+    margin-inline-start: auto;
+  }
+
+  .prev-next-label {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .prev-next-end {
+    color: var(--fg-muted);
+  }
+
+  .nav-list {
+    margin-top: 1.5rem;
+  }
+
+  .nav-list-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .nav-list ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+</style>

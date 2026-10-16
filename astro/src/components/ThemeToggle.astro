@@ -1,0 +1,72 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDict(locale);
+---
+
+<button
+  id="theme-toggle"
+  class="theme-toggle"
+  type="button"
+  aria-label={dict.themeToggle}
+  data-to-light={dict.themeToLight}
+  data-to-dark={dict.themeToDark}
+>
+  <span aria-hidden="true">◐</span>
+</button>
+
+{
+  /*
+    shortcut: the toggle is two-state. Once a reader has chosen a theme there is no
+    way back to "follow the system" short of clearing site data. Upgrade to a
+    three-state control if a reader asks for it.
+  */
+}
+
+<script>
+  const button = document.getElementById("theme-toggle");
+
+  if (button) {
+    const root = document.documentElement;
+    const toLight = button.dataset.toLight ?? "";
+    const toDark = button.dataset.toDark ?? "";
+
+    const apply = (theme: "light" | "dark") => {
+      root.dataset.theme = theme;
+      // "Switch to the light theme" is only true while the dark theme is on.
+      button.setAttribute("aria-label", theme === "dark" ? toLight : toDark);
+    };
+
+    apply(root.dataset.theme === "dark" ? "dark" : "light");
+
+    button.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      apply(next);
+    });
+
+    // Follow the system only while the reader has not chosen for themselves.
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+      if (localStorage.getItem("theme") === null) apply(event.matches ? "dark" : "light");
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: none;
+    color: var(--fg);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+</style>

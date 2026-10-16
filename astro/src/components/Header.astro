@@ -1,0 +1,90 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { homeUrl } from "../lib/urls";
+import NavDrawer from "./NavDrawer.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  locale: Locale;
+  /** The locale-neutral English path of the current page, for `aria-current`. */
+  path?: string;
+}
+
+const { locale, path = "" } = Astro.props;
+const dict = getDict(locale);
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href={homeUrl(locale)}>{dict.siteName}</a>
+    <NavDrawer locale={locale} path={path} />
+    <ThemeToggle locale={locale} />
+    <button
+      class="burger"
+      id="nav-trigger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-drawer"
+      aria-label={dict.menuOpen}
+    >
+      <span aria-hidden="true">☰</span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const burger = document.getElementById("nav-trigger");
+  const drawer = document.getElementById("nav-drawer");
+
+  if (burger && drawer) {
+    burger.addEventListener("click", () => {
+      burger.setAttribute("aria-expanded", "true");
+      drawer.dispatchEvent(new Event("nav:open"));
+    });
+
+    // The dialog's own close covers Escape, the close button, link activation
+    // and the resize guard, so this is the single place the state is reset.
+    drawer.addEventListener("close", () => {
+      burger.setAttribute("aria-expanded", "false");
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .wordmark {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .burger {
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: none;
+    color: var(--fg);
+    font-size: 1.125rem;
+    cursor: pointer;
+  }
+
+  @media (min-width: 64rem) {
+    .burger {
+      display: none;
+    }
+  }
+</style>

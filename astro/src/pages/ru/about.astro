@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import { TOPICS, type Locale } from "../../lib/corpus";
+import { getDict } from "../../lib/dictionary";
+import { allEntries, allExamples } from "../../lib/lessons";
+
+const locale: Locale = "ru";
+const dict = getDict(locale);
+const path = "/about/";
+
+const entries = await allEntries(locale);
+const examples = await allExamples(locale);
+const entryCount = entries.length;
+const topicCount = TOPICS.length;
+const exampleCount = examples.size;
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.aboutTitle}
+  description={dict.siteTagline}
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.aboutTitle}</h1>
+
+  <h2>{dict.aboutWhatTitle}</h2>
+  <p>
+    В корпусе {entryCount} записей по {topicCount} разделам: от основ информатики до фронтенда,
+    дизайна, продукта, бэкенда и данных, облачных технологий и DevOps, безопасности и навыков
+    командной работы. Каждая запись — это либо <em>навык</em>, то есть то, что вы умеете делать,
+    либо <em>область</em>, то есть тема, в которой нужно ориентироваться. В каждой записи
+    перечислено, что прочитать до неё, а у {exampleCount} из них есть разобранные примеры в
+    отдельном файле.
+  </p>
+
+  <h2>{dict.aboutReadTitle}</h2>
+  <p>
+    Внутри раздела записи идут по порядку, но ничто не мешает прочитать одну запись отдельно.
+    Начните с той, что вам интересна; если в ней указаны предварительные требования, которых у вас
+    ещё нет, сначала пройдите по этим ссылкам. В конце записи раздел <em>Куда дальше</em> называет,
+    что читать следующим. Оглавление на широком экране стоит рядом с текстом, на узком — над ним.
+  </p>
+
+  <h2>{dict.aboutLanguagesTitle}</h2>
+  <p>
+    Каждая запись есть и по-английски, и по-русски; переключатель языка вверху страницы переводит
+    между ними. На русской стороне есть ещё глоссарий терминов, которые используют уроки.
+  </p>
+
+  <p class="todo">
+    TODO: confirm — условия повторного использования и лицензия на текст уроков не определены,
+    поэтому здесь они не указаны.
+  </p>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .todo {
+    padding: 0.75rem;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+</style>

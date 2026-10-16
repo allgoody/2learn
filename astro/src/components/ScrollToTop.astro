@@ -1,0 +1,55 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDict(locale);
+---
+
+<button id="scroll-top" class="scroll-top" type="button" aria-label={dict.backToTop} hidden>
+  <span aria-hidden="true">↑</span>
+</button>
+
+<script>
+  const button = document.getElementById("scroll-top");
+
+  if (button) {
+    const toggle = () => {
+      // `hidden` keeps it out of the tab order while it is invisible.
+      if (window.scrollY > 600) button.removeAttribute("hidden");
+      else button.setAttribute("hidden", "");
+    };
+
+    window.addEventListener("scroll", toggle, { passive: true });
+    toggle();
+
+    button.addEventListener("click", () => {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+  }
+</script>
+
+<style>
+  .scroll-top {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    min-width: 44px;
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-size: 1.125rem;
+    cursor: pointer;
+  }
+
+  .scroll-top[hidden] {
+    display: none;
+  }
+</style>

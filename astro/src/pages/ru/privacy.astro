@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import { type Locale } from "../../lib/corpus";
+import { getDict } from "../../lib/dictionary";
+
+const locale: Locale = "ru";
+const dict = getDict(locale);
+const path = "/privacy/";
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.navPrivacy}
+  description="Что этот сайт хранит в вашем браузере и что с этим делает."
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.navPrivacy}</h1>
+  <div class="prose">
+    <p>
+      Это статический сайт для чтения. На нём нет учётных записей, форм, комментариев и рекламы, а
+      сервер не ведёт журнал того, кто что читал.
+    </p>
+
+    <h2>Что хранится в вашем браузере</h2>
+    <ul>
+      <li>Выбранная цветовая тема — под ключом <code>theme</code>.</li>
+      <li>Ваш выбор по аналитике — под ключом <code>consent</code>.</li>
+    </ul>
+    <p>
+      И то и другое лежит в локальном хранилище браузера и никуда не отправляется. Если очистить
+      данные сайта, удалится и то и другое: сайт снова станет следовать системной теме и снова
+      спросит про аналитику.
+    </p>
+
+    <h2>Аналитика</h2>
+    <p>
+      Файлы cookie аналитики ставятся только с вашего согласия. До вашего выбора скрипт аналитики
+      не загружается и ни один запрос не покидает браузер. Если вы разрешите, Google Analytics 4
+      поставит свои cookie и запишет, какие страницы вы читали, вместе с приблизительным
+      местоположением, определённым по IP-адресу.
+    </p>
+    <p>
+      Идентификатор аналитики пока остаётся неактивной заглушкой, так что сегодня никакие данные не
+      собираются.
+    </p>
+
+    <h2>Как изменить выбор</h2>
+    <p>
+      Кнопка ниже очищает ваш выбор. После этого баннер спросит снова, и до вашего ответа ничего не
+      загружается.
+    </p>
+    <p>
+      <button id="consent-reset" class="consent-reset" type="button">{dict.consentChange}</button>
+    </p>
+
+    <h2>Другие третьи стороны</h2>
+    <p>
+      Другие сторонние сервисы не используются. Шрифты и обложки видео отдаёт этот же сайт, а не их
+      исходные поставщики, поэтому чтение страницы не сообщает никому, какие страницы вы читаете.
+    </p>
+
+    <h2>Вопросы</h2>
+    <p>TODO: confirm — кто отвечает за этот сайт и как читателю с ним связаться.</p>
+  </div>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .consent-reset {
+    min-height: 44px;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+  }
+</style>

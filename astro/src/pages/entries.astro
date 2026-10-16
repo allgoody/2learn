@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EntryFilter from "../components/EntryFilter.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import { TOPICS, topicTitle, type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { allEntries } from "../lib/lessons";
+
+const locale: Locale = "en";
+const dict = getDict(locale);
+const path = "/entries/";
+
+// `allEntries` is already in topic order then id order, because an id starts with its topic.
+const entries = await allEntries(locale);
+const groups = TOPICS.map((topic) => ({
+  topic,
+  title: topicTitle(topic),
+  items: entries
+    .filter((entry) => entry.id.startsWith(`${topic}/`))
+    .map((entry) => ({
+      id: entry.id,
+      title: entry.data.title ?? entry.id,
+      tier: entry.data.tier ?? "",
+      type: entry.data.type ?? "",
+    })),
+}));
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.entriesTitle}
+  description={dict.entriesIntro}
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.entriesTitle}</h1>
+  <p>{dict.entriesIntro}</p>
+
+  <EntryFilter locale={locale} groups={groups} />
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>

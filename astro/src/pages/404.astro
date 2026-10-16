@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { entriesUrl } from "../lib/urls";
+
+// Served for both trees, so it stays English — and it has no Russian twin, hence
+// noAlternates.
+const locale: Locale = "en";
+const dict = getDict(locale);
+const path = "/404/";
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.notFoundTitle}
+  description={dict.notFoundBody}
+  path={path}
+  noAlternates
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.notFoundTitle}</h1>
+  <p>{dict.notFoundBody}</p>
+  <ul>
+    <li>
+      <a href="/">{dict.notFoundHome}</a>
+    </li>
+    <li>
+      <a href={entriesUrl(locale)}>{dict.entriesTitle}</a>
+    </li>
+  </ul>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import { type Locale } from "../lib/corpus";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="prose" lang={locale}><slot /></div>

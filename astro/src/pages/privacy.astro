@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+
+const locale: Locale = "en";
+const dict = getDict(locale);
+const path = "/privacy/";
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.navPrivacy}
+  description="What this site stores in your browser, and what it does with it."
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.navPrivacy}</h1>
+  <div class="prose">
+    <p>
+      This is a static reading site. It has no accounts, no forms, no comments and no advertising,
+      and the server keeps no logs of who read what.
+    </p>
+
+    <h2>What is stored in your browser</h2>
+    <ul>
+      <li>Your colour theme, under the key <code>theme</code>.</li>
+      <li>Your analytics choice, under the key <code>consent</code>.</li>
+    </ul>
+    <p>
+      Both live in your browser's local storage. Neither is sent anywhere. Clearing your browser's
+      site data removes both, and the site then goes back to following your system theme and asking
+      about analytics again.
+    </p>
+
+    <h2>Analytics</h2>
+    <p>
+      Analytics cookies are set only if you allow them. Until you choose, no analytics script is
+      loaded and no request leaves your browser. If you allow them, Google Analytics 4 sets its
+      cookies and records which pages you read, along with a coarse location derived from your IP
+      address.
+    </p>
+    <p>
+      The analytics identifier is still an inert placeholder, so no data is being collected at all
+      today.
+    </p>
+
+    <h2>Changing your choice</h2>
+    <p>
+      The button below clears your choice. The banner will then ask you again, and nothing is
+      loaded until you answer.
+    </p>
+    <p>
+      <button id="consent-reset" class="consent-reset" type="button">{dict.consentChange}</button>
+    </p>
+
+    <h2>Other third parties</h2>
+    <p>
+      No other third-party service is used. The typefaces and the video thumbnails are served from
+      this site rather than from their original providers, so reading a page does not tell anyone
+      else which pages you are reading.
+    </p>
+
+    <h2>Questions</h2>
+    <p>TODO: confirm — who is responsible for this site, and how a reader should reach them.</p>
+  </div>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .consent-reset {
+    min-height: 44px;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+  }
+</style>

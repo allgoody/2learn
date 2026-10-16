@@ -1,0 +1,106 @@
+---
+import { TOPICS, topicTitle, type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { switchLocale, topicUrl } from "../lib/urls";
+
+interface Props {
+  locale: Locale;
+  /** The locale-neutral English path of the current page. */
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const dict = getDict(locale);
+
+const other: Locale = locale === "en" ? "ru" : "en";
+const otherUrl = switchLocale(path, locale, other);
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav class="footer-topics" aria-label={dict.footerTopics}>
+      <h2 class="footer-heading">{dict.footerTopics}</h2>
+      <ul>
+        {
+          TOPICS.map((topic) => (
+            <li>
+              <a href={topicUrl(locale, topic)}>{topicTitle(topic)}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <p class="rights">{dict.footerRights}</p>
+
+    <p class="lang-switch">
+      <a href={otherUrl} hreflang={other} aria-label={`${other === "ru" ? "Русский" : "English"} — ${dict.langSwitch}`}>
+        {other === "ru" ? "Русский" : "English"}
+      </a>
+    </p>
+
+    <p class="credit">
+      <a href="https://ctdev.dev/" target="_blank" rel="noopener noreferrer">Made by CTDev</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    background-color: var(--bg-subtle);
+    font-family: var(--font-sans);
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-heading {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .footer-topics ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9375rem;
+  }
+
+  .rights {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .lang-switch {
+    margin: 0;
+  }
+
+  /* The signature stays at --fg-muted with no opacity: opacity 0.6 measured
+     2.26:1 here, far under WCAG AA, while the token alone reaches 7.6:1. */
+  .credit {
+    margin: 0;
+  }
+
+  .credit a {
+    font-size: 0.65rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+
+  .credit a:hover {
+    text-decoration: underline;
+  }
+</style>

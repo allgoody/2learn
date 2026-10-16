@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import { TOPICS, type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { allEntries, allExamples } from "../lib/lessons";
+
+const locale: Locale = "en";
+const dict = getDict(locale);
+const path = "/about/";
+
+// Counted at build time, never typed: a stale number in prose is a lie.
+const entries = await allEntries(locale);
+const examples = await allExamples(locale);
+const entryCount = entries.length;
+const topicCount = TOPICS.length;
+const exampleCount = examples.size;
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.aboutTitle}
+  description={dict.siteTagline}
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.aboutTitle}</h1>
+
+  <h2>{dict.aboutWhatTitle}</h2>
+  <p>
+    The corpus holds {entryCount} entries across {topicCount} topics, from computer-science
+    fundamentals through frontend, design, product, backend and data, cloud and DevOps, security,
+    and the soft skills of working on a team. Every entry is either a <em>skill</em> — something you
+    can do — or an <em>area</em> — a subject to know your way around. Each one lists the entries to
+    read first, and {exampleCount} of them come with worked examples in a sidecar file.
+  </p>
+
+  <h2>{dict.aboutReadTitle}</h2>
+  <p>
+    Within a topic the entries are ordered, but nothing stops you reading a single one on its own.
+    Start with whatever interests you; if it lists prerequisites you do not have yet, follow those
+    links first. When you finish an entry, <em>Go deeper</em> names what to read next. A table of
+    contents sits beside the text on a wide screen and above it on a narrow one.
+  </p>
+
+  <h2>{dict.aboutLanguagesTitle}</h2>
+  <p>
+    Every entry exists in English and in Russian; the language switch at the top of the page moves
+    between the two. The Russian side also carries a glossary of the terminology the lessons use.
+  </p>
+
+  <p class="todo">
+    TODO: confirm — the reuse and licensing terms for the lesson text have not been settled, so this
+    page does not state them.
+  </p>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .todo {
+    padding: 0.75rem;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+</style>

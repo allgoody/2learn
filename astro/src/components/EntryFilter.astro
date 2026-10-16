@@ -1,0 +1,189 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { lessonUrl } from "../lib/urls";
+
+interface Row {
+  id: string;
+  title: string;
+  tier: string;
+  type: string;
+}
+
+interface Group {
+  topic: string;
+  title: string;
+  items: Row[];
+}
+
+interface Props {
+  locale: Locale;
+  groups: Group[];
+}
+
+const { locale, groups } = Astro.props;
+const dict = getDict(locale);
+
+const total = groups.reduce((sum, group) => sum + group.items.length, 0);
+const tiers = [...new Set(groups.flatMap((group) => group.items.map((item) => item.tier)))].sort();
+const types = [...new Set(groups.flatMap((group) => group.items.map((item) => item.type)))].sort();
+---
+
+<form class="entry-filter" id="entry-filter" method="get">
+  <p class="field">
+    <label for="filter-topic">{dict.filterTopic}</label>
+    <select id="filter-topic" name="topic">
+      <option value="">{dict.filterAll}</option>
+      {
+        groups.map((group) => (
+          <option value={group.topic}>
+            {group.title} ({group.items.length})
+          </option>
+        ))
+      }
+    </select>
+  </p>
+  <p class="field">
+    <label for="filter-tier">{dict.filterTier}</label>
+    <select id="filter-tier" name="tier">
+      <option value="">{dict.filterAll}</option>
+      {tiers.map((tier) => <option value={tier}>{tier}</option>)}
+    </select>
+  </p>
+  <p class="field">
+    <label for="filter-type">{dict.filterType}</label>
+    <select id="filter-type" name="type">
+      <option value="">{dict.filterAll}</option>
+      {types.map((type) => <option value={type}>{type}</option>)}
+    </select>
+  </p>
+</form>
+
+<p class="entry-count" id="entry-count" aria-live="polite" data-label={dict.entriesTitle}>
+  {dict.entriesTitle}: {total}
+</p>
+
+<div id="entry-list">
+  {
+    groups.map((group) => (
+      <section class="entry-group" data-group={group.topic}>
+        <h2 class="entry-group-title">
+          {group.title} ({group.items.length})
+        </h2>
+        <ul>
+          {group.items.map((item) => (
+            <li data-topic={group.topic} data-tier={item.tier} data-type={item.type}>
+              {/* The topic disambiguates one-word titles in a link list, and keeps a title
+                  like "Go" out of Lighthouse's non-descriptive-link blocklist. */}
+              <a href={lessonUrl(locale, item.id)}>
+                {item.title}
+                <span class="visually-hidden"> — {group.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<script>
+  const form = document.getElementById("entry-filter");
+  const list = document.getElementById("entry-list");
+  const counter = document.getElementById("entry-count");
+  const rows = list ? [...list.querySelectorAll("li[data-topic]")] : [];
+  const groups = list ? [...list.querySelectorAll("[data-group]")] : [];
+
+  const value = (id: string) =>
+    (document.getElementById(id) as HTMLSelectElement | null)?.value ?? "";
+
+  const apply = () => {
+    const topic = value("filter-topic");
+    const tier = value("filter-tier");
+    const type = value("filter-type");
+    const matches = (row: Element) =>
+      (!topic || row.getAttribute("data-topic") === topic) &&
+      (!tier || row.getAttribute("data-tier") === tier) &&
+      (!type || row.getAttribute("data-type") === type);
+
+    let visible = 0;
+    for (const row of rows) {
+      const show = matches(row);
+      // The `hidden` attribute, not `display: none`: assistive technology is told too.
+      (row as HTMLElement).hidden = !show;
+      if (show) visible += 1;
+    }
+    for (const group of groups) {
+      const any = [...group.querySelectorAll("li[data-topic]")].some(
+        (row) => !(row as HTMLElement).hidden,
+      );
+      (group as HTMLElement).hidden = !any;
+    }
+    if (counter) {
+      counter.textContent = `${counter.dataset.label ?? ""}: ${visible}`;
+    }
+  };
+
+  form?.addEventListener("change", apply);
+  form?.addEventListener("submit", (event) => event.preventDefault());
+  apply();
+</script>
+
+<style>
+  .entry-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin: 1rem 0;
+    font-family: var(--font-sans);
+  }
+
+  @media (max-width: 30rem) {
+    .entry-filter {
+      display: block;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .field label {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .field select {
+    min-height: 44px;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg);
+    color: var(--fg);
+    font: inherit;
+  }
+
+  .entry-count {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+  }
+
+  .entry-group-title {
+    margin: 1.5rem 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .entry-group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry-group li {
+    padding: 0.375rem 0;
+    border-top: 1px solid var(--border);
+  }
+</style>

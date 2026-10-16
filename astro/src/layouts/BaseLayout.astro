@@ -1,0 +1,88 @@
+---
+import { Font } from "astro:assets";
+import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
+import type { Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { alternatesFor } from "../lib/urls";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** The locale-neutral English path of this page, e.g. `/02-frontend/06-javascript/`. */
+  path: string;
+  noAlternates?: boolean;
+}
+
+const { locale, title, description, path, noAlternates = false } = Astro.props;
+
+const dict = getDict(locale);
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(Astro.url.pathname, site).href;
+const alternates = alternatesFor(path).map((alternate) => ({
+  ...alternate,
+  href: new URL(alternate.href, site).href,
+}));
+const pageTitle = title === dict.siteName ? title : `${title} — ${dict.siteName}`;
+---
+
+<!doctype html>
+<html lang={locale} data-pagefind-filter={`lang:${locale}`}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {
+      !noAlternates &&
+        alternates.map((alternate) => (
+          <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href} />
+        ))
+    }
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131316" media="(prefers-color-scheme: dark)" />
+    <Font cssVariable="--font-literata" />
+    <Font cssVariable="--font-golos" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const dark = stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{dict.skipToContent}</a>
+    <slot name="header" />
+    <main id="main" tabindex="-1" data-pagefind-body><slot /></main>
+    <slot name="footer" />
+    <ConsentBanner locale={locale} />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg);
+    color: var(--fg);
+    border: 2px solid var(--focus);
+  }
+
+  .skip:focus {
+    left: 0;
+  }
+
+  main {
+    padding: 1rem;
+  }
+</style>

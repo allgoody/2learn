@@ -1,0 +1,164 @@
+---
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+import { privacyUrl } from "../lib/urls";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDict(locale);
+---
+
+{
+  /*
+    Rendered visible on the server so it works with JavaScript off; the script
+    below hides it once a choice is stored. `data-consent` is the test hook.
+  */
+}
+
+<div class="consent" data-consent role="region" aria-label={dict.consentTitle}>
+  <p class="consent-text">{dict.consentBody}</p>
+  <div class="consent-actions">
+    <button id="consent-accept" class="consent-btn consent-accept" type="button">
+      {dict.consentAccept}
+    </button>
+    <button id="consent-decline" class="consent-btn" type="button">{dict.consentDecline}</button>
+    <a class="consent-link" href={privacyUrl(locale)}>{dict.consentPrivacy}</a>
+  </div>
+</div>
+
+<script>
+  import { GA_MEASUREMENT_ID } from "../lib/analytics";
+
+  declare global {
+    interface Window {
+      dataLayer?: unknown[][];
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+
+  const STORAGE_KEY = "consent";
+  const banner = document.querySelector("[data-consent]");
+
+  const loadAnalytics = () => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
+    document.head.append(script);
+
+    // The canonical `gtag()` function form is mandatory. gtag.js silently
+    // ignores array-form dataLayer commands: no error, no hit. Partytown is not
+    // used either — inside its worker the automatic page view never arrives.
+    window.dataLayer = window.dataLayer || [];
+    const dataLayer = window.dataLayer;
+    const gtag = (...args: unknown[]) => dataLayer.push(args);
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", GA_MEASUREMENT_ID);
+  };
+
+  const read = () => {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  };
+
+  const write = (value: string) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, value);
+    } catch {
+      // Storage unavailable: the banner simply asks again next time.
+    }
+  };
+
+  const hide = () => {
+    if (banner instanceof HTMLElement) banner.hidden = true;
+  };
+
+  const stored = read();
+  if (stored === "granted") {
+    hide();
+    loadAnalytics();
+  } else if (stored === "denied") {
+    hide();
+  }
+
+  document.getElementById("consent-accept")?.addEventListener("click", () => {
+    write("granted");
+    loadAnalytics();
+    hide();
+  });
+
+  document.getElementById("consent-decline")?.addEventListener("click", () => {
+    write("denied");
+    hide();
+  });
+
+  // Escape dismisses the banner, and a dismissal counts as a refusal.
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && banner instanceof HTMLElement && !banner.hidden) {
+      write("denied");
+      hide();
+    }
+  });
+
+  // The privacy page offers a way back to an undecided state.
+  document.getElementById("consent-reset")?.addEventListener("click", () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Nothing to clear.
+    }
+    location.reload();
+  });
+</script>
+
+<style>
+  .consent {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border);
+    background-color: var(--bg-subtle);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .consent-text {
+    margin: 0;
+    flex: 1 1 20rem;
+  }
+
+  .consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Both choices carry the same weight: same size, same border, same contrast. */
+  .consent-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .consent-link {
+    color: var(--accent);
+  }
+</style>

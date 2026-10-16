@@ -1,0 +1,238 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryList from "../../components/EntryList.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import LessonNav from "../../components/LessonNav.astro";
+import Prose from "../../components/Prose.astro";
+import ScrollToTop from "../../components/ScrollToTop.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import VideoList from "../../components/VideoList.astro";
+import { TOPICS, shape, topicTitle, type Locale } from "../../lib/corpus";
+import { getDict } from "../../lib/dictionary";
+import { prevNextInEntry, prevNextInTopic, prereqsOf, relatedOf } from "../../lib/graph";
+import {
+  allExamples,
+  allLessons,
+  classify,
+  describe,
+  entryById,
+  examplesFor,
+  renderLesson,
+  topicEntries,
+  type Kind,
+} from "../../lib/lessons";
+import { examplesUrl, topicUrl } from "../../lib/urls";
+
+interface PageProps {
+  locale: Locale;
+  id: string;
+  kind: Kind;
+  title: string;
+  /** The locale-neutral English path, for hreflang. */
+  path: string;
+}
+
+/**
+ * One route for the whole corpus: 8 topic pages, 177 entries, 224 child lessons
+ * and 297 examples files, per locale.
+ */
+export async function getStaticPaths() {
+  const locale: Locale = "ru";
+  const dict = getDict(locale);
+  const [lessons, examples] = await Promise.all([allLessons(locale), allExamples(locale)]);
+
+  const titles = new Map(lessons.map((entry) => [entry.id, entry.data.title ?? entry.id]));
+  const pages: { params: { path: string }; props: PageProps }[] = [];
+
+  for (const topic of TOPICS) {
+    pages.push({
+      params: { path: topic },
+      props: { locale, id: topic, kind: "topic", title: topicTitle(topic), path: `/${topic}/` },
+    });
+  }
+
+  for (const entry of lessons) {
+    pages.push({
+      params: { path: entry.id },
+      props: {
+        locale,
+        id: entry.id,
+        kind: "lesson",
+        title: entry.data.title ?? entry.id,
+        path: `/${entry.id}/`,
+      },
+    });
+  }
+
+  for (const entry of examples.values()) {
+    // The parent is the lesson the examples belong to: the entry itself for
+    // `…/examples`, or the child lesson for `…/examples.NN-slug`.
+    const parent = classify(locale, entry.id).lessonId;
+    pages.push({
+      params: { path: entry.id },
+      props: {
+        locale,
+        id: entry.id,
+        kind: "examples",
+        title: `${titles.get(parent) ?? parent} — ${dict.examplesTitle}`,
+        path: `/${entry.id}/`,
+      },
+    });
+  }
+
+  return pages;
+}
+
+const { locale, id, kind, title, path } = Astro.props as PageProps;
+const dict = getDict(locale);
+
+const topic = id.split("/")[0];
+const entryId = id.split("/").slice(0, 2).join("/");
+const isExamples = kind === "examples";
+const isTopic = kind === "topic";
+const isEntryPage = kind === "lesson" && id.split("/").length === 2;
+
+const description = await describe(locale, id);
+const record = isTopic ? undefined : await entryById(locale, id);
+const rendered = record ? await renderLesson(record) : undefined;
+const Content = rendered?.Content;
+const headings = rendered?.headings ?? [];
+const aliases = record?.data.aliases ?? [];
+
+const hasToc = kind === "lesson" && headings.length > 0;
+
+// Prerequisites are already linked inside `Go deeper` on every shape except a
+// landing, which is the only one whose content carries a `## Prerequisites`
+// section. Rendering them twice is the bug this avoids.
+const showPrereqs = kind === "lesson" && shape(record?.data, id) === "landing";
+
+const titled = async (ids: string[]) =>
+  Promise.all(
+    ids.map(async (target) => {
+      const entry = await entryById(locale, target);
+      return { id: target, title: entry?.data.title ?? target };
+    }),
+  );
+
+const prereqIds = showPrereqs ? prereqsOf(entryId) : [];
+const relatedIds = isEntryPage ? relatedOf(entryId) : [];
+const navPair: { prev: string | undefined; next: string | undefined } =
+  isTopic || isExamples
+    ? { prev: undefined, next: undefined }
+    : isEntryPage
+      ? prevNextInTopic(entryId)
+      : prevNextInEntry(id);
+
+const prereqs = await titled(prereqIds);
+const related = await titled(relatedIds);
+const prev = navPair.prev ? (await titled([navPair.prev]))[0] : undefined;
+const next = navPair.next ? (await titled([navPair.next]))[0] : undefined;
+
+const topicItems = isTopic
+  ? await Promise.all(
+      (await topicEntries(locale, id)).map(async (entry) => ({
+        id: entry.id,
+        title: entry.data.title ?? entry.id,
+        tier: entry.data.tier ?? "",
+        blurb: await describe(locale, entry.id),
+      })),
+    )
+  : [];
+
+const examplesEntry = kind === "lesson" ? await examplesFor(locale, id) : undefined;
+---
+
+<BaseLayout locale={locale} title={title} description={description} path={path}>
+  <Header slot="header" locale={locale} path={path} />
+
+  {
+    !isTopic && (
+      <nav class="breadcrumb" aria-label={dict.navTopics}>
+        <a href={topicUrl(locale, topic)}>{topicTitle(topic)}</a>
+      </nav>
+    )
+  }
+
+  <h1>{title}</h1>
+
+  {aliases.length > 0 && <p class="aliases">{aliases.join(", ")}</p>}
+
+  {isTopic && <EntryList locale={locale} items={topicItems} />}
+
+  {
+    !isTopic && Content && (
+      <div class:list={["lesson-layout", { "has-toc": hasToc }]}>
+        {hasToc && <TableOfContents headings={headings} locale={locale} />}
+        <Prose locale={locale}>
+          <Content />
+        </Prose>
+      </div>
+    )
+  }
+
+  {/* Videos sit after the body, so a reader who wants to read is not interrupted. */}
+  {kind === "lesson" && <VideoList entryId={id} locale={locale} />}
+
+  {
+    !isTopic && (
+      <LessonNav
+        locale={locale}
+        entryId={entryId}
+        prev={prev}
+        next={next}
+        prereqs={prereqs}
+        related={related}
+      />
+    )
+  }
+
+  {
+    examplesEntry && (
+      <p class="examples-link">
+        <a href={examplesUrl(locale, examplesEntry.id)}>{dict.examplesLink}</a>
+      </p>
+    )
+  }
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .aliases {
+    color: var(--fg-muted);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+  }
+
+  .lesson-layout {
+    display: grid;
+    /* minmax(0, 1fr) rather than an implicit column: a grid item's automatic
+       minimum size would otherwise let one long code line widen the page. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    .lesson-layout.has-toc {
+      grid-template-columns: 16rem minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .lesson-layout.has-toc :global([data-toc]) {
+      position: sticky;
+      top: 1rem;
+    }
+  }
+
+  .examples-link {
+    margin-top: 1.5rem;
+  }
+</style>

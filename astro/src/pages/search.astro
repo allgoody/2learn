@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import { type Locale } from "../lib/corpus";
+import { getDict } from "../lib/dictionary";
+
+const locale: Locale = "en";
+const dict = getDict(locale);
+const path = "/search/";
+---
+
+<BaseLayout
+  locale={locale}
+  title={dict.searchTitle}
+  description={dict.searchPlaceholder}
+  path={path}
+>
+  <Header slot="header" locale={locale} path={path} />
+
+  <h1>{dict.searchTitle}</h1>
+
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <div id="search" data-pagefind-ignore data-placeholder={dict.searchPlaceholder}></div>
+  <p id="search-unavailable" hidden>{dict.searchBuiltOnly}</p>
+
+  <script is:inline src="/pagefind/pagefind-ui.js" defer></script>
+  <script>
+    // PagefindUI is a global from the deferred script above; loading it with a plain
+    // <script src> avoids Vite rewriting an import of /pagefind/ into its preload helper.
+    const getUI = () =>
+      (
+        window as unknown as {
+          PagefindUI?: new (options: Record<string, unknown>) => unknown;
+        }
+      ).PagefindUI;
+
+    const start = () => {
+      const mount = document.getElementById("search");
+      const unavailable = document.getElementById("search-unavailable");
+      if (!mount) return;
+
+      const UI = getUI();
+      if (!UI) {
+        // The index only exists after a build, so this is the normal state in `npm run dev`.
+        mount.hidden = true;
+        if (unavailable) unavailable.hidden = false;
+        return;
+      }
+
+      const label = mount.dataset.placeholder ?? "";
+      const lang = document.documentElement.lang || "en";
+      new UI({
+        element: "#search",
+        showSubResults: true,
+        showImages: false,
+        pagefind_options: { filters: { lang } },
+        translations: { placeholder: label, search_label: label },
+      });
+      // Pagefind's UI ships a placeholder and a title but no accessible name, and the
+      // only <label> in it belongs to the language filter, so name the input here.
+      mount.querySelector("input")?.setAttribute("aria-label", label);
+    };
+
+    if (getUI()) start();
+    else window.addEventListener("load", start);
+  </script>
+
+  <Footer slot="footer" locale={locale} path={path} />
+  <ScrollToTop locale={locale} />
+</BaseLayout>
