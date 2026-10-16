@@ -20,14 +20,16 @@ components, one router that enumerates every corpus URL in both locales, the hom
 
 ## Shared Context
 
-**How the corpus's links work.** Four of the corpus's sections carry references to other entries:
+**How the corpus's links work.** Four of the corpus's sections carry references to other entries,
+and **all four write the id in backticks**. Measured across both roots: 177 of 177 entry files use
+the backticked form, 0 use a bare `(<id>)`.
 
-| Section | Bullet shape | Id in backticks? |
-| --- | --- | --- |
-| `Go deeper` / `Что читать дальше` | `- **<Title>** (\`<id>\`) — <why>` | yes |
-| `In this track` / `Что в этом треке` | `1. **<Title>** (\`<id>\`) — <line>` | yes |
-| `Included skills` / `Входящие навыки` | `- **<Title>** (<id>) — <line>` | **no** |
-| `Prerequisites` / `Предварительные требования` | `- **<Title>** (<id>)` | **no** |
+| Section | Bullet shape |
+| --- | --- |
+| `Go deeper` / `Что читать дальше` | `- **<Title>** (\`<id>\`) — <why>` |
+| `In this track` / `Что в этом треке` | `1. **<Title>** (\`<id>\`) — <line>` |
+| `Included skills` / `Входящие навыки` | `- **<Title>** (\`<id>\`) — <line>` |
+| `Prerequisites` / `Предварительные требования` | `- **<Title>** (\`<id>\`)` |
 
 Navigation on this site depends entirely on turning those ids into anchors. That is WP-10's job and
 it is the highest-value code in the plan. `tools/validate-content.mjs` V12 already guarantees every
@@ -59,10 +61,11 @@ page in directory order. Both come from `graph.ts`; do not recompute them in a c
 ### WP-10: The markdown transform — ids into links, `Done when:` into a callout
 
 **Context:**
-Rendered markdown arrives as a hast tree. Inside a list item, an id appears either as
-`<code>02-frontend/05-css</code>` (the backticked form) or as plain text inside parentheses,
-`(02-frontend/05-css)` (the unbackticked form). The paragraph that ends a `## Practice` exercise
-begins with the literal `Done when:` — or `Готово, когда:` in the Russian tree.
+Rendered markdown arrives as a hast tree. Inside a list item, an id always appears as
+`<code>02-frontend/05-css</code>` — the backticked form, measured in 177 of 177 entry files in both
+roots. No file writes a bare `(02-frontend/05-css)`, so that case is not handled. The paragraph that
+ends a `## Practice` exercise begins with the literal `Done when:` — or `Готово, когда:` in the
+Russian tree.
 
 The valid-id set is built exactly the way `tools/validate-content.mjs` builds it for its V12 check:
 every `id` from `tools/inventory.json`, plus every `NN-<slug>.md` filename under each
@@ -82,14 +85,12 @@ Create `astro/src/lib/rehype-content.mjs` — a zero-dependency rehype plugin �
   the plugin file (`import.meta.url`), *not* the current working directory
 - DO: accept a `{ root }` option defaulting to the repository root, so the plugin can be exercised
   from a script
-- DO: write three rules over the same tree walk:
+- DO: write two rules over the same tree walk:
   1. A `<code>` element whose parent is an `<li>` and whose text is a valid id → replace it with an
      `<a>` carrying the same text and `href` equal to `"/" + id + "/"` (prefixed with `/ru` in the
-     Russian tree)
-  2. Inside an `<li>` whose first element child is a `<strong>`, a text node containing
-     `(<valid-id>)` → replace only the parenthesised id with an `<a>`, keeping the parentheses as
-     text
-  3. A `<p>` whose first text node begins with `Done when:` or `Готово, когда:` → add
+     Russian tree). This is the only form the corpus uses — all 177 entry files in each root write
+     the id in backticks, and none writes a bare `(<id>)`, so there is no second rule to write
+  2. A `<p>` whose first text node begins with `Done when:` or `Готово, когда:` → add
      `class="done-when"` to the paragraph
 - DO: determine the locale prefix from the VFile path — `/ru` when `file.path` contains
   `/lessons/ru/`, otherwise `""`
@@ -109,7 +110,7 @@ Create `astro/src/lib/rehype-content.mjs` — a zero-dependency rehype plugin �
 - [ ] File exists: `test -f astro/src/lib/rehype-content.mjs` → exit 0
 - [ ] No new dependencies: `grep -c 'unist-util-visit\|hastscript' astro/src/lib/rehype-content.mjs` → 0
 - [ ] Wired into markdown: `grep -c 'rehypePlugins' astro/astro.config.mjs` → 1
-- [ ] Three rules present: `grep -c 'done-when' astro/src/lib/rehype-content.mjs` → at least 1 and
+- [ ] Both rules present: `grep -c 'done-when' astro/src/lib/rehype-content.mjs` → at least 1 and
       `grep -c 'Готово, когда' astro/src/lib/rehype-content.mjs` → at least 1
 - [ ] Build green: `cd astro && npm run build` → exit 0
 - [ ] **Ids became links in the English tree.** `02-frontend/03-html/index.md` has a `Go deeper`
@@ -118,12 +119,13 @@ Create `astro/src/lib/rehype-content.mjs` — a zero-dependency rehype plugin �
 - [ ] **Ids became links in the Russian tree, with the prefix.** The same entry mirrored at
       `lessons/ru/02-frontend/03-html/index.md`:
       `grep -o 'href="/ru/02-frontend/05-css/"' astro/dist/ru/02-frontend/03-html/index.html | head -1` → 1 match
-- [ ] **The unbackticked form works.** `02-frontend/06-javascript/index.md` lists a prerequisite with
-      no backticks: `grep -o 'href="/02-frontend/03-html/"' astro/dist/02-frontend/06-javascript/index.html | head -1` → 1 match
+- [ ] **The `## Prerequisites` bullet links.** `02-frontend/06-javascript/index.md` lists
+      `02-frontend/03-html` in backticks inside its `## Prerequisites` section:
+      `grep -o 'href="/02-frontend/03-html/"' astro/dist/02-frontend/06-javascript/index.html | head -1` → 1 match
 - [ ] **Child ids link.** `02-frontend/06-javascript/index.md`'s `In this track` names children:
       `grep -o 'href="/02-frontend/06-javascript/01-syntax-and-semantics/"' astro/dist/02-frontend/06-javascript/index.html | head -1` → 1 match
 - [ ] **`Done when:` is marked.** `02-frontend/03-html/index.md` has two of them:
-      `grep -c 'class="done-when"' astro/dist/02-frontend/03-html/index.html` → 2
+      `grep -o 'class="done-when"' astro/dist/02-frontend/03-html/index.html | wc -l` → 2
 - [ ] **Fences are untouched.** `02-frontend/03-html/index.md` contains a fence with `<article>`:
       `grep -c '&lt;article&gt;' astro/dist/02-frontend/03-html/index.html` → at least 1, and
       `grep -c 'href="/02-frontend/03-html/' astro/dist/02-frontend/03-html/index.html` → 0 (no
@@ -155,12 +157,22 @@ Create `astro/src/lib/lessons.ts` exposing the reader's lookups.
 - DO: export `allEntries(locale)` returning every index entry, keyed by corpus id, sorted by id
 - DO: export `allLessons(locale)` returning every entry whose id is not an examples file
 - DO: export `allExamples(locale)` returning every examples file keyed by the **lesson id it belongs
-  to** — i.e. strip a trailing `/examples` from the id
+  to** — strip a trailing `/examples` **or** `/examples.NN-<slug>`. Child examples are named
+  `examples.NN-<slug>` beside `NN-<slug>.md`, not `NN-<slug>/examples`, so a `$`-anchored `/examples`
+  test silently misses 224 of the 297 files per root
 - DO: export `entryById(locale, id)`, `childrenOf(locale, entryId)`, `topicEntries(locale, topic)`
 - DO: export `examplesFor(locale, lessonId)` returning the examples entry or `undefined`
 - DO: export `classify(locale, id)` returning `{ kind: Kind; lessonId: string }` — `"examples"` when
-  the id ends in `/examples`, `"topic"` when the id has one segment, otherwise `"lesson"`. For a
-  topic id the `lessonId` equals the id itself
+  the id's **last segment** starts with `examples` (so both `<entry>/examples` and
+  `<entry>/examples.NN-<slug>` match), `"topic"` when the id has one segment, otherwise `"lesson"`.
+  For a topic id the `lessonId` equals the id itself; for an examples id it is the parent **lesson**
+  id, which for a child's examples is that child lesson
+- DO: export `describe(locale, id)` returning a plain-text page description, and make it the **only**
+  place a description is derived: for a topic id, `topicBlurb(topic)`; for an examples id,
+  `describe(locale, parentLessonId)`; for a lesson, the first paragraph of the entry body after its
+  first `## ` heading, with inline code and emphasis markers stripped, cut at the first sentence end
+  (`. `, `! `, `? `) and truncated to 155 characters at a word boundary. WP-13 and WP-19 both call it
+  rather than each building their own
 - DO: export `renderLesson(entry)` as a thin wrapper over `render(entry)` from `astro:content`,
   returning `{ Content, headings }`
 - DO: keep every export either pure or collection-backed. No component, no markup, no CSS in this file
@@ -174,7 +186,10 @@ Create `astro/src/lib/lessons.ts` exposing the reader's lookups.
 - [ ] File exists: `test -f astro/src/lib/lessons.ts` → exit 0
 - [ ] Only one module imports the content API: `grep -rl "astro:content" astro/src | sort` → lists
       `astro/src/content.config.ts` and `astro/src/lib/lessons.ts` only
-- [ ] `classify` handles all three kinds: `grep -cE 'export (function|const) classify' astro/src/lib/lessons.ts` → 1
+- [ ] `classify` and `describe` exist once each:
+      `grep -cE 'export (function|const) classify' astro/src/lib/lessons.ts` → 1 and
+      `grep -cE 'export (function|const) describe' astro/src/lib/lessons.ts` → 1
+- [ ] Examples detection covers both naming shapes: `grep -c 'examples\.' astro/src/lib/lessons.ts` → at least 1
 - [ ] Type check: `cd astro && npm run check` → exit 0
 - [ ] Build green: `cd astro && npm run build` → exit 0
 
@@ -214,7 +229,9 @@ Create the four components.
 - DO: make `TableOfContents` accept `{ headings, locale }`, filter to `depth >= 2 && depth <= 3`, and
   link each item to `#${heading.slug}`. If no heading qualifies it renders nothing at all — not an
   empty list, not an empty `<nav>`
-- DO: give `TableOfContents` an accessible name from `dict.tocTitle` and a real `<nav>` element
+- DO: give `TableOfContents` an accessible name from `dict.tocTitle` and a real `<nav>` element, and
+  put `data-toc` on that `<nav>`. The attribute carries no styling and is not read by assistive
+  technology; WP-13's verification uses it to tell whether a table of contents rendered at all
 - DO: make `LessonNav` accept `{ locale, entryId, prev, next, prereqs, related }` where each list is
   an array of `{ id, title }`, and render each list only when non-empty. Prev/next is a pair of links
   labelled `dict.prevLabel` and `dict.nextLabel`; render a disabled-looking `<span>` when an end is
@@ -248,8 +265,8 @@ Create the four components.
 
 **Context:**
 One `getStaticPaths()` per locale enumerates **every** corpus URL: the 8 topic pages, the 177 entry
-pages, the 224 child lesson pages, and the 297 examples pages. That is **506 pages per locale, 1012
-in total** — plus the 8 topic pages per locale, so 514 and 1028.
+pages, the 224 child lesson pages, and the 297 examples pages. That is **706 pages per locale, 1412
+in total** — 177 + 224 + 297 = 698 corpus pages, plus the 8 topic pages per locale.
 
 The three body shapes render through one code path because they differ only in which `##` headings
 the content contains, and the content is already rendered. What differs is the surrounding chrome:
@@ -276,8 +293,9 @@ its locale's corpus and rendering a topic page, a lesson page or an examples pag
 - DO: cover all four kinds — topic ids (one segment), entry ids (two), child ids (three), and
   examples ids
 - DO: for an examples page, derive the title from the parent lesson's title plus `dict.examplesTitle`,
-  and pass `noAlternates` only if the parent lesson has no counterpart — which never happens, so
-  always pass the real `path`
+  using `entryIdOf(id)` for the parent — for `…/examples.01-syntax-and-semantics` that is the child
+  lesson `…/01-syntax-and-semantics`, whose frontmatter carries the title. Pass `noAlternates` only
+  if the parent lesson has no counterpart — which never happens, so always pass the real `path`
 - DO: render, in order: `<BaseLayout>` with the page's title and description, a breadcrumb back to the
   topic, the lesson heading as an `<h1>`, the alias line when `frontmatter.aliases` is non-empty, then
   for a lesson page a `<TableOfContents>` beside the `<Prose>` content, then `<LessonNav>`, then a
@@ -287,8 +305,9 @@ its locale's corpus and rendering a topic page, a lesson page or an examples pag
 - DO: render `<LessonNav>`'s prerequisite list only for landing-shaped entries, whose content carries
   a `## Prerequisites` section. For every other shape pass an empty prerequisite list, because WP-10
   already linked the prereqs inside `Go deeper`
-- DO: build the description from the entry's `## What it is` first sentence, truncated to 155
-  characters at a word boundary. Do not invent copy
+- DO: take the page description from `describe(locale, id)` in `lessons.ts` (WP-11) — the topic blurbs,
+  the examples passthrough and the 155-character first-sentence rule all live there. Do not build a
+  second description in the route and do not invent copy
 - DO: put the table of contents **after** the `<h1>` in DOM order, so a keyboard user reaches it before
   the body text
 - DO NOT: read the three RU heading strings from the dictionary. Use them only when checking, in
@@ -313,6 +332,9 @@ its locale's corpus and rendering a topic page, a lesson page or an examples pag
 - [ ] Spot-check a child lesson: `test -f astro/dist/02-frontend/06-javascript/01-syntax-and-semantics/index.html` → exit 0
 - [ ] Spot-check an entry's examples: `test -f astro/dist/02-frontend/03-html/examples/index.html` → exit 0
 - [ ] Spot-check a child's examples: `test -f astro/dist/02-frontend/06-javascript/examples.01-syntax-and-semantics/index.html` → exit 0
+- [ ] A lesson page renders a table of contents: `grep -c 'data-toc' astro/dist/02-frontend/03-html/index.html` → 1
+- [ ] A child's examples page does not, which proves those ids classified as examples rather than as
+      lessons: `grep -c 'data-toc' astro/dist/02-frontend/06-javascript/examples.01-syntax-and-semantics/index.html` → 0
 - [ ] Spot-check a topic page: `test -f astro/dist/01-cs-fundamentals/index.html` → exit 0
 - [ ] Spot-check the Russian mirror: `test -f astro/dist/ru/02-frontend/03-html/index.html` → exit 0
 - [ ] No duplicated prerequisite list on a small skill, because WP-10 already linked them inside
@@ -360,8 +382,12 @@ listing the 8 topics.
 **Success:**
 - [ ] Both files exist: `test -f astro/src/pages/index.astro && test -f astro/src/pages/ru/index.astro` → exit 0
 - [ ] Placeholder is gone: `grep -c 'placeholder' astro/src/pages/index.astro` → 0
-- [ ] All 8 topics present in the output: `grep -c 'href="/0[1-8]-' astro/dist/index.html` → 8
-- [ ] Russian home links into the Russian tree: `grep -c 'href="/ru/0[1-8]-' astro/dist/ru/index.html` → 8
+- [ ] All 8 topics present in the output:
+      `grep -o 'href="/0[1-8]-[a-z0-9-]*/"' astro/dist/index.html | sort -u | wc -l` → 8. A raw count is
+      not usable here: the header nav and the footer also link all 8 topics, so the page contains 24+
+      such hrefs and `grep -c` would report a line count, not a topic count
+- [ ] Russian home links into the Russian tree:
+      `grep -o 'href="/ru/0[1-8]-[a-z0-9-]*/"' astro/dist/ru/index.html | sort -u | wc -l` → 8
 - [ ] Titles are not hardcoded: `grep -c 'CS Fundamentals\|Frontend\|Design' astro/src/pages/index.astro` → 0
 - [ ] hreflang pairs the homes: `grep -c 'hreflang="ru" href="https://[^"]*/ru/"' astro/dist/index.html` → 1
 - [ ] Build green: `cd astro && npm run build` → exit 0
@@ -407,7 +433,8 @@ Create the 404 page and a `robots.txt` endpoint, and confirm the sitemap's outpu
 - [ ] Sitemap exists: `ls astro/dist/sitemap-index.xml astro/dist/sitemap-0.xml` → both listed
 - [ ] Sitemap pairs locales: `grep -c 'hreflang="ru"' astro/dist/sitemap-0.xml` → at least 500
 - [ ] Sitemap excludes 404: `grep -c '/404' astro/dist/sitemap-0.xml` → 0
-- [ ] Sitemap covers the corpus: `grep -c '<loc>' astro/dist/sitemap-0.xml` → at least 1030
+- [ ] Sitemap covers the corpus: `grep -o '<loc>' astro/dist/sitemap-0.xml | wc -l` → at least 1410
+      (708 English + 708 Russian pages at the end of this phase)
 - [ ] Manual: visit a URL that does not exist and confirm the 404 page renders inside the site shell,
       not as a bare Astro error page
 

@@ -60,14 +60,15 @@ dependencies with the versions pinned in `_index.md`.
 **Files:**
 - `astro/package.json` — CREATE — name `2learn-site`, `private`, `type: module`, `engines.node`
   `>=22`, the five scripts below, and the exact dependency pins from `_index.md`
-- `astro/astro.config.mjs` — CREATE — `site`, `trailingSlash: "always"`, the Tailwind Vite plugin,
-  the `@astrojs/sitemap` integration with `i18n`, and `markdown.shikiConfig`
+- `astro/astro.config.mjs` — CREATE — `site`, `compressHTML: false`, `trailingSlash: "always"`,
+  the Tailwind Vite plugin, the `@astrojs/sitemap` integration with `i18n`, and
+  `markdown.shikiConfig`
 - `astro/tsconfig.json` — CREATE — extends `astro/tsconfigs/strict`, includes `.astro/types.d.ts`
   and `**/*`, excludes `dist`
 - `astro/src/pages/index.astro` — CREATE — a deliberate placeholder: a single `<h1>2learn</h1>` and
-  nothing else. WP-15 replaces it with the real home page. It exists so that every phase in this
+  nothing else. WP-14 replaces it with the real home page. It exists so that every phase in this
   plan ends with a green build.
-- `.gitignore` — MODIFY — append `astro/dist/`, `astro/.astro/`, `astro/.wrangler/`
+- `.gitignore` — MODIFY — append `astro/dist/`, `astro/.astro/`, `astro/.wrangler/`, `.lighthouseci/`
 
 **Constraints:**
 - DO: pin exactly these versions in `dependencies`: `astro@7.4.0`, `@astrojs/sitemap@3.7.4`,
@@ -82,6 +83,10 @@ dependencies with the versions pinned in `_index.md`.
   never reachable with a trailing slash
 - DO: set `site` to the placeholder `https://2learn.example.com` and add the comment
   `// TODO: replace with the real domain before deploy (WP-24)` immediately above it
+- DO: set `compressHTML: false`. Astro 7's default (`'jsx'`) removes whitespace and line breaks
+  around elements and collapses component markup onto a single line, which quietly invalidates the
+  line-based `grep` verification every later WP relies on. `false` preserves whitespace and costs a
+  few kilobytes of HTML
 - DO: configure sitemap as
   `sitemap({ i18n: { defaultLocale: "en", locales: { en: "en", ru: "ru" } }, filter: (page) => !page.endsWith("/404/") })`
 - DO: configure markdown as
@@ -98,6 +103,7 @@ dependencies with the versions pinned in `_index.md`.
 - [ ] No root package: `test ! -f package.json` → exit 0
 - [ ] Pins are exact: `grep -c '"astro": "7.4.0"' astro/package.json` → 1
 - [ ] Five scripts exist: `node -e "const p=require('./astro/package.json');['dev','build','preview','check','deploy'].forEach(k=>{if(!p.scripts[k])throw new Error(k)});console.log('ok')"` → `ok`
+- [ ] Pin the compression mode: `grep -c 'compressHTML: false' astro/astro.config.mjs` → 1
 - [ ] Dependencies install: `cd astro && npm install` → exit 0
 - [ ] Type check: `cd astro && npm run check` → exit 0
 - [ ] Build: `cd astro && npm run build` → exit 0
@@ -153,7 +159,9 @@ with their `light-dark()` pairs, the `color-scheme` overrides, base element styl
 - DO: use exactly these colour tokens, all in `light-dark(light, dark)` form:
   `--bg: #ffffff | #131316`, `--bg-subtle: #f7f7f5 | #1b1b1f`, `--fg: #1b1b19 | #e9e7e4`,
   `--fg-muted: #57534e | #a9a5a0`, `--border: #e0dedb | #2e2e33`,
-  `--accent: #1c4ed8 | #93b4fd`, `--accent-fg: #ffffff | #131316`
+  `--accent: #1c4ed8 | #93b4fd`, `--accent-fg: #ffffff | #131316`,
+  `--focus: #1c4ed8 | #93b4fd` (the accent pair, reused as the focus-ring colour — Phase 2's
+  prerequisites and WP-6/WP-8 reference `var(--focus)`, so it must exist here)
 - DO: verify every foreground/background pair these tokens create. Body and muted text must be at
   least **4.5:1** in both themes; borders, focus rings and large text at least **3:1**. Do not
   reach for opacity to soften anything — reduced opacity is how contrast fails
@@ -186,8 +194,8 @@ with their `light-dark()` pairs, the `color-scheme` overrides, base element styl
 - [ ] File exists: `test -f astro/src/styles/global.css` → exit 0
 - [ ] Tailwind imported and fonts mapped: `grep -c '@import "tailwindcss"' astro/src/styles/global.css` → 1
       and `grep -c '@theme inline' astro/src/styles/global.css` → 1
-- [ ] Theming is single-source: `grep -c 'light-dark(' astro/src/styles/global.css` → at least 7
-      (one per colour token), and `grep -cE '^\s*--(bg|fg|border|accent)[a-z-]*:' astro/src/styles/global.css`
+- [ ] Theming is single-source: `grep -c 'light-dark(' astro/src/styles/global.css` → at least 8
+      (one per colour token), and `grep -cE '^\s*--(bg|fg|border|accent|focus)[a-z-]*:' astro/src/styles/global.css`
       counts each token exactly once
 - [ ] `grep -c 'color-scheme' astro/src/styles/global.css` → 3
 - [ ] Measure is ch-based: `grep -c '65ch' astro/src/styles/global.css` → 1
@@ -197,7 +205,9 @@ with their `light-dark()` pairs, the `color-scheme` overrides, base element styl
 - [ ] Reduced motion honoured: `grep -c 'prefers-reduced-motion' astro/src/styles/global.css` → 1
 - [ ] No fixed heights on text: `grep -nE '\.prose[^{]*\{[^}]*height:' astro/src/styles/global.css` → prints nothing
 - [ ] Build is green: `cd astro && npm run build` → exit 0
-- [ ] Utilities emitted: `grep -rlc 'tailwindcss' astro/dist/_astro/*.css` → at least 1 file
+- [ ] Utilities emitted: `ls astro/dist/_astro/*.css | wc -l` → at least 1. Do not grep the built CSS
+      for the string `tailwindcss` — its banner comment is not a reliable marker after minification,
+      and Tailwind v4 emits no other self-identifying text
 - [ ] Manual: paste each `light-dark(a, b)` pair into a contrast checker. Every body/muted pair ≥ 4.5:1,
       every border/focus pair ≥ 3:1, in **both** themes. Record the ratios in the commit message or a
       `.tmp/` note.
@@ -273,7 +283,9 @@ and, importantly, **no topic display title** — so the eight topic names are si
 listed below. 119 entries have a non-empty `prereqs`. `type` is `skill` (170) or `area` (7);
 `tier` is `small` (80), `medium` (82), `large` (15).
 
-`related` exists only in frontmatter, and is non-empty in exactly three files. Real navigation comes
+`related` exists only in frontmatter, and is non-empty in exactly three entries per root
+(`02-frontend/16-motion-design`, `03-design-ux/06-google-analytics-4-ga4`,
+`03-design-ux/25-hotjar`). Real navigation comes
 from `prereqs` (frontmatter), the children (filenames), and the `Go deeper` / `Included skills` /
 `In this track` bullets inside the prose (handled by WP-10).
 
@@ -315,10 +327,12 @@ temporary page that prints the census, then delete that page.
 - DO: use exactly this `generateId`, so ids match the corpus:
   `({ entry }) => entry.replace(/\.md$/, "").replace(/\/index$/, "")`. Without it Astro produces
   `…/index` and every id in the corpus stops resolving
-- DO: keep the schema permissive — `title` required; `type`, `topic`, `tier`, `status`, `aliases`,
-  `related` optional; `prereqs` an array defaulting to `[]`. The corpus's field *order* is verified
-  by `tools/validate-content.mjs`, not by Astro, so the schema must not demand fields a child lesson
-  does not have
+- DO: keep the schema permissive — every field **optional**, `prereqs` an array defaulting to `[]`,
+  and `title` written `z.string().optional()`. Examples files have **no frontmatter at all** — 297 per
+  root — so a required `title` fails Zod validation for 594 entries and stops the build at this WP.
+  The corpus's field *order* is verified by `tools/validate-content.mjs`, not by Astro, so the schema
+  must not demand fields a child lesson does not have; the site derives an examples title from the
+  parent entry instead (WP-13)
 - DO: export from `corpus.ts`: `TOPICS` (the 8 prefixed strings in order), `TOPIC_TITLES` (the table
   above), `topicTitle(topic)`, `topicBlurb(topic)`, `isEntryId(id)` (two segments),
   `isChildId(id)` (three segments), `entryIdOf(id)` (an entry id or a child id → its entry id),

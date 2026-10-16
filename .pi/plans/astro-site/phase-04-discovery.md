@@ -9,8 +9,8 @@ video references and Phase 6 verifies and ships.
 
 ## Prerequisites
 
-- Phase 3 complete: all 1012 lesson/examples pages and 16 topic pages build, both home pages exist,
-  and the 404, robots and sitemap endpoints work.
+- Phase 3 complete: all 1396 corpus pages and 16 topic pages build, both home pages exist, and the
+  404, robots and sitemap endpoints work.
 - `astro/src/lib/lessons.ts` exports `allEntries`, `allLessons`, `classify`, `entryById`.
 - `astro/src/lib/urls.ts` exports `entriesUrl`, `aboutUrl`, `glossaryUrl`, `searchUrl`, `feedUrl`.
 - `dictionary.ts` has both label blocks for every new key this phase adds.
@@ -42,7 +42,7 @@ This is where a reader who does not know what they are looking for lands. All 17
 data in `lessons.ts`, and each has a topic, a tier and a type (`skill` or `area`) from
 `tools/inventory.json`. There is no full-text blurb available for all of them — a `landing` or `area`
 entry has prose but no single-line summary field — so rows carry the title, the topic, the tier and
-the type, and nothing invented.
+the type, and nothing invented. `EntryList` accepts an optional `blurb`; this page passes none.
 
 **Task:**
 Create `astro/src/components/EntryFilter.astro` with the filter controls and their script, and the
@@ -76,10 +76,10 @@ two entry index pages.
 
 **Success:**
 - [ ] Files exist: `test -f astro/src/components/EntryFilter.astro && test -f astro/src/pages/entries.astro && test -f astro/src/pages/ru/entries.astro` → exit 0
-- [ ] Every entry is listed: `grep -c 'href="/0[1-8]-[a-z0-9-]*/[a-z0-9-]*/"' astro/dist/entries/index.html` → 177
-- [ ] Every entry is listed in Russian: `grep -c 'href="/ru/0[1-8]-[a-z0-9-]*/[a-z0-9-]*/"' astro/dist/ru/entries/index.html` → 177
-- [ ] Rows carry filter data: `grep -c 'data-topic=' astro/dist/entries/index.html` → 177
-- [ ] Controls are labelled: `grep -c '<label' astro/dist/entries/index.html` → at least 3
+- [ ] Every entry is listed: `grep -o 'href="/0[1-8]-[a-z0-9-]*/[a-z0-9-]*/"' astro/dist/entries/index.html | wc -l` → 177
+- [ ] Every entry is listed in Russian: `grep -o 'href="/ru/0[1-8]-[a-z0-9-]*/[a-z0-9-]*/"' astro/dist/ru/entries/index.html | wc -l` → 177
+- [ ] Rows carry filter data: `grep -o 'data-topic=' astro/dist/entries/index.html | wc -l` → 177
+- [ ] Controls are labelled: `grep -o '<label' astro/dist/entries/index.html | wc -l` → at least 3
 - [ ] Live count exists: `grep -c 'aria-live="polite"' astro/dist/entries/index.html` → 1
 - [ ] Build green: `cd astro && npm run build` → exit 0
 - [ ] Manual with JavaScript disabled: every entry is visible and every link works
@@ -126,7 +126,7 @@ Create the two about pages.
 **Success:**
 - [ ] Files exist: `test -f astro/src/pages/about.astro && test -f astro/src/pages/ru/about.astro` → exit 0
 - [ ] Counts are computed, not typed: `grep -cE '177|297' astro/src/pages/about.astro` → 0
-- [ ] Russian page is in Russian: `grep -c '[А-Яа-я]' astro/dist/ru/about/index.html` → at least 20
+- [ ] Russian page is in Russian: `grep -o '[А-Яа-я]' astro/dist/ru/about/index.html | wc -l` → at least 20
 - [ ] No invented facts: the WP report lists every `TODO: confirm` line added
 - [ ] Build green: `cd astro && npm run build` → exit 0
 - [ ] hreflang pairs them: `grep -c 'hreflang="ru"' astro/dist/about/index.html` → 1
@@ -176,9 +176,9 @@ as real HTML tables.
 - [ ] File is untouched: `git status --porcelain lessons/ru/GLOSSARY.md` → prints nothing
 - [ ] Build green: `cd astro && npm run build` → exit 0
 - [ ] Page exists: `test -f astro/dist/ru/glossary/index.html` → exit 0
-- [ ] Terminology rendered: `grep -c '<th scope="col"' astro/dist/ru/glossary/index.html` → at least 2
-      (two tables' worth of headers)
-- [ ] Row counts are right: `grep -c '<tr>' astro/dist/ru/glossary/index.html` → at least 220
+- [ ] Terminology rendered: `grep -o '<th scope="col"' astro/dist/ru/glossary/index.html | wc -l` → at
+      least 2 (two tables' worth of headers)
+- [ ] Row counts are right: `grep -o '<tr>' astro/dist/ru/glossary/index.html | wc -l` → at least 220
       (43 terminology rows plus 177 title rows)
 - [ ] No English counterpart was generated: `test ! -f astro/dist/glossary/index.html` → exit 0
 - [ ] Manual: open the page at 360px wide. The tables scroll sideways rather than pushing the page
@@ -207,12 +207,15 @@ Create the two feed endpoints.
 - DO: export a `GET` that returns `rss({ … })` from `@astrojs/rss`, with `title` from
   `dict.siteName`, `description` from `dict.siteTagline`, `site: Astro.site` and `items`
 - DO: emit one item per entry — 177 of them — with `title` equal to the entry's own title, `link`
-  equal to the absolute URL from `lessonUrl(locale, id)`, and `description` equal to the same
-  derived description the lesson page uses
-- DO: set `customData` on each item to `<dc:creator>` is **not** wanted; instead include the topic
-  title as a `categories` entry, using the string array form `categories: [topicTitle(topic)]`
+  equal to the absolute URL from `lessonUrl(locale, id)`, and `description` equal to
+  `describe(locale, id)` from `lessons.ts` — the same function the lesson page uses. Do not write a
+  second description builder here
+- DO: set `categories: [topicTitle(topic)]` on each item, so the topic title is the item's RSS
+  category. Do not use `customData`; it does not exist in `@astrojs/rss`'s item type
 - DO: omit `pubDate` on every item, and add a comment in both files reading
-  `// No pubDate: the corpus records no dates. Do not invent one.`
+  `// Dates are deliberately absent: the corpus records no dates, and a fabricated one is worse.`
+  Keep the field name out of the comment — the Success check below greps the source for it, and a
+  comment that contains it would fail the check it is meant to explain
 - DO: emit an `xmlns:atom` self-link so readers can discover the feed
 - DO: keep the endpoint path free of a trailing slash — `/feed.xml` and `/ru/feed.xml`
 - DO NOT: run git commands at build time to obtain dates. A Cloudflare Pages build may be a shallow
@@ -226,9 +229,9 @@ Create the two feed endpoints.
 - [ ] No invented dates: `grep -c 'pubDate' astro/src/pages/feed.xml.ts astro/src/pages/ru/feed.xml.ts` → `0` for each
 - [ ] Build green: `cd astro && npm run build` → exit 0
 - [ ] Both feeds exist at the right paths: `test -f astro/dist/feed.xml && test -f astro/dist/ru/feed.xml` → exit 0
-- [ ] Item counts are complete: `grep -c '<item>' astro/dist/feed.xml` → 177 and
-      `grep -c '<item>' astro/dist/ru/feed.xml` → 177
-- [ ] Russian feed links into the Russian tree: `grep -c '<link>https://[^<]*/ru/0[1-8]-' astro/dist/ru/feed.xml` → 177
+- [ ] Item counts are complete: `grep -o '<item>' astro/dist/feed.xml | wc -l` → 177 and
+      `grep -o '<item>' astro/dist/ru/feed.xml | wc -l` → 177
+- [ ] Russian feed links into the Russian tree: `grep -o '<link>https://[^<]*/ru/0[1-8]-' astro/dist/ru/feed.xml | wc -l` → 177
 - [ ] Well-formed XML: `node -e "const s=require('fs').readFileSync('astro/dist/feed.xml','utf8');if(!/^<\?xml/.test(s))throw new Error('no xml decl');if(s.split('<item>').length-1!==177)throw new Error('item count');console.log('ok')"` → `ok`
 - [ ] No trailing-slash variant exists: `test ! -f astro/dist/feed.xml/index.html` → exit 0
 

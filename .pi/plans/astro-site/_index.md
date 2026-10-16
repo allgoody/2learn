@@ -68,8 +68,9 @@ display title**. 119 entries have a non-empty `prereqs`. `type` is `skill` (170)
 - `index.md` keys, in this order: `title, type, topic, tier, status, aliases, prereqs, related`
 - child keys, in this order: `title, prereqs`
 - examples files have **no frontmatter** at all
-- every one of the 177 entries is `status: drafted`; `related` is non-empty in exactly 3 files
-  (`07-security/05-gdpr-data-privacy` ×2, `02-frontend/11-accessibility-wcag-a11y` ×1)
+- every one of the 177 entries is `status: drafted`; `related` is non-empty in exactly 3 entries per
+  root — `02-frontend/16-motion-design`, `03-design-ux/06-google-analytics-4-ga4` and
+  `03-design-ux/25-hotjar` — each mirrored in the Russian tree
 
 **Body shapes and headings** (`lessons/AUTHORING.md` §4–§6, mirrored in Russian per §13). The site
 ships **both** locales, so no heading string may be hardcoded in a component:
@@ -84,10 +85,11 @@ Locale-specific literals the site must also handle: `Done when:` / `Готово
 `None.` / `Нет.`; `; fix: ` / `; исправить: `; `## Example N — ` / `## Пример N — `;
 `### Solution` / `### Решение`.
 
-**The link graph is id-shaped.** Four sections carry the pattern `- **<Title>** (\`<id>\`) — <why>`
-(`Go deeper`, `Included skills`), or a numbered variant (`In in this track`), or `- **<Title>**
-(<id>)` with **no backticks** (`Prerequisites`). Navigation on the site depends on turning those
-ids into links — see WP-11.
+**The link graph is id-shaped, and always backticked.** All four referencing sections carry
+`- **<Title>** (\`<id>\`) …` — `Go deeper`, `Included skills` and `Prerequisites` as bullets,
+`In this track` as a numbered list. Measured across both roots: 177 of 177 entry files use the
+backticked form, 0 use a bare `(<id>)`. Navigation on the site depends on turning those ids into
+links — see WP-10.
 
 **Markdown features actually used by the corpus** (measured): `##`, `###`, paragraphs, bullet and
 numbered lists, nested lists, tables (349 lines), fenced code with a language tag, inline code,
@@ -129,10 +131,10 @@ node tools/check-ru-style.mjs --strict --topic 05-backend-data
 - **DO** keep the EN and RU dictionaries key-symmetric. The RU dictionary is typed
   `const ru: typeof en`, so a missing key is a `ts` error, not a silent gap. Add every new label to
   **both** blocks in the same edit.
-- **DO** keep both content gates green after every phase. Re-run them in WP-26 before declaring the
+- **DO** keep both content gates green after every phase. Re-run them in WP-25 before declaring the
   plan complete.
 - **DO** write `aria-label`, `alt`, and focus-visible styling on every interactive element. This
-  site targets **WCAG 2.2 Level AA** — see WP-26.
+  site targets **WCAG 2.2 Level AA** — see WP-25.
 
 ## Conventions
 
@@ -183,17 +185,17 @@ none of these can collide with a topic directory.
 | EN | RU | WP |
 | --- | --- | --- |
 | `/` | `/ru/` | WP-14 |
-| `/about` | `/ru/about` | WP-17 |
-| `/privacy` | `/ru/privacy` | WP-9 |
-| `/entries` | `/ru/entries` | WP-16 |
+| `/about/` | `/ru/about/` | WP-17 |
+| `/privacy/` | `/ru/privacy/` | WP-9 |
+| `/entries/` | `/ru/entries/` | WP-16 |
 | — | `/ru/glossary/` | WP-18 |
-| `/search` | `/ru/search/` | WP-20 |
+| `/search/` | `/ru/search/` | WP-20 |
 | `/feed.xml` | `/ru/feed.xml` | WP-19 |
 | `/<topic>/` | `/ru/<topic>/` | WP-13 |
 | `/<topic>/<entry>/` | `/ru/<topic>/<entry>/` | WP-13 |
 | `/<topic>/<entry>/<NN-child>/` | same | WP-13 |
 | `/<topic>/<entry>/examples/` | same | WP-13 |
-| `/<topic>/<entry>/<NN-child>/examples/` | same | WP-13 |
+| `/<topic>/<entry>/examples.<NN-child-slug>/` | same | WP-13 |
 | `/404` | — | WP-15 |
 | `/robots.txt`, `/sitemap-index.xml` | — | WP-15 |
 
@@ -203,7 +205,7 @@ none of these can collide with a topic directory.
 - `astro/package.json` — CREATE
 - `astro/astro.config.mjs` — CREATE (MODIFY again in WP-3 and WP-10)
 - `astro/tsconfig.json` — CREATE
-- `astro/src/pages/index.astro` — CREATE (placeholder; replaced in WP-15)
+- `astro/src/pages/index.astro` — CREATE (placeholder; replaced in WP-14)
 - `astro/src/content.config.ts` — CREATE
 - `astro/src/lib/corpus.ts` — CREATE
 - `astro/src/lib/graph.ts` — CREATE
@@ -263,6 +265,8 @@ none of these can collide with a topic directory.
 **Phase 6 — Verify and ship**
 - `astro/README.md` — CREATE
 - `astro/wrangler.toml` — CREATE
+- `astro/.nvmrc` — CREATE
+- `astro/astro.config.mjs` — MODIFY (replace the placeholder `site` if the real domain is known)
 - `lighthouserc.json` — CREATE
 
 ## Execution Instructions

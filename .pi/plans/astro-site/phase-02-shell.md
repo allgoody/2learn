@@ -185,8 +185,10 @@ components, the inline theme boot, a skip link, and the slots the shell componen
       `grep -rc 'fonts.gstatic.com\|fonts.googleapis.com' astro/dist/index.html` → 0
 - [ ] hreflang present: `grep -c 'hreflang="x-default"' astro/dist/index.html` → 1
 - [ ] Canonical is absolute: `grep -c 'rel="canonical" href="https://' astro/dist/index.html` → 1
-- [ ] Theme boot is inline and synchronous: `grep -c 'data-theme' astro/dist/index.html` → at least 1
-      and `grep -c 'is:inline' astro/src/layouts/BaseLayout.astro` → 1
+- [ ] Theme boot is inline and synchronous: `grep -c 'dataset.theme' astro/dist/index.html` → at least 1
+      (the boot writes `document.documentElement.dataset.theme`; the literal string `data-theme`
+      appears only in the external stylesheet, never in the HTML) and
+      `grep -c 'is:inline' astro/src/layouts/BaseLayout.astro` → 1
 - [ ] `lang` is set from the prop: `grep -o 'html lang="[^"]*"' astro/dist/index.html` → `html lang="en"`
 - [ ] Skip link is first: `grep -o 'class="skip"' astro/dist/index.html` → 1 match
 - [ ] Build green: `cd astro && npm run build` → exit 0
@@ -297,8 +299,8 @@ the back-to-top control.
   ratios. It must be ≥ 4.5:1. Never reduce it with `opacity`
 - DO: keep the credit in the DOM as ordinary text, not an image, and not inside a landmark that is
   hidden at any breakpoint
-- DO: include the language switch in the footer or the header — not both — using
-  `switchLocale(path, locale, other)` from `urls.ts`, labelled by target language
+- DO: include the language switch in the **footer**, not the header — one switch only, so the
+  header stays a wordmark plus navigation and the two manual checks below have an unambiguous target
 - DO: give `ScrollToTop` its accessible name from `dict.backToTop`, add it to the tab order only when
   visible by toggling the `hidden` attribute, and reveal it at `scrollY > 600` behind a passive
   scroll listener
@@ -356,7 +358,10 @@ banner and the gated loader, and the two privacy pages that explain what is stor
 - `astro/src/components/ConsentBanner.astro` — CREATE — banner and consent-gated GA loading
 - `astro/src/pages/privacy.astro` — CREATE — English privacy page
 - `astro/src/pages/ru/privacy.astro` — CREATE — Russian privacy page
-- `astro/src/layouts/BaseLayout.astro` — MODIFY — render a `<slot name="consent" />` at the end of `<body>` so pages can mount the banner; the layout does not import it
+- `astro/src/layouts/BaseLayout.astro` — MODIFY — import `ConsentBanner.astro` and render
+  `<ConsentBanner />` as the last element of `<body>`. It is site chrome, so no page has to pass it —
+  a `<slot name="consent" />` would work only if WP-6, WP-13 and WP-14 all remembered to fill it,
+  and none of them would
 
 **Constraints:**
 - DO: keep the id in exactly one place —
@@ -372,6 +377,9 @@ banner and the gated loader, and the two privacy pages that explain what is stor
   decline link — the decline control must be as easy to hit as the accept control
 - DO: render the banner as a labelled region (`aria-label` from `dict.consentTitle`), place it so it
   never covers the page's primary content, and let Escape dismiss it by recording `"denied"`
+- DO: render the banner **server-side and visible by default** (so it works with JavaScript off) and
+  let the component's script add the `hidden` attribute when a choice is already stored. Put
+  `data-consent` on the banner's root element as the verification hook
 - DO: link the banner to the privacy page with `privacyUrl(locale)`, and provide a way to change the
   choice afterwards from that page
 - DO: write the privacy pages to state, in plain language and in each locale: the theme preference and
@@ -396,6 +404,7 @@ banner and the gated loader, and the two privacy pages that explain what is stor
 - [ ] No array-form dataLayer: `grep -rn "dataLayer.push(\[" astro/src` → prints nothing
 - [ ] No Partytown: `grep -rn 'partytown' astro/package.json astro/astro.config.mjs` → prints nothing
 - [ ] Build green: `cd astro && npm run build` → exit 0
+- [ ] **The banner is mounted and shipped in the HTML:** `grep -c 'data-consent' astro/dist/index.html` → 1
 - [ ] **GA is not in the static HTML** — the strongest check in this WP:
       `grep -c 'googletagmanager' astro/dist/index.html` → 0
 - [ ] The loader is in the bundle, so it exists but is not preloaded:

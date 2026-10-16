@@ -13,7 +13,8 @@ tool, and ships with zero videos in it.
 - Phase 3 complete: the corpus router renders lesson pages, and `astro/src/lib/lessons.ts` can resolve
   an id to an entry.
 - `astro/src/lib/urls.ts` and `dictionary.ts` are in place, with a `watchTitle` key in both blocks.
-- `astro/public/` exists.
+- `astro/public/` may not exist yet: WP-21's `--add` creates `astro/public/videos/` with
+  `mkdir -p` before it writes the first thumbnail. Nothing else creates that directory.
 
 ## Shared Context
 
@@ -99,7 +100,8 @@ Create `content/videos.json` (empty), `content/README.md` documenting the shape 
     with a 300 ms delay between requests, and report each as live or not-found. **Always exit 0**,
     whatever it finds
   - **`--add <url>`** — extract the id from any of the four URL shapes, resolve it with `oEmbed` to
-    obtain `title` and `author_name`, download the thumbnail, write it to
+    obtain `title` and `author_name`, create `astro/public/videos/` with
+    `mkdirSync(dir, { recursive: true })`, download the thumbnail, write it to
     `astro/public/videos/<videoId>.jpg`, and print a ready-to-paste JSON snippet with `videoId`,
     `title`, `channel` and `added` filled in and a placeholder `description` for the author to
     replace. Do not edit `content/videos.json` itself
@@ -183,7 +185,9 @@ lesson pages in both locales.
 - DO: export `watchUrl(videoId)`, returning `https://www.youtube.com/watch?v=<videoId>`, and
   `thumbUrl(videoId)`, returning `/videos/<videoId>.jpg`. No other module may build these strings
 - DO: render a `<section>` with an `<h2>` from `dict.watchTitle`, and render **nothing at all** —
-  no section, no empty heading — when `videosFor` returns `[]`
+  no section, no empty heading — when `videosFor` returns `[]`. Put `data-videos` on that
+  `<section>`: it carries no styling and is not read by assistive technology, and the Success check
+  below uses it to tell whether a section rendered
 - DO: render each card as `<a href={watchUrl(...)} target="_blank" rel="noopener noreferrer">` whose
   content is the thumbnail `<img>` and the title, with the channel and description as text beneath
 - DO: give the thumbnail `alt=""` — the title is adjacent text, so a non-empty `alt` would make a

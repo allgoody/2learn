@@ -9,7 +9,8 @@ untouched. This phase produces no new features. It produces evidence.
 ## Prerequisites
 
 - Phases 1–5 complete. `cd astro && npm run build` succeeds and produces `dist/` with a Pagefind
-  index, 1030+ pages, a sitemap and both feeds.
+  index, 1423 pages (711 English + 712 Russian `index.html`, plus `404.html`), a sitemap and both
+  feeds.
 - `astro/dist` exists and is up to date.
 - The operator has supplied the real production domain — or the plan is explicitly reporting it as a
   blocker, not inventing one.
@@ -145,8 +146,9 @@ from the number that comes back.
   `/search/index.html`
 - DO: assert `categories:accessibility` at `minScore: 0.95` and `categories:seo` at `minScore: 0.95`
   as **errors**, and `categories:performance` at `minScore: 0.9` and `categories:best-practices` at
-  `minScore: 0.9` as **warnings**. Performance is a warning because a single throttled run is noisy;
-  accessibility is not, because it is deterministic
+  `minScore: 0.9` as **warnings**, each written as the two-element form
+  `["error", { "minScore": 0.95 }]` / `["warn", { "minScore": 0.9 }]`. Performance is a warning
+  because a single throttled run is noisy; accessibility is not, because it is deterministic
 - DO: run it with `npx --yes @lhci/cli@latest autorun --config=lighthouserc.json`
 - DO: fix every accessibility failure it reports. Do not lower the threshold to make a failure go away
 - DO: after the run, extract the mobile LCP for the lesson route. If LCP is **at or above 2.5 s**:
@@ -178,9 +180,9 @@ from the number that comes back.
 **Success:**
 - [ ] Config exists and is valid JSON: `node -e "JSON.parse(require('fs').readFileSync('lighthouserc.json','utf8'));console.log('ok')"` → `ok`
 - [ ] Exactly seven routes: `grep -c 'index.html' lighthouserc.json` → 7
-- [ ] Accessibility is an error, not a warning:
-      `grep -c '"categories:accessibility"' lighthouserc.json` → 1 and
-      `grep -A1 '"categories:accessibility"' lighthouserc.json | grep -c 'error'` → 1
+- [ ] Accessibility is an error, not a warning — assert on the parsed JSON, never on grep, because
+      the level and the threshold may or may not share a line:
+      `node -e "const a=require('./lighthouserc.json').ci.assert.assertions;if(a['categories:accessibility'][0]!=='error')throw new Error('accessibility is not an error');if(a['categories:performance'][0]!=='warn')throw new Error('performance is not a warning');console.log('ok')"` → `ok`
 - [ ] Build is current first: `cd astro && npm run build && cd ..` → exit 0
 - [ ] Lighthouse runs: `npx --yes @lhci/cli@latest autorun --config=lighthouserc.json` → exit 0,
       with zero accessibility assertion failures across all seven routes
