@@ -1,66 +1,72 @@
 # Context — 2learn
 
-**Project:** 2learn — a 177-entry lesson corpus (English plus a full Russian mirror), and the public bilingual reading site now built over it.
+**Project:** 2learn — a 177-entry lesson corpus (English plus a full Russian mirror), and the public bilingual reading site built over it.
 **Rules:** See `.pi/project-rules-memory.md` for tech stack, architecture, and content/design constraints. Session history lives in `.pi/memory/lessons.md`; the long-form status of Plans A–D is in `.pi/memory/plan-a-b-c-history.md`.
 
 Last updated: 2026-10-16
 
 ## Current Task
-**The Astro site (Plan D) is COMPLETE — all 6 phases and 25 work packages executed and verified.** `.pi/plans/astro-site/` has been implemented into `astro/`, plus `content/`, `tools/check-videos.mjs` and `lighthouserc.json` at the repo root. It builds 1424 pages, both content gates are green, `lessons/` is byte-identical, and Lighthouse exits 0. **Nothing is deployed and nothing is committed** — the user owns git history.
+The site is **live in production at https://2learn.pages.dev**, deployed from commit `fff2326`. Since that deploy the shell has been reworked twice more — **clickable cards**, then a **burger-anchored menu with a RU/EN switch** — and that work is **built, `astro check` clean, and UNCOMMITTED**. The live site does not have it yet.
 
-The next action belongs to the user: set the real domain, then `/skill:deploy`.
+**Nothing is pushed**, and the live deploy is now one revision behind local `HEAD`.
 
 **The Russian prose recast (Plan C) is still PAUSED at 550 of 698 files.** Resume at Phase 7 / WP-58 (`06-cloud-devops`). Nothing is mid-file, and both root gates stay green regardless of how much prose has been recast.
 
 ## Completed This Session
-- [x] **Executed Plan D end to end** — 6 phases, 25 WPs: scaffold, design tokens, self-hosted fonts, content layer + nav graph, the shell (header/drawer/toggle/footer/consent), the corpus router, home pages, 404/robots/sitemap, the filterable entry index, about, the Russian glossary, both RSS feeds, Pagefind search, the video tool + card, and the verification phase.
-- [x] **Fixed two real bugs found by testing, not by the plan's own checks.** WP-11's `allExamples` rule contradicted its own `classify`, which cost **127 child-example pages** (the build produced 581 pages instead of 708). And the lesson/ToC grid's implicit column let one long code line widen the whole page at 400px — fixed with `grid-template-columns: minmax(0, 1fr)`.
-- [x] **Fixed two accessibility failures that no automated gate caught.** The footer language switch violated WCAG **2.5.3** (visible `Русский` was not in its `aria-label` — on all 7 routes, which still scored a perfect 1.00), and ToC links measured **67×18**, under the plan's own **2.5.8** 24×24 criterion.
-- [x] **Proved the corpus is byte-frozen** — `git status --porcelain lessons/ seed/` and `git diff --stat HEAD -- lessons/ seed/` both print nothing.
-- [x] **Ran every gate and recorded the evidence** in `astro/README.md` (`## Verified`) and, per work package, in `.tmp/astro-site-exec-log.md` (D1–D24). **`.tmp/` is scratch** — the durable facts are in the rules index and `.pi/memory/lessons.md`.
+- [x] **Earlier:** created the `2learn` Pages project, set `SITE`, committed and deployed to production, verified live. (Entry in `.pi/memory/lessons.md`.)
+- [x] **Made topic cards and entry rows clickable across their whole surface** — `index.astro`, `ru/index.astro`, `EntryList.astro` — with a link `::after` overlay (`inset: 0`) instead of JS, so the link text stays the accessible name and the cards stay a single link each.
+- [x] **Anchored the menu under the burger** and made the **burger the toggle** (`☰` ⇄ `✕`, `aria-label` swapped). The `<dialog>` became a plain `<nav hidden>` panel positioned against `.bar`, so it opens where the button is at every width; the drawer's own close button is gone.
+- [x] **Moved Escape, light dismiss and focus handling into `Header.astro`'s script** — the three things `showModal()` used to provide — and deleted `NavDrawer`'s script entirely (it is now markup + CSS).
+- [x] **Restyled the language switch as a control**: a 44px bordered box showing the **target** locale's code (`RU`/`EN`), in a `.drawer-tools` row below a separator beside the theme toggle. Its `aria-label` repeats the visible code, so WCAG 2.5.3 holds on both locales.
+- [x] **`astro check` caught a real type error**: `HTMLElement.hidden` is `boolean | "until-found"` in the current DOM types, so state is read back with `drawer.hasAttribute("hidden")` rather than the property.
 
 ## In Progress
-- Nothing is mid-file. Every work package is closed.
+- Nothing is mid-file. Five source files carry uncommitted, undeployed changes.
 
 ## Blocked / Needs Decision
-- [?] **`site` in `astro/astro.config.mjs` is still the placeholder `https://2learn.example.com`**, and it is load-bearing — canonical URLs, hreflang, the sitemap, both feeds and `robots.txt` all derive from it. **Supply the real domain before deploying.**
-- [?] **Four `TODO: confirm` lines are visible on the site** and need the user's words: `astro/src/pages/about.astro:56` and `ru/about.astro:56` (reuse and licensing terms), `astro/src/pages/privacy.astro:69` and `ru/privacy.astro:68` (who is responsible for the site, how a reader reaches them). `astro/astro.config.mjs:7` marks the domain.
-- [?] **Deliberate deviations, all recorded and none of them silent** — `typescript@6.0.3` rather than 7; the Markdown link transform is a **Sätteri** HAST plugin (Astro 7 replaced rehype); `/privacy/` + `/ru/privacy/` were added; the glossary is Russian-only at `/ru/glossary/`; the feeds carry no dates; the video strip sits after the lesson body; `--border` is 1.34:1 (decorative and WCAG 1.4.11-exempt — the one open contrast item).
-- [?] **No favicon.** The home route loses 0.04 of best practices to a single `/favicon.ico` 404. That tier warns rather than fails and passes, so it was left to the user — adding one means inventing a brand mark nobody asked for.
-- [?] **The Russian tree's topic names are English** (`Frontend`, `Design & UX`, `Soft Skills`). Every work package prescribes locale-independent `topicTitle(topic)`, and the corpus has no Russian topic names to draw from, so nothing was invented.
-- [?] **The rules index is still over its 11 KB Stage B budget** (~17.5 KB / ~98 lines), trimmed again this session but not solved. What remains is almost entirely `## Active Constraints`, which must not be moved to a chunk.
+- [?] **The five changed files are uncommitted, and the live site is a revision behind them.** Committing is the user's call; deploying needs the same explicit production confirmation as last time.
+- [?] **The `/entries/` page rows are still NOT fully clickable.** They are bare `<li data-topic…>` rows rendered by `EntryFilter.astro`, not `entry-item`, so the overlay work never touched them. The user asked only for `li.entry-item`; this is the obvious follow-up.
+- [?] **The cards have no hover or focus affordance** — clickable, but they still look like only the text is. One rule each (e.g. `border-color: var(--accent)` on hover) would fix it; not added because it was not asked for.
+- [?] **Lighthouse has not been re-run since the shell work began.** The a11y and SEO gates were last measured on the pre-rework build. The menu change is exactly the kind of navigation work those gates cover, and the focus-trap/backdrop trade-off above is the main a11y question.
+- [?] **No focus trap and no backdrop** on the menu — deliberate, since a trap needs JS and the user asked for the burger to stay clickable. A keyboard user can Tab out of the panel; it closes on Escape or an outside click.
+- [?] **Four `TODO: confirm` lines remain visible** on `/about` + `/ru/about` (reuse and licensing) and `/privacy` + `/ru/privacy` (who is responsible, how to reach them).
+- [?] **No favicon**, so the home route still loses 0.04 of best practices to one `/favicon.ico` 404.
+- [?] **The rules index is over its 11 KB budget** (~22 KB / 102 lines); the overflow is almost entirely `## Active Constraints`, which must not move to a chunk.
+- [?] `astro/README.md`'s `## Verified` section predates the shell rework and the deploy.
 
 ## Next Steps
-1. Set `site` to the real domain in `astro/astro.config.mjs`, then `/skill:deploy`.
-2. Resolve the four visible `TODO: confirm` lines and review the `/about` + `/privacy` copy.
-3. Optionally add a favicon (one file) to clear the last Lighthouse warning.
-4. (Later) Resume Plan C at **Phase 7 / WP-58** — `06-cloud-devops`, 102 files. It owns the corpus's **last blacklist hit** and 10 of the 14 remaining `[S1]` warnings.
-5. (Later) Phase 8 — `07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit.
+1. Commit the five changed files, then redeploy if the user wants the live site current.
+2. Re-run Lighthouse (the Windows `EPERM` workaround is in `astro/README.md`; do not run it unprompted).
+3. Give the `/entries/` rows the same overlay treatment.
+4. Resolve the four `TODO: confirm` lines; optionally add a favicon.
+5. (Later) Resume Plan C at **Phase 7 / WP-58** — `06-cloud-devops`, 102 files.
+6. (Later) Phase 8 — `07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit.
 
 ## Key Decisions
-- **The corpus stays byte-frozen; the site only reads it.** Verified rather than assumed: `git status` and `git diff --stat` are both clean over `lessons/ seed/`.
-- **No UI framework, and no root `package.json`.** Every dependency lives in `astro/package.json`.
-- **Video data lives in `content/videos.json`** — outside `lessons/`, which bans `https?://` — storing the 11-character `videoId` and never a URL. Thumbnails download at ingest into `astro/public/videos/`, which does not exist yet because the data ships empty.
-- **Theming is `light-dark()` + `color-scheme`**, with `data-theme` written by the project's only `<script is:inline>` (the pre-paint boot).
-- **Accessibility is verified by Lighthouse *and* a manual WCAG 2.2 AA checklist.** The manual half is not ceremony: it found the 2.5.8 failure that scores a perfect 1.00.
-- **No font preload was added.** Mobile LCP measured **1.5–2.0 s** on all seven routes (lesson: 1.8 s English / 2.0 s Russian), under the 2.5 s threshold. The recipe if that ever regresses is in `astro/README.md`.
+- **The menu is a disclosure panel, not a modal dialog.** The user wanted the burger itself to become the close button; a modal backdrop makes the burger unclickable, so `showModal()` had to go. Cost paid by hand: Escape, light dismiss, focus in on open, focus back on Escape. No focus trap, no dimming — the page stays interactive behind the menu.
+- **The panel is positioned against `.bar`, not the viewport.** `top: calc(100% + 0.25rem); right: 1rem` opens it under the burger and keeps that alignment at every width, because `.bar` *is* the 1024px centred column. No measurement, no JS.
+- **The language switch shows the target locale's code** (`RU` on the English site), as a bordered box the same shape as the theme toggle so it reads as a control rather than one more menu link.
+- **Clickable cards use a link `::after` overlay, not JS or a wrapping `<a>`.** One rule per component, no markup change, and the link text remains the accessible name. Accepted cost: the card's other text is no longer mouse-selectable.
+- **`SITE` stays the Pages URL.** Canonicals, hreflang, the sitemap, both feeds and `robots.txt` remain self-consistent at the URL the site serves.
+- **The consent banner is `position: sticky`, not `fixed`** — see the rules index; it must stay the last child of `<body>`.
 
 ## File Map
-Everything below is new this session unless marked MODIFY.
-- `astro/{package.json,astro.config.mjs,tsconfig.json,wrangler.toml,.nvmrc,README.md}` — scaffold, config, Pages manifest, Node pin, documentation with `## Verified`.
-- `astro/src/content.config.ts`, `astro/src/lib/{corpus,graph,urls,dictionary,lessons,analytics,videos}.ts`, `astro/src/lib/rehype-content.mjs` — content layer, nav graph, i18n, data access, video access, the Sätteri link plugin.
-- `astro/src/layouts/BaseLayout.astro` — head, canonical, hreflang + x-default, Pagefind markers, theme boot.
-- `astro/src/components/` — `Header`, `NavDrawer` (a native `<dialog>`), `ThemeToggle`, `Footer`, `ScrollToTop`, `ConsentBanner`, `Prose`, `TableOfContents`, `LessonNav`, `EntryList`, `EntryFilter`, `VideoList`.
-- `astro/src/pages/` — `[...path].astro` (the corpus router, 1416 pages), `index`, `entries`, `about`, `privacy`, `search`, `404`, `robots.txt.ts`, `feed.xml.ts`, plus the `ru/` mirror including `ru/glossary.astro`.
-- `content/videos.json` (`{}`), `content/README.md`, `tools/check-videos.mjs` — the video data contract and its zero-dependency tool.
-- `lighthouserc.json` — MODIFY — 7 routes, mobile; a11y and SEO asserted as errors at 0.95, performance and best practices as warnings at 0.9.
-- `.gitignore` — MODIFY — `.tmp/`, `.lighthouseci/`, `astro/dist/`, `astro/.astro/`, `astro/.wrangler/`.
-- `lessons/**`, `seed/**`, `tools/validate-content.mjs`, `tools/check-ru-style.mjs`, `tools/inventory.json`, `tools/renumber-map.json` — **UNTOUCHED** (verified).
+Changed this session. Everything else in `astro/` is from Plan D and untouched.
+- `astro/src/components/Header.astro` — MODIFY — burger carries both labels as data attributes and toggles `☰`/`✕`; its script owns open, close, Escape, light dismiss and focus; `.bar` is now `position: relative`.
+- `astro/src/components/NavDrawer.astro` — MODIFY — `<dialog>` → `<nav hidden>` with no script left; absolute panel under the burger; new `.drawer-tools` row and `.lang-switch` pill.
+- `astro/src/pages/index.astro`, `astro/src/pages/ru/index.astro` — MODIFY — `.topic-card` is `position: relative` and `.topic-link::after` covers it.
+- `astro/src/components/EntryList.astro` — MODIFY — `.entry-item` gets the same overlay.
+- `astro/astro.config.mjs` — MODIFY (earlier this session) — `SITE` = `https://2learn.pages.dev`; deployed.
+- `astro/src/components/Footer.astro`, `ConsentBanner.astro`, `BaseLayout.astro`, `src/lib/dictionary.ts`, `src/styles/global.css` — MODIFY (earlier this session) — already deployed in `fff2326`.
+- `.pi/CONTEXT.md`, `.pi/project-rules-memory.md`, `.pi/memory/lessons.md` — this wrap-up. **Uncommitted.**
+- `.tmp/check-*.mjs`, `.tmp/chunk-table.mjs`, `.tmp/kill-9333.mjs`, `.tmp/commit-*.txt`, `.tmp/create-2learn.log`, `.tmp/probe-2learn.html`, `.tmp/live.html`, `.tmp/lighthouserc.port.json` — scratch, safe to delete.
 
 ## Gotchas / Warnings
-- **`site` is a placeholder, so every canonical URL, hreflang pair, feed link and the `robots.txt` `Sitemap:` line is wrong until it is set.**
-- **`npm run build` is `astro build && pagefind --site dist`.** The search index exists only after a build, so test search against `npm run preview`, never `npm run dev`, where the page correctly shows a "built site only" message.
-- **`.tmp/astro-site-exec-log.md` holds the full D1–D24 evidence, and `.tmp/` is scratch.** The durable facts now live in `.pi/project-rules-memory.md` and `.pi/memory/lessons.md`.
-- **Astro 7 stamps `data-astro-cid-*` onto every element of a component that has a `<style>` block**, so a literal `grep '<tr>'` finds nothing. Grep `<tr` instead.
-- **Pagefind 1.5's UI has no `filters` option.** Unrecognised keys are forwarded as `pagefind_options`, so the working form is `pagefind_options: { filters: { lang } }`.
-- **The corpus's own traps are unchanged** and apply again when Plan C resumes: `--diff` does not check `###` subheadings, a fence's *contents* are frozen, and `--lang ru` is never optional.
+- **`HTMLElement.hidden` is typed `boolean | "until-found"`**, so `const open = drawer.hidden` is `string | boolean` and `astro check` rejects it. Read the state off `hasAttribute("hidden")` instead.
+- **The consent banner must stay the last child of `<body>`**, or `position: sticky; bottom: 0` stops riding the viewport bottom.
+- **The menu panel is absolutely positioned inside `.bar`** and is the last child there, which is what puts it above the burger in paint order. It carries `z-index: 30` — above the consent banner (20) and the scroll-to-top button (auto). `.bar` must keep `position: relative`.
+- **The header is not sticky**, so an open menu scrolls away with the page. That is normal dropdown behaviour, not a bug — but it is why the menu is not `position: fixed`.
+- **An unknown `*.pages.dev` name returns NXDOMAIN while a real project resolves** (no wildcard) — that is how `2learn` was checked, with DNS only, never the Cloudflare API.
+- **`wrangler pages project create` needs `--force` exactly once** on 4.151.1 (delegation to Workers-based Pages fails with `Missing entry-point`), and never again.
+- **The shell work is not deployed.** `https://2learn.pages.dev` still serves commit `fff2326`, without the clickable cards or the new menu.
+- **`.tmp/` is scratch**; none of the evidence above lives there.
