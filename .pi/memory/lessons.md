@@ -2,6 +2,58 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-16 · Phase 6 — `05-backend-data` COMPLETE]**: Ran the 91 files of
+  `05-backend-data` as **10 `worker` children in three waves** — wave 1 p6a (6) / p6b (9) / p6c (9) /
+  p6d (10) = 34, wave 2 p6e (9) / p6f (9) / p6g (10) / p6h (10) = 38, wave 3 p6i (9) / p6j (10) = 19.
+  The disk was verified against a fresh `.tmp/p6-baseline.txt` → `91 of 91 COMPLETE`; exactly 91 paths
+  changed under the topic, no strays, nothing touched outside it. **Phase 6 is done.**
+  `--diff --topic 05-backend-data` → 0 structural differences; `--strict --topic` → **exit 0**;
+  `validate-content --topic 05-backend-data --lang ru` → 0 error(s), 19 present / 38 examples; the
+  plan's 19 per-entry-dir counts match exactly. Topic metrics: corr 0.898→**0.215**, same-count
+  90.2%→**0.0%**, ratio 1.047→**1.099**, `однако` 0.00→**1.79**, `— это` 2.82→**0.30**, participles
+  2.03→**0.55**, blacklist **0**. Whole corpus **550 of 698**. Durable lessons:
+  (1) **`tools/check-ru-style.mjs --diff` does not check `###` subheadings — and that is a real hole,
+  not a nitpick.** `[D2]` compares `/^## /`, which matches `## ` and not `### `; `[D6]` covers
+  `## Пример` only. The p6d writer had two `###` headings drift on a first pass, restored them by
+  hand, and reported that `--diff` had stayed green throughout. **The compensating control is the diff
+  grep and it is load-bearing: `git diff -U0 -- <files> | grep -E '^[+-](---|##|```)'` matches `###`
+  because `###` starts with `##`, and it must print nothing.** Every Phase 6/7/8 brief now carries this
+  warning plus the explicit `grep -E '^[+-]### '` line. Never call a recast structurally verified on a
+  green `--diff` alone. Fixing the gate itself is a `tools/**` change and needs the user's say-so.
+  (2) **Repack the plan's oversized work packages into entry-dir-whole packages rather than splitting a
+  WP arbitrarily.** WP-53/54/56/57 are 11–12 files each, over the 10-file child cap. The *entry
+  directory* is the plan's real contract (its Success blocks `ls` it, and `--topic` and the manifest
+  work at that grain), so keeping every entry dir whole matters more than keeping WP numbers intact.
+  The repack produced 10 packages of 6–10 files, and the plan's own `wp49…wp57-files.txt`
+  (6,9,9,10,11,12,10,12,12) were still emitted and still verify `91 of 91` against the same manifest —
+  so nothing was lost by departing from the WP boundaries.
+  (3) **Regenerate briefs with a script separate from the file lists and the manifest.** Re-running the
+  combined setup generator after wave 1 would re-hash the already-recast wave-1 files and silently
+  destroy the phase baseline. The manifest is taken **once, before the first write**, and nothing may
+  rewrite it. The p6a check that still reads `changed 6 of 6` is what proves it survived.
+  (4) **`+604 / −604` with zero imbalanced files across 91 files is the tightest structural result of
+  any phase** — a recast is a whole-paragraph rewrite, so balance is the expected shape. An imbalanced
+  numstat is not automatically a defect (a paragraph split shifts the line count by one), but a run of
+  them, or one larger than the file's prose-line count, means structure moved.
+  (5) **The corpus blacklist blocker was one file, and it is now gone.** `05-backend-data/14-database-
+  design/index.md` was one of the corpus's two remaining hits; p6h took it to 0, so the whole-corpus
+  row went **2 in 2 files → 1 in 1 file**. The survivor
+  (`06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`) is Phase 7's, which makes
+  the blacklist target a Phase-7 dependency rather than a Phase-8 cleanup.
+  (6) **Two Plan-B defects sit inside *frozen* fences and were recorded, not fixed.** (a) "client timed
+  out" rendered as «клиент дождался тайм-аута» — wrong sense. (b) Three `text` fences in
+  `07-sql-relational-databases` hold translated Russian prose, one with an English `-- the report:`
+  comment left inside. Fence contents are frozen against `b713de1d`, so fixing either fails `--diff`;
+  both go to the WP-74/WP-75 audit. A frozen fence is where a translator's error can hide from every
+  automated check the plan has.
+  (7) **The children's own `.tmp` cleanup is unreliable.** Two of the ten reported that their `rm`
+  command was blocked by the shell path guard, so 18 scratch files (`p6d-fencechk.mjs`,
+  `p6d-body-test.md`, `p6h-metrics.cjs`, `p6j-sents.js`, `p6e-part.js`…) were left for the parent to
+  sweep centrally. Expect this every phase and do not count on a child's tidy-up.
+  (8) **`однако` at 1.79 per 1000 is the highest any phase has delivered** (floor 0.80) and is what
+  carried the 698-file corpus row to 1.11. The density is a property of the brief plus the writers, not
+  of the topic — count it from the `--file` lines each phase rather than assuming it.
+
 - **[Session 2026-10-16 · Phase 5 — `04-product-process` COMPLETE]**: Ran the 61 files of
   `04-product-process` as **8 `worker` children in two waves of 4** — wave 1 WP-46b (7) / WP-44 (10) /
   WP-45 (10) / WP-43 (9) = 36, wave 2 WP-46a (5) / WP-47 (8) / WP-42 (6) / WP-48 (6) = 25. Both waves

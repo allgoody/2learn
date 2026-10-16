@@ -6,59 +6,61 @@
 Last updated: 2026-10-16
 
 ## Current Task
-**Plan C (`.pi/plans/russian-prose/`): Phase 5 is COMPLETE.** All 61 files under `lessons/ru/04-product-process/` are recast; the topic clears every target with room, `--strict --topic 04-product-process` exits **0 with no `[S1]` line at all**, and the branch ends at a clean boundary.
+**Plan C (`.pi/plans/russian-prose/`): Phase 6 is COMPLETE.** All 91 files under `lessons/ru/05-backend-data/` are recast; `--strict --topic 05-backend-data` exits **0** and contributes **zero** `[S1]` lines, and the phase's headline target is done — `14-database-design/index.md`, the corpus's last-but-one blacklist hit, is cleared.
 
-**Progress: 459 of 698 files** — `01-cs-fundamentals` 108/108, `02-frontend` 133/133, `03-design-ux` 156/156, `04-product-process` **61/61**. Remaining **239**: `05-backend-data` 91, `06-cloud-devops` 102, `07-security` 23, `08-soft-skills` 23 (its `01-communication/index.md` calibration landing is already recast).
+**Progress: 550 of 698 files** — `01-cs-fundamentals` 108, `02-frontend` 133, `03-design-ux` 156, `04-product-process` 61, `05-backend-data` **91**. Remaining **148**: `06-cloud-devops` 102, `07-security` 23, `08-soft-skills` 23 (its `01-communication/index.md` calibration landing is already recast).
 
 ## Completed This Session
-- [x] **Phase 5, 61 files, two waves of four `worker` children.** Wave 1: WP-46b (7), WP-44 (10), WP-45 (10), WP-43 (9) = 36. Wave 2: WP-46a (5), WP-47 (8), WP-42 (6), WP-48 (6) = 25. Every child reported success; the parent verified the **disk** for both waves against `.tmp/wp42-48-baseline.txt` → `61 of 61 COMPLETE`, and `git status --porcelain lessons/ru/04-product-process/` → exactly 61 paths, no strays, `GLOSSARY.md` untouched.
-- [x] **WP-46 was split into 46a/46b** (12 files → 5 + 7) so no child exceeded 10 files — the size at which a previous fan-out silently truncated. The pair is still verified as one package against `wp46-files.txt`.
-- [x] **Phase 5 clears every target.** `--diff --topic 04-product-process` → 0 structural differences; `--strict --topic` → exit 0, no `[S1]`; `validate-content --topic 04-product-process --lang ru` → 0 error(s), 17 present / 26 examples; topic still 61 files.
-- [x] **Topic metrics, baseline → now:** correlation 0.898 → **0.183**, same sentence count 90.2% → **0.0%**, median ratio 1.047 → **1.138**, `однако` 0.00 → **2.11**, `— это` 2.82 → **0.48**, participles 2.03 → **0.59**, blacklist **0**.
-- [x] **The two live `[S1]` warnings in the topic are gone** — `03-product-management/01-the-decision-role.md` (`— это` ×6 → 0, WP-43) and `17-estimation-story-points/index.md` (×4 → 1, WP-48).
-- [x] **`git diff --numstat` across the 61:** +396 / −398, one file imbalanced by 2 lines, every diff prose-only — a `-U0` grep for `---`, `##` or ```` ``` ```` hunks returns nothing.
-- [x] Both root gates re-run green: `--strict --lang en` and `--strict --lang ru` each `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)`, exit 0. `--diff` over the **whole** 698-file corpus → 0 structural differences.
-- [x] Two spot-reads against the English twins (`15-prioritization-frameworks-rice-moscow/index.md`, `03-product-management/examples.01-the-decision-role.md`) — facts, numbers, ids and claims identical; the prose genuinely restructured.
-- [x] `.tmp/` swept: 22 worker scratch files and 9 one-off generators deleted; the briefs, file lists, manifests, the verifier and all `wp*-report.md` evidence kept.
+- [x] **Phase 6, 91 files, 10 packages, 3 waves of `worker` children.** Wave 1: p6a (6), p6b (9), p6c (9), p6d (10) = 34. Wave 2: p6e (9), p6f (9), p6g (10), p6h (10) = 38. Wave 3: p6i (9), p6j (10) = 19. All 10 reported success; the parent verified the **disk** against `.tmp/p6-baseline.txt` → `91 of 91 COMPLETE`, exactly 91 paths changed under the topic, no strays, nothing touched outside it.
+- [x] **Packages repacked, entry dirs kept whole.** The plan's WP-53/54/56/57 are 11–12 files each, over the 10-file child cap. Rather than split WPs arbitrarily, the topic was repacked into 10 packages of 6–10 files, every entry directory whole — so the plan's per-directory `ls` contract survives. All 9 plan WP-level lists (`wp49…wp57-files.txt`: 6,9,9,10,11,12,10,12,12) also verify `91 of 91 COMPLETE` against the same manifest.
+- [x] **Phase 6 clears every target.** `--diff --topic 05-backend-data` → 0 structural differences; `--strict --topic` → **exit 0**; `validate-content --topic … --lang ru` → 0 error(s), 19 present / 38 examples; topic still 91 files; the plan's 19 per-entry-dir counts match exactly (`1 5 9 9 5 5 9 2 5 5 2 5 5 5 2 5 5 5 2`).
+- [x] **Topic metrics, baseline → now:** correlation 0.898 → **0.215**, same sentence count 90.2% → **0.0%**, median ratio 1.047 → **1.099**, `однако` 0.00 → **1.79**, `— это` 2.82 → **0.30**, participles 2.03 → **0.55**, blacklist 0 → **0**.
+- [x] **The corpus blacklist blocker is cleared.** `05-backend-data/14-database-design/index.md` was one of the corpus's two remaining hits; p6h took it to 0. Whole-corpus blacklist **2 in 2 files → 1 in 1 file**, and the survivor (`06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`) belongs to **Phase 7**.
+- [x] **All three topic `[S1]` warnings cleared:** `02-nodejs/02-modules-and-the-runtime.md` ×4 → 1, `03-python-programming/01-language-basics.md` ×4 → 1, `14-database-design/index.md` blacklist ×1 → 0. Corpus `[S1]` total 17 → **14**, of which `05-backend-data` contributes 0.
+- [x] **`git diff --numstat` over the 91: +604 / −604, zero imbalanced files** — the tightest structural result of any phase so far. `git diff -U0` over the topic yields **0** hunks matching `---`, `##`, `###` or a fence line.
+- [x] Both root gates re-run green (`177 present / 297 examples / 0 error(s)` on both roots); whole-corpus `--diff` → 0 structural differences over 698 files.
+- [x] Two spot-reads against the English twins (`14-database-design/index.md` landing, `18-mongodb/examples.02-…` examples) — facts, numbers, ids, claims and code byte-identical; sentence order genuinely changed; `Однако` sits at real turns in both.
+- [x] **Found a hole in the gate: `--diff` does not check `###` subheadings.** `[D2]` compares `/^## /`, which matches `## ` and not `### `; `[D6]` covers `## Пример` only. A drifted `### ` inside `## Ключевые идеи` passes silently — a p6d file had two drift on a first pass and the gate never would have said so. The parent's `-U0` grep (which matches `###` because it matches `##`) is the compensating control and is now **load-bearing**. Recorded in the rules index.
+- [x] `.tmp/` swept: 18 worker helper scripts and scratch test files plus 15 superseded Phase-4/5 briefs and file lists deleted; 61 files remain — the 4 manifests, the verifier, 26 `*-report.md` evidence files, the Phase 6 briefs/lists.
 
 ## In Progress
-- Nothing is mid-file. Phase 6 is **not started**.
+- Nothing is mid-file. Phase 7 is **not started**.
 
 ## Blocked / Needs Decision
-- [?] **100 files are uncommitted** — the 39 Phase-4 batch-B files plus this phase's 61. Last commit: `117afe4 chore: update session context`.
-- [?] **Only one of the four previously-short whole-corpus numbers is still short: the blacklist, 2 hits in 2 files.** The other three crossed this session — `однако` **0.86** (≥0.80), same-sentence-count **30.8%** (≤40%), copula **1.25** (≤1.50), plus correlation 0.457 and participles 1.71. Caution: these are 698-file aggregates that still include 239 untouched mirrors, so a phase can move them in either direction — Phase 6's writers must deliver their own `однако` density or the number reverses. Record, never bend.
-- [?] **17 `[S1]` warnings remain, all in Phases 6–8** and none in `04-product-process`: 05-backend-data ×3, 06-cloud-devops ×11, 07-security ×2, 08-soft-skills ×2. The two blacklist hits (`05-backend-data/14-database-design/index.md`, `06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`) are the corpus blocker.
+- [?] **91 files are uncommitted** (the whole of Phase 6). Last commit: `4e25cac chore: update session context`.
+- [?] **Two Plan-B defects sit inside *frozen* fences** and cannot be fixed without failing `--diff`. (a) `06-restful-api/examples.01-resources-verbs-and-status-codes.md` renders "client timed out" as «клиент дождался тайм-аута» — wrong sense. (b) `07-sql-relational-databases` carries three `text` fences holding translated Russian prose, one with an English `-- the report:` comment left inside. Both belong to the WP-74/WP-75 audit, not to Phase 7.
+- [?] **One corpus number is still short and it is Phase 7's to fix:** blacklist **1 in 1 file** against a target of 0, in `06-cloud-devops/06-docker/02-running-containers-and-persisting-data.md`. Every other corpus row now passes: corr 0.364, same-count **18.9%**, ratio 1.122, `однако` **1.11**, `— это` 1.06, participles 1.32.
 
 ## Next Steps
 1. Commit the checkpoint (user).
-2. **Phase 6: WP-49… — `05-backend-data`, 91 files.** Read `.pi/plans/russian-prose/phase-06-backend-data.md`. Repeat the Phase 5 recipe: emit the per-WP file lists, take a pre-run sha256 manifest, fan out ≤4 `worker` children on disjoint entry dirs at ≤10 files each, verify the disk, then run the phase verification block.
-3. Phase 7 (`06-cloud-devops`, 102) and Phase 8 (`07-security` 23 + `08-soft-skills` 23), then the WP-74/WP-75 audit and handover.
+2. **Phase 7: WP-58… — `06-cloud-devops`, 102 files.** Read `.pi/plans/russian-prose/phase-07-cloud-devops.md`. Repeat the Phase 6 recipe: repack into ≤10-file packages with entry dirs whole, take a pre-run sha256 manifest, fan out ≤4 children per wave, verify the disk. **Phase 7 owns the last blacklist hit** and 10 of the 14 remaining `[S1]` warnings (including `07-terraform/01-declaring-infrastructure.md` at `— это` ×9).
+3. Phase 8 (`07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit and handover).
 
 ## Key Decisions
-- **Fan-out, never parent-written prose.** ≤4 concurrent `worker` children (`ollama/deepseek-v4.1-flash:cloud`, thinking high), one work package per child, disjoint entry dirs, one `write` per file. The parent owns the briefs, every validator run, every scope decision and the phase verification; it never recasts a file itself. The 64-run budget had 64 remaining after two waves.
-- **A work package over 10 files must be split before it is handed to a child.** WP-46 (12) became 46a/46b. The package is still verified as a whole against its own list file, so the contract survives the split.
-- **Verify the disk, never the child's report.** Eight children reported success and eight were honest — the parent still counted changed paths with `MANIFEST=... node .tmp/verify-wp.mjs <list>`. The manifest, not the report, is the evidence. `git status --porcelain` must return exactly the contract's file count.
-- **`git diff --numstat` is the structural proof.** A recast rewrites prose lines only, so every file shows a *balanced* small diff. `git diff -U0 … | grep -E '^[+-](---|##|```)'` must return nothing — that is the cheapest heading/fence/frontmatter regression check in the repo.
-- **The brief pattern is `.tmp/brief-phase5.md` (contract + procedure) plus `.tmp/brief-wpNN.md` (that brief with a WP's exact file list appended).** Regenerate both per phase with a throwaway appender in `.tmp/`; sweep the appender at the batch boundary. The Phase 4 briefs are still on disk as the reference for the wording.
-- **`GLOSSARY.md` is off-limits during a fan-out.** One shared file, four writers: a child that finds a calque row reports the exact before/after line and the parent applies it once. No row needed changing in Phase 5. (The R7 exception still stands for a single-writer package.)
+- **Fan-out, never parent-written prose.** ≤4 concurrent `worker` children (`ollama/deepseek-v4.1-flash:cloud`, thinking high), one package per child, disjoint entry dirs, one `write` per file. The parent owns the briefs, every validator run, every scope decision and the phase verification; it never recasts a file itself. 12 children used 12 of the 64-run budget across 3 waves.
+- **Repack WPs over 10 files into entry-dir-whole packages; do not split a WP arbitrarily.** The entry directory is the plan's real contract (its Success blocks `ls` it), so it must stay whole. The plan's WP-level list files are still written and still verified, so nothing is lost.
+- **Verify the disk, never the child's report.** Twelve children reported success and twelve were honest — the parent still counted changed paths. `git status --porcelain <topic-dir>` must equal the package contract exactly.
+- **The `-U0` structural grep is now load-bearing, not merely cheap.** `git diff -U0 -- <files> | grep -E '^[+-](---|##|```)'` catches `###` drift that `--diff` cannot. Add the explicit `grep -E '^[+-]### '` line; it must print nothing.
+- **Regenerate briefs with a separate script from the file lists and manifest.** Re-running the setup generator after wave 1 would re-hash already-recast files and destroy the phase baseline. The manifest is taken once, before the first write.
+- **`GLOSSARY.md` stays off-limits during a fan-out** (one shared file, four writers); a child that finds a calque row reports the before/after line and the parent applies it once. No row needed changing in Phases 5 or 6.
 - **Record, never bend.** Where the gate disagreed with the plan, the run's own values went into `BASELINE_METRICS` and were reported. No target was weakened and the script was never tuned to the plan's numbers.
 
 ## File Map
-- `tools/check-ru-style.mjs` — the gate. Report mode (nine signals, per-file rules, corpus block), `--diff` mode (`[D1]`–`[D10]` against `b713de1d`), `TARGETS`, `BASELINE_METRICS`, `--topic` / `--file` filters.
-- `lessons/ru/04-product-process/**` — **61/61 recast. Phase 5 done.**
-- `.tmp/brief-phase5.md`, `.tmp/brief-wp42.md`…`wp48.md`, `.tmp/brief-wp46a.md`, `.tmp/brief-wp46b.md` — the reusable Phase 5 briefs. `.tmp/brief-phase4.md` + `brief-wp38.md`…`wp41.md` — Phase 4's, kept as the wording reference.
-- `.tmp/wp42-files.txt`…`wp48-files.txt`, `.tmp/wp46a-files.txt`, `.tmp/wp46b-files.txt`, `.tmp/wp42-48-files.txt` — the batches' exact file lists.
-- `.tmp/wp42-48-baseline.txt` — sha256 of all 61 Phase 5 files, taken before wave 1. The phase's manifest.
-- `.tmp/verify-wp.mjs` — verifies a file list against a manifest. `MANIFEST=<path> node .tmp/verify-wp.mjs <list-file>...`; defaults to `.tmp/wp34-41-baseline.txt`. `.tmp/wp34-41-baseline.txt` — the Phase 4 manifest, still on disk.
-- `.tmp/wp42-report.md`…`wp48-report.md`, `.tmp/wp46a-report.md`, `.tmp/wp46b-report.md` — the eight children's per-file `--file` evidence.
+- `tools/check-ru-style.mjs` — the gate. Report mode (nine signals, per-file rules, corpus block), `--diff` mode (`[D1]`–`[D10]` against `b713de1d`), `TARGETS`, `BASELINE_METRICS`, `--topic` / `--file` filters. **`[D2]` covers `## ` only — not `### `.**
+- `lessons/ru/05-backend-data/**` — **91/91 recast. Phase 6 done.**
+- `.tmp/brief-phase6.md` + `.tmp/brief-p6a.md`…`brief-p6j.md` — the current briefs (Phase 7 reuses the wording).
+- `.tmp/p6{a..j}-files.txt`, `.tmp/p6-all-files.txt`, `.tmp/wp49-files.txt`…`wp57-files.txt` — the packages' and the plan's exact file lists.
+- `.tmp/p6-baseline.txt` — sha256 of all 91 Phase 6 files, taken before wave 1. `.tmp/wp34-41-baseline.txt` and `.tmp/wp42-48-baseline.txt` — the Phase 4 and 5 manifests, kept.
+- `.tmp/verify-wp.mjs` — verifies list files against a manifest; `MANIFEST=<path> node .tmp/verify-wp.mjs <list-file>...`, defaulting to the Phase 4 manifest.
+- `.tmp/p6a-report.md`…`p6j-report.md` — the ten children's per-file `--file` evidence. 26 reports in total, Phases 4–6.
 
 ## Gotchas / Warnings
+- **`--diff` does NOT check `###` subheadings** (see Key Decisions). Never treat a green `--diff` as proof that every heading is intact; run the `-U0` grep.
 - **`--lang ru` is not optional.** The validator defaults to `en` and prints a green line that says nothing about the Russian tree.
-- **`corr` is not a quality signal for a single file.** The gate's `pearson()` truncates both arrays to `Math.min(a.length, b.length)`, so an untouched mirror file off by one sentence (45 vs 46) scores 0.154. Two WP-45 files landed at 0.607 and 0.863 individually while the ten-file mean was ≈0.29 — judge a file by `same sentence count` plus reading it, and never distort prose to move a single correlation number.
-- **`--strict` exits 1 corpus-wide for reasons that have nothing to do with your topic.** It names only files that break a *per-file* rule, but its exit code also reflects the seven corpus rows. Use `--strict --topic <dir>` while working; the sha256 manifest is what proves the work happened.
-- **Never `git checkout` a file that `--diff` reported.** The revert discards that file's recast — intended — but **never** on one of the four Phase-1 calibration files: fix the invariant by hand, because the revert destroys the voice the user approved.
-- **`--topic` needs the prefixed directory name** (`04-product-process`); an unprefixed name selects nothing and prints `0 present`.
-- **A fence's *contents* are frozen, not just its delimiters.** `--diff` fails on any byte change inside a fence, so the translated tables and `text` blocks that Plan B produced are untouchable — a "formulaic line" a writer wants to reword almost always sits inside one. Check before rewriting.
-- **`--diff --topic` and the corpus `--diff` disagree while a wave is running.** A child mid-file can be reported by another child's run. Verify your own files during the wave; run the topic command only after every writer has stopped.
-- **Sweep `.tmp/` at every batch boundary.** Eight children left 22 scratch files this phase (`wp42-lens.mjs`, `med.mjs`, `flow-dump.mjs`, `wp48-o1.txt`…). Keep only the briefs, the file lists, the manifests, the verifier and the `wp*-report.md` evidence.
-- **Measure the `однако` density the children actually delivered**, don't assume it. Phase 5's children delivered 2.11 per 1000 against a 0.80 floor — a deliberate overshoot from `— это` unpicking, and it is what pushed the corpus row across its target. The brief says "roughly one per file"; a light package is worth naming in the batch summary rather than discovering at the phase-8 audit.
+- **`corr` is not a quality signal for a single file.** Two files this phase scored 0.63 and 0.96 individually while the topic mean was 0.215 — short files (14–17 sentences) have too few points for the statistic to mean anything. Judge a file by `same sentence count` plus reading it, and never distort prose to move a single correlation number.
+- **`--strict` exits 1 corpus-wide for reasons unrelated to your topic.** Use `--strict --topic <dir>` while working; the sha256 manifest is what proves the work happened.
+- **Never `git checkout` a file that `--diff` reported** — and never on one of the four Phase-1 calibration files, where the revert destroys the user-approved voice.
+- **`--topic` needs the prefixed directory name** (`05-backend-data`); an unprefixed name selects nothing.
+- **A fence's *contents* are frozen, not just its delimiters** — and this is the code-heaviest topic in the corpus, so a writer's urge to reword a "formulaic line" lands inside a fence almost every time. Check before rewriting.
+- **Sweep `.tmp/` at every batch boundary.** This phase's 10 children left 18 scratch files (`p6d-fencechk.mjs`, `p6h-metrics.cjs`, `p6j-sents.js`, `p6d-body-test.md`…). Two children reported they could not delete their own scratch because the shell path guard blocked `rm` — expect that and sweep centrally.
+- **Measure the `однако` density the children actually delivered**, don't assume it. Phase 6 delivered 1.79 per 1000 against a 0.80 floor — the highest of any phase, and what carried the corpus row to 1.11.
