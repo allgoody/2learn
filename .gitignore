@@ -2,3 +2,11 @@
 .tmp/
 .ruff_cache/
 node_modules/
+astro/dist/
+astro/.astro/
+astro/.wrangler/
+.lighthouseci/
+
+# Agent scratchpad (not the context files — .pi/ itself stays tracked)
+.pi/agents/
+.pi/subagent-schedules/
