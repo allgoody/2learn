@@ -2,6 +2,40 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-16 · eight style changes, and two self-inflicted edit wounds]** Third round of the same day.
+  The user picked from a proposal list I wrote: card hover, card-sized focus rings, clickable `/entries/` rows,
+  unified card language, drawer link rows, the topic count as a pill, a sticky reveal-on-scroll header, and a
+  footer cut down to About + Privacy. Explicitly **rejected**: the scroll-to-top vs consent-banner collision
+  ("dont touch that works"). Everything below is built, `astro check` clean, and **uncommitted/undeployed**.
+  - **The focus ring had to move onto the `::after` overlay, not `:focus-within`.** With the whole card as the
+    click target, the global `:focus-visible` outline only wrapped the inline link text. `:focus-within` on the
+    card would have fixed the shape but **also fires on mouse clicks**, flashing a ring on every click. Drawing
+    the ring on the overlay (`:focus-visible::after { outline: … }` with `outline: none` on the link) keeps it
+    keyboard-only *and* the right shape. Restoring the link's own outline gives two rings.
+  - **Astro stamps `data-astro-cid-*` on EVERY compound selector.** The real emitted rule for a row overlay is
+    `.entry-group[data-astro-cid-x] li[data-astro-cid-x] a[data-astro-cid-x]:after`. My verification harness
+    reported **8 false failures** against correct CSS because its patterns allowed the attribute once, and
+    because normalising quotes globally also broke `content:""`. Lesson: strip `[data-astro-cid-…]` before
+    matching built CSS, and never trust a checker that has not been validated against a known-good rule.
+  - **An undefined CSS custom property is a silent no-op that `astro check` cannot catch.** A batched edit call
+    was *partly rejected* (one file needed a re-read), so `scroll-margin-top: var(--sticky-offset)` landed while
+    the `--sticky-offset` declaration did not. Nothing errored; the rule simply did nothing. When a change spans
+    a token and its consumers, verify both landed — a green type-check says nothing about a CSS variable.
+  - **Both of my mistakes had the same shape: correct `newText`, wrong `oldText`.** (1) An edit whose `oldText`
+    was the WCAG comment above the footer credit and whose `newText` omitted it deleted the comment and left a
+    duplicate rule. (2) The token above. Neither was caught by a gate; both were caught by re-reading the file.
+    Re-read after editing anything near a `/* why */` comment.
+  - **Making the header sticky broke two things that had to be fixed with it**, because that is a change no gate
+    covers: the lesson ToC's `position: sticky; top: 1rem` slid *under* the bar, and a ToC jump landed its
+    heading *behind* it. Both now use one new `--sticky-offset: 5rem` token. Also: a sticky header must be
+    **opaque** or the page shows through it, and it must never hide while its own menu is open, since the menu
+    lives inside the header and would slide away with it.
+  - **`EntryList.astro` (16 topic pages) and `EntryFilter.astro` (`/entries/`, 177 rows) are separate
+    components.** They look like one list and are not; any row change must touch both or they drift.
+  - **Trade-offs now accepted, and worth remembering**: the footer lost its 8 topic links (the third copy of the
+    same list) so topic pages have fewer internal links; `/entries/` is 177 bordered cards and now much taller,
+    with a fallback of keeping rows flat inside a bordered group card; the sticky reveal behaviour is
+    **unverified in a browser** — CSS and JS that type-check can still scroll wrong.
 - **[Session 2026-10-16 · clickable cards, and a menu that hangs off the burger]** Second half of the same
   day, after the deploy. The user asked for two things: make `li.topic-card` fully clickable rather than just
   the link, and the same for `li.entry-item`. Then two more: the menu must open **where the burger button is**

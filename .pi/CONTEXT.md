@@ -6,67 +6,73 @@
 Last updated: 2026-10-16
 
 ## Current Task
-The site is **live in production at https://2learn.pages.dev**, deployed from commit `fff2326`. Since that deploy the shell has been reworked twice more — **clickable cards**, then a **burger-anchored menu with a RU/EN switch** — and that work is **built, `astro check` clean, and UNCOMMITTED**. The live site does not have it yet.
+The site is **live in production at https://2learn.pages.dev** (deployment `ba088794`, commit `2793d52`). One more round of **style work is built, `astro check` clean, and UNCOMMITTED** — card hover and card-sized focus rings, `/entries/` rows made clickable, entry rows unified as cards, drawer link rows, the footer cut down to About + Privacy, and a **sticky header that hides on scroll down and returns on scroll up**.
 
-**Nothing is pushed**, and the live deploy is now one revision behind local `HEAD`.
+**Nothing is pushed**, and the live site does not have this round.
 
 **The Russian prose recast (Plan C) is still PAUSED at 550 of 698 files.** Resume at Phase 7 / WP-58 (`06-cloud-devops`). Nothing is mid-file, and both root gates stay green regardless of how much prose has been recast.
 
 ## Completed This Session
-- [x] **Earlier:** created the `2learn` Pages project, set `SITE`, committed and deployed to production, verified live. (Entry in `.pi/memory/lessons.md`.)
-- [x] **Made topic cards and entry rows clickable across their whole surface** — `index.astro`, `ru/index.astro`, `EntryList.astro` — with a link `::after` overlay (`inset: 0`) instead of JS, so the link text stays the accessible name and the cards stay a single link each.
-- [x] **Anchored the menu under the burger** and made the **burger the toggle** (`☰` ⇄ `✕`, `aria-label` swapped). The `<dialog>` became a plain `<nav hidden>` panel positioned against `.bar`, so it opens where the button is at every width; the drawer's own close button is gone.
-- [x] **Moved Escape, light dismiss and focus handling into `Header.astro`'s script** — the three things `showModal()` used to provide — and deleted `NavDrawer`'s script entirely (it is now markup + CSS).
-- [x] **Restyled the language switch as a control**: a 44px bordered box showing the **target** locale's code (`RU`/`EN`), in a `.drawer-tools` row below a separator beside the theme toggle. Its `aria-label` repeats the visible code, so WCAG 2.5.3 holds on both locales.
-- [x] **`astro check` caught a real type error**: `HTMLElement.hidden` is `boolean | "until-found"` in the current DOM types, so state is read back with `drawer.hasAttribute("hidden")` rather than the property.
+- [x] **Earlier:** created the Pages project, set `SITE`, committed and deployed; then clickable cards and the burger-anchored menu with its RU/EN switch, committed and deployed. (Both in `.pi/memory/lessons.md`.)
+- [x] **Closed the eight holes the earlier changes opened or left** — card hover affordance, card-sized focus rings, clickable `/entries/` rows, entry rows unified as cards, drawer link rows with a current-page accent bar, the count/tier pill, the sticky reveal-on-scroll header, and the footer cut to About + Privacy.
+- [x] **Fixed two knock-ons from making the header sticky that nothing else covered** — the lesson ToC would have slid under the bar, and a ToC jump would have landed its heading behind it. Both now hang off one new `--sticky-offset: 5rem` token.
+- [x] **Repaired two of my own errors, neither caught by a gate** — see Gotchas. Both were found by re-reading the file, not by `astro check`.
+- [x] **Verified the whole set in the built output** — every rule present in the emitted CSS, counts unchanged (8 topic cards, 31 rows on `/02-frontend/`, 177 on `/entries/`), `astro check` 0 errors, build green.
 
 ## In Progress
-- Nothing is mid-file. Five source files carry uncommitted, undeployed changes.
+- Nothing is mid-file. Eleven source files carry uncommitted, undeployed changes.
 
 ## Blocked / Needs Decision
-- [?] **The five changed files are uncommitted, and the live site is a revision behind them.** Committing is the user's call; deploying needs the same explicit production confirmation as last time.
-- [?] **The `/entries/` page rows are still NOT fully clickable.** They are bare `<li data-topic…>` rows rendered by `EntryFilter.astro`, not `entry-item`, so the overlay work never touched them. The user asked only for `li.entry-item`; this is the obvious follow-up.
-- [?] **The cards have no hover or focus affordance** — clickable, but they still look like only the text is. One rule each (e.g. `border-color: var(--accent)` on hover) would fix it; not added because it was not asked for.
-- [?] **Lighthouse has not been re-run since the shell work began.** The a11y and SEO gates were last measured on the pre-rework build. The menu change is exactly the kind of navigation work those gates cover, and the focus-trap/backdrop trade-off above is the main a11y question.
-- [?] **No focus trap and no backdrop** on the menu — deliberate, since a trap needs JS and the user asked for the burger to stay clickable. A keyboard user can Tab out of the panel; it closes on Escape or an outside click.
-- [?] **Four `TODO: confirm` lines remain visible** on `/about` + `/ru/about` (reuse and licensing) and `/privacy` + `/ru/privacy` (who is responsible, how to reach them).
-- [?] **No favicon**, so the home route still loses 0.04 of best practices to one `/favicon.ico` 404.
-- [?] **The rules index is over its 11 KB budget** (~22 KB / 102 lines); the overflow is almost entirely `## Active Constraints`, which must not move to a chunk.
-- [?] `astro/README.md`'s `## Verified` section predates the shell rework and the deploy.
+- [?] **Eleven changed files are uncommitted and the live site is behind them.** Committing and deploying are both the user's call.
+- [?] **The sticky header's hide/reveal is NOT visually verified.** The CSS and JS are in place and type-check, but whether the scroll *feels* right needs a real browser. This is the one item in the round most likely to need a tweak.
+- [?] **`/entries/` is now 177 bordered cards.** That is a large visual change at that scale. If it reads as noise, the fallback is to keep those rows flat inside a bordered **group** card — a revert of the `EntryFilter.astro` half only.
+- [?] **Lighthouse has not been re-run** since the shell work began. The navigation and layout changed twice since the last measurement.
+- [?] **No focus trap and no backdrop** on the menu — deliberate, so the burger stays clickable. A keyboard user can Tab out of the panel.
+- [?] **`Footer.astro` still takes a `path` prop it has never used**, passed by 14 call sites. Dead before this session; removing it means editing all 14.
+- [?] **Four `TODO: confirm` lines remain visible** on `/about` + `/ru/about` and `/privacy` + `/ru/privacy`.
+- [?] **No favicon** (one `/favicon.ico` 404, 0.04 of best practices).
+- [?] **The rules index is further over its 11 KB budget** (~24 KB / ~110 lines); the overflow is almost entirely `## Active Constraints`, which must not move to a chunk.
+- [?] `astro/README.md`'s `## Verified` section predates the deploy and both style rounds.
 
 ## Next Steps
-1. Commit the five changed files, then redeploy if the user wants the live site current.
-2. Re-run Lighthouse (the Windows `EPERM` workaround is in `astro/README.md`; do not run it unprompted).
-3. Give the `/entries/` rows the same overlay treatment.
+1. Look at the sticky header, the focus rings and `/entries/` in a browser; adjust or veto.
+2. Commit the eleven files, then redeploy if the user wants the live site current.
+3. Re-run Lighthouse (the Windows `EPERM` workaround is in `astro/README.md`; never run it unprompted).
 4. Resolve the four `TODO: confirm` lines; optionally add a favicon.
 5. (Later) Resume Plan C at **Phase 7 / WP-58** — `06-cloud-devops`, 102 files.
 6. (Later) Phase 8 — `07-security` 23 + `08-soft-skills` 23 + the WP-74/WP-75 audit.
 
 ## Key Decisions
-- **The menu is a disclosure panel, not a modal dialog.** The user wanted the burger itself to become the close button; a modal backdrop makes the burger unclickable, so `showModal()` had to go. Cost paid by hand: Escape, light dismiss, focus in on open, focus back on Escape. No focus trap, no dimming — the page stays interactive behind the menu.
-- **The panel is positioned against `.bar`, not the viewport.** `top: calc(100% + 0.25rem); right: 1rem` opens it under the burger and keeps that alignment at every width, because `.bar` *is* the 1024px centred column. No measurement, no JS.
-- **The language switch shows the target locale's code** (`RU` on the English site), as a bordered box the same shape as the theme toggle so it reads as a control rather than one more menu link.
-- **Clickable cards use a link `::after` overlay, not JS or a wrapping `<a>`.** One rule per component, no markup change, and the link text remains the accessible name. Accepted cost: the card's other text is no longer mouse-selectable.
-- **`SITE` stays the Pages URL.** Canonicals, hreflang, the sitemap, both feeds and `robots.txt` remain self-consistent at the URL the site serves.
-- **The consent banner is `position: sticky`, not `fixed`** — see the rules index; it must stay the last child of `<body>`.
+- **The focus ring moved onto the card's `::after` overlay** rather than `:focus-within` on the card. `:focus-within` fires on mouse clicks too, so it would flash a ring on every click; drawing the ring on the overlay keeps it keyboard-only and outlines the whole card.
+- **Entry rows became cards** (`border` + `radius` + `gap`, hairlines deleted) so the topic grid, topic lists and `/entries/` share one card language. Accepted cost: `/entries/` is visually much taller.
+- **The header hides on the way down and returns on the smallest upward scroll** — a 200px floor before it may hide, a 4px delta so sub-pixel jitter cannot flicker it, and it never hides while its own menu is open.
+- **The footer dropped its 8 topic links.** They were the third copy of the same list (burger, home cards, footer); the footer now carries About + Privacy + rights + credit. Known trade-off: fewer internal links into the topic pages.
+- **One `--sticky-offset` token** serves both the ToC's sticky top and the heading `scroll-margin-top`, so the header height is stated once.
 
 ## File Map
 Changed this session. Everything else in `astro/` is from Plan D and untouched.
-- `astro/src/components/Header.astro` — MODIFY — burger carries both labels as data attributes and toggles `☰`/`✕`; its script owns open, close, Escape, light dismiss and focus; `.bar` is now `position: relative`.
-- `astro/src/components/NavDrawer.astro` — MODIFY — `<dialog>` → `<nav hidden>` with no script left; absolute panel under the burger; new `.drawer-tools` row and `.lang-switch` pill.
-- `astro/src/pages/index.astro`, `astro/src/pages/ru/index.astro` — MODIFY — `.topic-card` is `position: relative` and `.topic-link::after` covers it.
-- `astro/src/components/EntryList.astro` — MODIFY — `.entry-item` gets the same overlay.
-- `astro/astro.config.mjs` — MODIFY (earlier this session) — `SITE` = `https://2learn.pages.dev`; deployed.
-- `astro/src/components/Footer.astro`, `ConsentBanner.astro`, `BaseLayout.astro`, `src/lib/dictionary.ts`, `src/styles/global.css` — MODIFY (earlier this session) — already deployed in `fff2326`.
+- `astro/src/components/Header.astro` — MODIFY — sticky + opaque + `z-index: 40`, `is-hidden` transform, scroll direction handler with a `menuOpen` guard.
+- `astro/src/components/NavDrawer.astro` — MODIFY — link rows with hover background and an inset accent bar on `aria-current="page"`.
+- `astro/src/components/EntryList.astro` — MODIFY — rows are cards; `entry-head` row; tier pill; hover, overlay and overlay focus ring.
+- `astro/src/components/EntryFilter.astro` — MODIFY — `/entries/` rows: card language, overlay, hover, overlay focus ring.
+- `astro/src/components/Footer.astro` — MODIFY — topic links replaced by About + Privacy; `.footer-links` replaces `.footer-topics` and `.footer-heading`; credit WCAG comment preserved.
+- `astro/src/components/ConsentBanner.astro`, `astro/src/layouts/BaseLayout.astro` — MODIFY (earlier this session) — deployed.
+- `astro/src/pages/index.astro`, `astro/src/pages/ru/index.astro` — MODIFY — card hover, overlay focus ring, `topic-head` with the count pill.
+- `astro/src/pages/[...path].astro`, `astro/src/pages/ru/[...path].astro` — MODIFY — ToC sticky `top` uses `--sticky-offset`.
+- `astro/src/styles/global.css` — MODIFY — `--content-max`, `--sticky-offset`, `body` flex column, `scroll-margin-top` on `.prose h2/h3/h4`.
+- `astro/src/lib/dictionary.ts` — MODIFY — `homeTitle` added; `consentPrivacy` and `footerTopics` removed; both blocks edited together.
+- `astro/astro.config.mjs` — MODIFY (earlier) — `SITE` = the Pages URL; deployed.
 - `.pi/CONTEXT.md`, `.pi/project-rules-memory.md`, `.pi/memory/lessons.md` — this wrap-up. **Uncommitted.**
-- `.tmp/check-*.mjs`, `.tmp/chunk-table.mjs`, `.tmp/kill-9333.mjs`, `.tmp/commit-*.txt`, `.tmp/create-2learn.log`, `.tmp/probe-2learn.html`, `.tmp/live.html`, `.tmp/lighthouserc.port.json` — scratch, safe to delete.
+- `.tmp/check-*.mjs`, `.tmp/verify-*.mjs`, `.tmp/chunk-table.mjs`, `.tmp/kill-9333.mjs`, `.tmp/commit-*.txt`, `.tmp/create-2learn.log`, `.tmp/live*.html`, `.tmp/lighthouserc.port.json` — scratch, safe to delete.
 
 ## Gotchas / Warnings
-- **`HTMLElement.hidden` is typed `boolean | "until-found"`**, so `const open = drawer.hidden` is `string | boolean` and `astro check` rejects it. Read the state off `hasAttribute("hidden")` instead.
+- **An undefined CSS custom property is a silent no-op, and `astro check` cannot see it.** A batch of edits was partly rejected, so `scroll-margin-top: var(--sticky-offset)` landed while `--sticky-offset` did not exist. Nothing failed; the rule just did nothing. When a change spans a token and its consumers, verify **both** landed.
+- **Re-read a file after editing it, especially near a `/* why */` comment.** An edit whose `oldText` was a comment and whose `newText` omitted it deleted the WCAG note above the footer credit and left a duplicate rule. Both slips this session were the same shape: correct new text, wrong old text.
+- **Verify built CSS with the scope attribute stripped.** Astro stamps `data-astro-cid-*` on **every** compound selector, so `.entry-group[…] li[…] a[…]:after` is the real shape. My first checker reported 8 false failures against CSS that was correct — and stripping all `"` characters while normalising broke `content:""` too.
 - **The consent banner must stay the last child of `<body>`**, or `position: sticky; bottom: 0` stops riding the viewport bottom.
-- **The menu panel is absolutely positioned inside `.bar`** and is the last child there, which is what puts it above the burger in paint order. It carries `z-index: 30` — above the consent banner (20) and the scroll-to-top button (auto). `.bar` must keep `position: relative`.
-- **The header is not sticky**, so an open menu scrolls away with the page. That is normal dropdown behaviour, not a bug — but it is why the menu is not `position: fixed`.
-- **An unknown `*.pages.dev` name returns NXDOMAIN while a real project resolves** (no wildcard) — that is how `2learn` was checked, with DNS only, never the Cloudflare API.
-- **`wrangler pages project create` needs `--force` exactly once** on 4.151.1 (delegation to Workers-based Pages fails with `Missing entry-point`), and never again.
-- **The shell work is not deployed.** `https://2learn.pages.dev` still serves commit `fff2326`, without the clickable cards or the new menu.
+- **The menu panel is absolutely positioned inside `.bar`** and `.bar` must keep `position: relative`; the header carries `z-index: 40` so the menu inside it still paints above the banner (20) and the scroll-to-top button (auto).
+- **The header must never hide while the menu is open** — the menu is inside it.
+- **Lighthouse on Windows needs the port-9333 workaround**; the plain command dies with `EPERM` after finishing the audit.
+- **A `.pages.dev` name is free iff its DNS returns NXDOMAIN**, and `wrangler pages project create` needs `--force` exactly once on 4.151.1.
+- **The shell work is not deployed.** `https://2learn.pages.dev` still serves `2793d52`, without this round of style changes.
 - **`.tmp/` is scratch**; none of the evidence above lives there.
