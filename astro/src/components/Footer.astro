@@ -1,7 +1,7 @@
 ---
 import { TOPICS, topicTitle, type Locale } from "../lib/corpus";
 import { getDict } from "../lib/dictionary";
-import { switchLocale, topicUrl } from "../lib/urls";
+import { topicUrl, privacyUrl } from "../lib/urls";
 
 interface Props {
   locale: Locale;
@@ -9,11 +9,8 @@ interface Props {
   path: string;
 }
 
-const { locale, path } = Astro.props;
+const { locale } = Astro.props;
 const dict = getDict(locale);
-
-const other: Locale = locale === "en" ? "ru" : "en";
-const otherUrl = switchLocale(path, locale, other);
 ---
 
 <footer class="site-footer">
@@ -33,10 +30,8 @@ const otherUrl = switchLocale(path, locale, other);
 
     <p class="rights">{dict.footerRights}</p>
 
-    <p class="lang-switch">
-      <a href={otherUrl} hreflang={other} aria-label={`${other === "ru" ? "Русский" : "English"} — ${dict.langSwitch}`}>
-        {other === "ru" ? "Русский" : "English"}
-      </a>
+    <p class="privacy">
+      <a href={privacyUrl(locale)}>{dict.navPrivacy}</a>
     </p>
 
     <p class="credit">
@@ -56,6 +51,8 @@ const otherUrl = switchLocale(path, locale, other);
   .footer-inner {
     display: grid;
     gap: 1rem;
+    max-width: var(--content-max);
+    margin-inline: auto;
     padding: 1.5rem 1rem;
   }
 
@@ -84,7 +81,7 @@ const otherUrl = switchLocale(path, locale, other);
     color: var(--fg-muted);
   }
 
-  .lang-switch {
+  .privacy {
     margin: 0;
   }
 

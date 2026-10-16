@@ -35,6 +35,8 @@
   --text-body: 1.0625rem;
   --text-body-lg: 1.125rem;
   --measure: 65ch;
+  /* One centred column shared by the header bar, the page body and the footer. */
+  --content-max: 1024px;
 }
 
 :root[data-theme="light"] {
@@ -58,6 +60,11 @@ html {
 
 body {
   margin: 0;
+  /* Column flex so a short page still puts the footer at the bottom of the
+     viewport instead of halfway up it. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   background-color: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);

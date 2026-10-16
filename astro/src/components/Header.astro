@@ -3,7 +3,6 @@ import { type Locale } from "../lib/corpus";
 import { getDict } from "../lib/dictionary";
 import { homeUrl } from "../lib/urls";
 import NavDrawer from "./NavDrawer.astro";
-import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   locale: Locale;
@@ -18,8 +17,6 @@ const dict = getDict(locale);
 <header class="site-header">
   <div class="bar">
     <a class="wordmark" href={homeUrl(locale)}>{dict.siteName}</a>
-    <NavDrawer locale={locale} path={path} />
-    <ThemeToggle locale={locale} />
     <button
       class="burger"
       id="nav-trigger"
@@ -31,6 +28,7 @@ const dict = getDict(locale);
       <span aria-hidden="true">☰</span>
     </button>
   </div>
+  <NavDrawer locale={locale} path={path} />
 </header>
 
 <script>
@@ -43,8 +41,8 @@ const dict = getDict(locale);
       drawer.dispatchEvent(new Event("nav:open"));
     });
 
-    // The dialog's own close covers Escape, the close button, link activation
-    // and the resize guard, so this is the single place the state is reset.
+    // The dialog's own close covers Escape, the close button and link
+    // activation, so this is the single place the state is reset.
     drawer.addEventListener("close", () => {
       burger.setAttribute("aria-expanded", "false");
     });
@@ -60,6 +58,8 @@ const dict = getDict(locale);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    max-width: var(--content-max);
+    margin-inline: auto;
     padding: 0.5rem 1rem;
   }
 
@@ -72,6 +72,8 @@ const dict = getDict(locale);
   }
 
   .burger {
+    /* The burger is the only navigation entry point, at every width. */
+    margin-inline-start: auto;
     min-width: 44px;
     min-height: 44px;
     border: 1px solid var(--border);
@@ -80,11 +82,5 @@ const dict = getDict(locale);
     color: var(--fg);
     font-size: 1.125rem;
     cursor: pointer;
-  }
-
-  @media (min-width: 64rem) {
-    .burger {
-      display: none;
-    }
   }
 </style>

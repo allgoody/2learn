@@ -9,6 +9,7 @@ import type { Locale } from "./corpus";
 const en = {
   siteName: "2learn",
   siteTagline: "A bilingual lesson corpus",
+  homeTitle: "Free lessons in programming, design and product",
   skipToContent: "Skip to content",
   navLabel: "Main navigation",
   navHome: "Home",
@@ -58,7 +59,6 @@ const en = {
     "Analytics cookies are set only if you allow them. Nothing is loaded, and nothing is sent, until you choose.",
   consentAccept: "Allow analytics",
   consentDecline: "No thanks",
-  consentPrivacy: "Privacy",
   consentChange: "Change your choice",
   footerTopics: "Topics",
   footerRights: "2learn — a bilingual lesson corpus",
@@ -67,6 +67,7 @@ const en = {
 const ru: typeof en = {
   siteName: "2learn",
   siteTagline: "Двуязычный корпус уроков",
+  homeTitle: "Бесплатные уроки по программированию, дизайну и продукту",
   skipToContent: "Перейти к содержимому",
   navLabel: "Основная навигация",
   navHome: "Главная",
@@ -116,7 +117,6 @@ const ru: typeof en = {
     "Файлы cookie аналитики ставятся только с вашего согласия. До вашего выбора ничего не загружается и никуда не отправляется.",
   consentAccept: "Разрешить аналитику",
   consentDecline: "Не надо",
-  consentPrivacy: "Приватность",
   consentChange: "Изменить выбор",
   footerTopics: "Разделы",
   footerRights: "2learn — двуязычный корпус уроков",

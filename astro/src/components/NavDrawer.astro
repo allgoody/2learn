@@ -1,7 +1,16 @@
 ---
 import { TOPICS, topicTitle, type Locale } from "../lib/corpus";
 import { getDict } from "../lib/dictionary";
-import { aboutUrl, entriesUrl, homeUrl, privacyUrl, searchUrl, topicUrl } from "../lib/urls";
+import {
+  aboutUrl,
+  entriesUrl,
+  homeUrl,
+  privacyUrl,
+  searchUrl,
+  switchLocale,
+  topicUrl,
+} from "../lib/urls";
+import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   locale: Locale;
@@ -11,6 +20,10 @@ interface Props {
 
 const { locale, path = "" } = Astro.props;
 const dict = getDict(locale);
+
+const other: Locale = locale === "en" ? "ru" : "en";
+const otherUrl = switchLocale(path, locale, other);
+const otherName = other === "ru" ? "Русский" : "English";
 
 const items = [
   { href: homeUrl(locale), en: homeUrl("en"), label: dict.navHome },
@@ -28,6 +41,7 @@ const items = [
 
 <dialog id="nav-drawer" aria-label={dict.navLabel}>
   <div class="drawer-head">
+    <ThemeToggle locale={locale} />
     <button class="close" id="nav-close" type="button" aria-label={dict.menuClose}>
       <span aria-hidden="true">✕</span>
     </button>
@@ -43,6 +57,11 @@ const items = [
           </li>
         ))
       }
+      <li>
+        <a href={otherUrl} hreflang={other} aria-label={`${otherName} — ${dict.langSwitch}`}>
+          {otherName}
+        </a>
+      </li>
     </ul>
   </nav>
 </dialog>
@@ -59,12 +78,6 @@ const items = [
       link.addEventListener("click", () => drawer.close());
     });
     document.getElementById("nav-close")?.addEventListener("click", () => drawer.close());
-
-    // Rotating to landscape (or resizing past the breakpoint) would otherwise
-    // leave a modal stranded in the browser's top layer, where no CSS reaches it.
-    matchMedia("(min-width: 64rem)").addEventListener("change", (event) => {
-      if (event.matches) drawer.close();
-    });
   }
 </script>
 
@@ -87,7 +100,9 @@ const items = [
 
   .drawer-head {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   #nav-drawer .close {
@@ -125,42 +140,5 @@ const items = [
   #nav-drawer a[aria-current="page"] {
     color: var(--accent);
     font-weight: 600;
-  }
-
-  @media (min-width: 64rem) {
-    #nav-drawer {
-      /* `revert` would roll back to the UA stylesheet, whose
-         `dialog:not([open]) { display: none }` then wins. */
-      display: block;
-      position: static;
-      width: auto;
-      margin: 0;
-      max-width: none;
-      max-height: none;
-      padding: 0;
-      overflow: visible;
-      background: none;
-      margin-inline-start: auto;
-    }
-
-    .drawer-head {
-      display: none;
-    }
-
-    #nav-drawer ul {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem 0.75rem;
-      margin: 0;
-      font-size: 0.9375rem;
-    }
-
-    #nav-drawer li {
-      margin: 0;
-    }
-
-    #nav-drawer a {
-      padding: 0.5rem 0.25rem;
-    }
   }
 </style>

@@ -83,6 +83,11 @@ const pageTitle = title === dict.siteName ? title : `${title} — ${dict.siteNam
   }
 
   main {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    /* Takes the slack on a short page, which pushes the footer down. */
+    flex: 1;
     padding: 1rem;
   }
 </style>
