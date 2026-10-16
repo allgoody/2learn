@@ -41,8 +41,17 @@ const { locale, items } = Astro.props;
   }
 
   .entry-item {
+    position: relative;
     padding: 0.75rem 0;
     border-top: 1px solid var(--border);
+  }
+
+  /* The link's own pseudo-element covers the row, so the whole row is the
+     click target while the link text stays the accessible name. */
+  .entry-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
 
   .entry-link {

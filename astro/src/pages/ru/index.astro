@@ -72,9 +72,18 @@ const topics = TOPICS.map((topic) => ({
   }
 
   .topic-card {
+    position: relative;
     padding: 1rem;
     border: 1px solid var(--border);
     border-radius: 6px;
+  }
+
+  /* The link's own pseudo-element covers the card, so the whole card is the
+     click target while the link text stays the accessible name. */
+  .topic-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
   }
 
   .topic-link {
