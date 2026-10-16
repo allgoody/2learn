@@ -117,16 +117,21 @@ const items = [
 
   #nav-drawer li a {
     display: block;
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
     color: var(--fg);
     text-decoration: none;
   }
 
+  /* A hover row and a current-page bar, so the links read as rows in the same
+     control language as the pill beside them. */
   #nav-drawer li a:hover {
-    text-decoration: underline;
+    background-color: var(--bg-subtle);
   }
 
   #nav-drawer li a[aria-current="page"] {
+    background-color: var(--bg-subtle);
+    box-shadow: inset 3px 0 0 var(--accent);
     color: var(--accent);
     font-weight: 600;
   }
