@@ -300,3 +300,95 @@ An area page therefore keeps the English four-heading shape (`Что охват�
 **Code stays as it is, prose is translated.** Keep identifiers, keywords, command names, file names, regex patterns and every fence's language tag unchanged. Translate the comments and the prose strings inside the fences, and keep a `text` diagram's column alignment readable while translating its labels. Product and language names stay in Latin script (React, Git, Docker, Kubernetes, Figma, npm, TypeScript); acronyms keep their common Latin form (HTML, CSS, SQL, API, CI/CD, AWS, GCP). British English does not apply to the Russian corpus.
 
 **Definition of done.** `node tools/validate-content.mjs --strict --lang ru` reports `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)` and exits 0. To check one topic while translating: `node tools/validate-content.mjs --topic <topic dir> --lang ru`. `--write-index --lang ru` regenerates `lessons/ru/INDEX.md`; never edit that file by hand.
+
+## 14. Russian prose
+
+A Russian file is written in Russian, not translated sentence by sentence. This section governs the prose only. Every rule of §13 still holds — the heading vocabulary, the language-free ids, the three literals, the fence tags, the word bands and the frozen frontmatter — so a file that satisfies §14 but breaks §13 is still wrong.
+
+`node tools/check-ru-style.mjs --strict` is the gate: it exits 1 while any target below is missed, and it names every file that breaks a per-file rule. `node tools/check-ru-style.mjs --diff` is the structural guard: it compares each file against the baseline commit and reports which of the frozen invariants moved.
+
+### Measurement
+
+Two slices and one word count. Every number in this section comes from them.
+
+**V5 word count** — the whole file from the line after the closing `---` to the end, whitespace split, empty parts dropped. This is exactly `tools/validate-content.mjs:315`. It is what the word bands use.
+
+**`flow` — the sentence slice.** The file with the frontmatter block removed, every fenced block removed (the text between an opening and a closing ``` line, inclusive), and bullet markers (`- `, `1. `) dropped. **Heading lines are kept**, because a heading closes the sentence before it. Sentences are cut at a line end and after `[.!?…]` when the next non-space character is `А-ЯЁ A-Z 0-9 « " „ —`; each sentence is trimmed and the empties dropped. A sentence's length is its character count. This slice feeds the sentence count, the Pearson correlation, the two median sentence lengths and their ratio.
+
+**`prose` — the marker slice.** `flow` with **every heading line also removed** — `/^#{1,6} /`, all six levels, not only `## `. This slice feeds the blacklist, the `— это ` count, the participle count and the connector count. All six levels matter: dropping only `## ` inflates the blacklist baseline to 16 hits in 11 files and the copula baseline to 2.91 per 1000.
+
+These are deliberately not the same slice. The blacklist, copula and participle baselines reproduce only on `prose`; the sentence-count figure reproduces only on `flow`. Do not "unify" them.
+
+### Frozen
+
+`--diff` compares each file against the baseline commit and fails the moment anything but prose has changed.
+
+1. The frontmatter block — from the first line through the closing `---` — byte for byte (`[D1]`).
+2. Every line matching `## `, as an ordered list, byte for byte (`[D2]`).
+3. Every fenced block, from its opening fence line through its closing fence line inclusive, as an ordered list, byte for byte; the language tag lives on the opening line, so it is covered (`[D3]`).
+4. The multiset of backticked spans — every id stays byte-identical (`[D4]`).
+5. The multiset of numeric tokens (`[D5]`).
+6. Every `## Пример N — …` line of an examples file, as an ordered list (`[D6]`).
+7. The count of each of `Готово, когда:`, `Нет.`, `; исправить: ` and `### Решение` (`[D7]`).
+8. The `status:` value, which stays `drafted` (`[D10]`).
+9. The 177 title rows of `lessons/ru/GLOSSARY.md`. This one is not a `--diff` check — the gate skips `GLOSSARY.md` — but it is guarded by the `--write-index --lang ru` no-diff check and by `git diff`. A terminology row may be corrected when a recast stops using a calque (R7); a title row may not be touched, because `title` feeds `INDEX.md` and V17.
+
+Diff mode also carries two guards of its own: `[D8]`, the V5 word count must stay inside the file's shape band, and `[D9]`, a missing baseline blob is always an error. `--strict` does not change diff mode; every diff invariant is a hard error.
+
+### Baselines and targets
+
+`BASELINE_METRICS` in `tools/check-ru-style.mjs` is what the gate printed on the untouched corpus on 2026-10-16:
+
+```text
+698 files, 332680 words
+  correlation with the English twin   0.924
+  same sentence count as the English   625/698 = 89.5%
+  RU/EN median sentence-length ratio   1.046
+  однако per 1000 words                0.00
+  X — это per 1000 words               2.59
+  attributive participles per 1000     2.76
+  blacklist hits                       15 in 10 files
+```
+
+The word count and the four marker rows are exact. The three sentence-level rows belong to the splitter above; they differ from the plan's first draft (0.926 / 95.7% / 0.861), and these recorded values stand.
+
+| Signal | Baseline | Target |
+| --- | --- | --- |
+| Correlation with the English twin | mean 0.924 | mean ≤ 0.60 |
+| Same sentence count as the English | 625/698 = 89.5% | ≤ 40% |
+| RU/EN median sentence-length ratio | mean 1.046 | mean ≥ 0.95 |
+| `однако` per 1000 words | 0.00 | ≥ 0.80 |
+| `X — это ` per 1000 words | 2.59 | ≤ 1.50 |
+| Attributive participles per 1000 words | 2.76 | ≤ 2.00 |
+| Blacklist hits | 15 in 10 files | 0 |
+| `— это ` in one file | — | ≤ 3 |
+
+The ratio is measured in characters, as the splitter above states, and under that splitter the recorded baseline already exceeds the target, so R2 guards against compressing the Russian rather than driving the recast.
+
+### Rules
+
+**R1 — Discard the English sentence plan.** Merge two English sentences into one, split one into two, reorder them. The Russian sentence count must not equal the English twin's: target ≤ 0.60 mean correlation and ≤ 40% of files with an identical count (baseline 0.924 and 89.5%).
+
+**R2 — Let the Russian sentence be as long as it needs to be.** Russian technical prose subordinates where English juxtaposes. Target ≥ 0.95 for the RU/EN median sentence-length ratio (baseline 1.046 — see the note above).
+
+**R3 — Put new information last.** Build from the known to the new. Do not front the grammatical subject merely because the English did.
+
+**R4 — `X — это Y` is a calque of `X is Y`.** Keep it only where a term is defined for the first time — in practice the opening sentence of `Что это такое`. Everywhere else use a real verb, a colon, or a predicate-first construction. Target ≤ 1.50 per 1000 words (baseline 2.59), and ≤ 3 in any one file.
+
+**R5 — An English `-ing` clause never becomes an attributive Russian participle.** Use a `который` clause, a `при этом` clause, `поскольку`, or a separate sentence. Target ≤ 2.00 per 1000 words (baseline 2.76).
+
+**R6 — Restore the Russian discourse layer.** English does with a comma, a dash and juxtaposition what Russian does with connectives. Use `однако`, `при этом`, `зато`, `хотя`, `ведь`, `поэтому`, `то есть`, `иначе говоря` where the argument actually turns or explains. Target ≥ 0.80 `однако` per 1000 words (baseline 0.00). Do not sprinkle them: a connective that does not mark a real turn is worse than none.
+
+**R7 — Terminology is the settled Russian term, not the calque.** The terminology table in `lessons/ru/GLOSSARY.md` is authoritative; when a row is itself a calque, replace it with the form Russian practitioners use and update that row in the same work package. An index-only scan is `сканирование только по индексу`, not `индексный проход`.
+
+**R8 — These idioms must not survive.** `делает то же самое`, `делает то же`, `то же самое, но`, `в одежде`, `стоящий за`, `играет роль`, `делает это возможным`. Use `так же`, `столь же`, `тот же …, только`, or rewrite the sentence. Target 0 hits (baseline 15 in 10 files), measured on `prose`. Diff mode cannot check this, because some raw hits sit inside frozen fences.
+
+**R9 — Facts are frozen.** No number, name, claim, cause, condition or code sample may be added, dropped, softened or strengthened. The English twin is the reference for every factual statement; if the Russian says something the English does not, the recast restores the English claim rather than inventing a third version. `--diff` catches the mechanical half of this; the rest is the writer's responsibility.
+
+**R10 — Keep the register.** Neutral technical Russian, second person, present tense, active voice, no marketing adjectives, no emoji, no filler. Product and language names stay in Latin script (React, Git, Docker, Kubernetes, npm, TypeScript). British English does not apply to this corpus.
+
+**R11 — Do not touch the structure.** Headings, their order, the three literals, the backticked ids, the em dash (U+2014, spaced), the fence language tags and the `**Title**` bullet ids are the validator's contract, and §13 states them in full. A recast changes prose only. A line beginning with `## ` inside a fence is never introduced, because the validator parses it as a real heading.
+
+### Word bands
+
+The bands of §13 are unchanged and are not a target: `full` 400–1100, `landing` 180–460, `area` 100–340, `examples` 100–500 words, counted exactly as V5 counts them. Two warnings. The landings have the thinnest floor headroom, so do not merge a landing's prose below 190 words. And merging sentences reduces the word count, so a recast has room in both directions but not an unlimited one.
