@@ -60,7 +60,6 @@ const en = {
   consentAccept: "Allow analytics",
   consentDecline: "No thanks",
   consentChange: "Change your choice",
-  footerTopics: "Topics",
   footerRights: "2learn — a bilingual lesson corpus",
 };
 
@@ -118,7 +117,6 @@ const ru: typeof en = {
   consentAccept: "Разрешить аналитику",
   consentDecline: "Не надо",
   consentChange: "Изменить выбор",
-  footerTopics: "Разделы",
   footerRights: "2learn — двуязычный корпус уроков",
 };
 
