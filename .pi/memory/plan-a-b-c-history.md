@@ -86,10 +86,29 @@ audit:
 2. `07-sql-relational-databases` carries three `text` fences holding translated Russian prose, one
    with an English `-- the report:` comment left inside.
 
-## Plan D — `.pi/plans/astro-site/` — WRITTEN, NOT STARTED
+## Plan D — `.pi/plans/astro-site/` — COMPLETE, 2026-10-16
 
-6 phases, 25 WPs, 2381 lines across 7 files. Builds the public bilingual reading site in `astro/`,
-plus `content/videos.json` and `tools/check-videos.mjs`. Changes nothing under `lessons/`.
+6 phases, 25 WPs, executed in one session. Built `astro/` (the public bilingual reading site),
+`content/` (`videos.json` + its contract), `tools/check-videos.mjs` and `lighthouserc.json` at the
+repo root. **Nothing under `lessons/` was touched** — `git status --porcelain lessons/ seed/` and
+`git diff --stat HEAD -- lessons/ seed/` both print nothing.
 
-See `.pi/plans/astro-site/_index.md` for the objective, the route map, the verified stack pins and the
-per-WP detail. Do not re-derive any of it.
+Result: **1424 pages** (711 EN + 712 RU `index.html`, plus `404.html`). Both root content gates report
+`177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)`. `npm run check` and
+`npm run build` exit 0. Lighthouse over 7 routes, mobile: **accessibility 1.00 and SEO 1.00 on every
+route**, performance 0.96–1.00, best practices 0.96–1.00, and mobile LCP **1.5–2.0 s** — so no font
+preload was added. `astro/README.md`'s `## Verified` section is the record; nothing was deployed and
+nothing was committed.
+
+Per-work-package deviations and findings, D1–D24, are in `.tmp/astro-site-exec-log.md` — **scratch, not
+durable**. The ones that outlive it are in the rules index (`## Tech Stack`, `## Active Constraints`).
+
+Two bugs the plan's own checks would never have caught, found by testing: WP-11's `allExamples` rule
+contradicted its own `classify`, which silently cost **127 child-example pages** (the build produced
+581 instead of 708); and the lesson/ToC grid's implicit column let one long code line widen the whole
+page at 400px, fixed with `grid-template-columns: minmax(0, 1fr)`.
+
+Two accessibility failures that scored a perfect Lighthouse 1.00 and were caught only by the manual
+checklist the plan required: the footer's language switch violated WCAG **2.5.3** (visible `Русский`
+absent from its `aria-label`), and table-of-contents links measured **67x18** against **2.5.8**'s
+24x24 minimum.

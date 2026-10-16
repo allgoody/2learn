@@ -2,6 +2,59 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-16 · Plan D executed: the Astro site is built and verified]**: Ran
+  `/skill:implement` on `.pi/plans/astro-site/` — all 6 phases, 25 WPs, in one session. `astro/` now builds
+  **1424 pages** (711 EN + 712 RU `index.html`, plus `404.html`); both root content gates report
+  `0 error(s)`; `npm run check` and `npm run build` exit 0; Lighthouse over 7 routes exits 0 with
+  **accessibility 1.00 and SEO 1.00 on every route**, performance 0.96–1.00, best practices 0.96–1.00, and
+  mobile LCP **1.5–2.0 s** — so **no font preload was added**. `lessons/` and `seed/` are byte-identical:
+  both `git status --porcelain` and `git diff --stat HEAD` are clean over them. Nothing deployed, nothing
+  committed. The site ships with an English home, `/entries/`, `/about/`, `/search/`, `/privacy/`, an
+  entry/topic/child/examples router, a Russian mirror plus `/ru/glossary/`, both RSS feeds, `robots.txt`
+  and a 1424-page Pagefind index.
+
+  Durable deviations and findings — the full D1–D24 evidence lived in `.tmp/astro-site-exec-log.md`, which
+  is scratch and will be deleted, so the ones that outlive it are in the rules index and repeated here:
+
+  - **`typescript@6.0.3`, not 7.** `@astrojs/check@0.9.10` peers `^5||^6` and `astro check` hard-refuses TS 7;
+    a plain `npm install` also ERESOLVEs on 7. The user chose the pin.
+  - **Astro 7 replaced the Markdown pipeline with Sätteri**, so `markdown.rehypePlugins` is gone (it needs
+    `@astrojs/markdown-remark`, no longer installed). WP-10's link transform was rewritten as a **Sätteri
+    HAST plugin** (`@astrojs/markdown-satteri@0.4.4`, wired as `markdown.processor: satteri({ hastPlugins })`),
+    taking the file URL from the plugin factory's context rather than `file.path`.
+  - **Astro 7 stamps `data-astro-cid-*` on every element of a component that has a `<style>` block**, so the
+    plan's literal `grep '<tr>'` checks return 0. Grep `<tr` instead; `scopedStyleStrategy: "where"` only
+    swaps the attribute for a class.
+  - **Pagefind 1.5's UI has no `filters` option.** Unrecognised keys survive the constructor's `delete`
+    list and are forwarded wholesale as `pagefind_options`, so the working form is
+    `pagefind_options: { filters: { lang } }`. Its input also ships no accessible name
+    (`translations.search_label` is unused), and `import()` of `/pagefind/` is still the Vite trap.
+  - **On Windows `lhci autorun` aborts with `EPERM` inside `chrome-launcher` after the audit finishes**, so
+    the run is lost. Start Chrome with `--remote-debugging-port=9333` and add `"port": 9333` to
+    `ci.collect.settings` in a copy of the config; never commit that port.
+
+  Two bugs the plan's own checks could never have caught, both found by testing: WP-11's `allExamples` rule
+  contradicted its own `classify`, silently costing **127 child-example pages** (581 built instead of 708);
+  and the lesson/ToC grid's implicit column let one long code line widen the entire page at 400px, fixed
+  with `grid-template-columns: minmax(0, 1fr)`. Two accessibility failures likewise scored a perfect
+  Lighthouse 1.00 and were caught only by the manual checklist the plan required: the footer's language
+  switch violated **WCAG 2.5.3** (`aria-label="Switch to Russian"` while the visible text was `Русский` —
+  the accessible name must contain the visible text), and table-of-contents links measured **67×18** against
+  **2.5.8**'s 24×24 minimum. Both fixed. **The manual WCAG half of the gate is not ceremony.**
+
+  Four plan-internal contradictions were resolved by following the checks' evident intent and recording a
+  deviation, never by editing the plan: WP-13's `LessonNav` prerequisites duplicate the content's own
+  `## Prerequisites` block on landings; WP-11's `allExamples` wording vs its `classify`; WP-15's `Astro.site`
+  is a namespace in a plain `.ts` endpoint (use the endpoint context's `site` parameter); and WP-10's
+  `import.meta.url` is unusable because pages bundle into `dist/.prerender/` (the cwd-walk root resolver in
+  `graph.ts` is the working pattern, now exported as `LESSONS_DIR`).
+
+  Still open for the user: `site` in `astro/astro.config.mjs` is the placeholder
+  `https://2learn.example.com` and is load-bearing for canonical URLs, hreflang, the sitemap, both feeds and
+  `robots.txt`; four visible `TODO: confirm` lines need the user's words (reuse/licensing on the two about
+  pages, site responsibility/contact on the two privacy pages); there is no favicon, which costs the home
+  route 0.04 of best practices; and the Russian tree's topic names are English because every WP prescribes
+  locale-independent `topicTitle(topic)` and the corpus has no Russian topic names.
 - **[Session 2026-10-16 · Pivot: Plan C paused, the Astro site planned as Plan D]**: The user chose
   to stop the Russian prose recast and build the site instead — the corpus is usable now, and a site
   is worth more than 148 more recast files. **Plan C is PAUSED at 550 of 698** (nothing half-written,
