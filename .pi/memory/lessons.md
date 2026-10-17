@@ -2,6 +2,34 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-17 · a favicon, and prev/next now walks the lessons]** Short round, two items the user asked for.
+  - **`astro/public/` did not exist at all** — there was no way to ship a favicon, so the browser's automatic
+    `/favicon.ico` request was a standing 404 (0.04 of Lighthouse best practices). Added
+    `astro/public/favicon.svg` (rounded blue square, white "2" drawn as a **stroked path** — no `<text>`, so it
+    does not depend on a font being installed) plus `<link rel="icon" type="image/svg+xml">` in `BaseLayout`.
+    A *declared* icon is what stops the browser auto-requesting `/favicon.ico`, so the 404 is gone without
+    shipping an .ico at all.
+  - **prev/next was paging entry→entry and skipping every entry's own lessons.** `prevNextInEntry` (children
+    only, `undefined` at both ends) and `prevNextInTopic` (entries only) were two halves of one order, and the
+    page chose between them by **URL depth**, so an entry's Next jumped straight over its own children. Replaced
+    both with one `prevNextInOrder(id)` = `entriesOfTopic(topic).flatMap((e) => [e, ...childrenOf(e)])`. That
+    gives exactly the two behaviours the user asked for: an entry leads into its **first lesson**, and the
+    **last lesson of an entry leads into the next entry**. Entry pages were the only broken case; child lessons
+    already chained correctly.
+  - **Deletion, not addition.** Two exports became one, and the `isTopic || isExamples ? … : isEntryPage ? … : …`
+    ternary in *both* `[...path].astro` files collapsed to a single call — the page no longer needs to know what
+    kind of page it is to compute nav. The `prevNextInEntry`/`prevNextInTopic` names are referenced by Plan D's
+    phase documents (`.pi/plans/astro-site/phase-01-foundation.md` asserts *six* graph exports) — those are
+    historical records, deliberately left alone; any re-run of that check now fails and should.
+  - **The verification harness made the `data-astro-cid` mistake again, in a new place.** The first regex for the
+    emitted `<a class="prev-next-link" href=… rel="next">` matched nothing, because Astro injects the scope
+    attribute *between* `rel="next"` and the two `<span>`s. Same two-line fix as for CSS: strip
+    ` data-astro-cid-\w+` before matching. Then walked the real chain in `dist/` — `02-frontend` (77 pages:
+    entry → its lessons → next entry, all the way to the topic's last entry, which has no Next) and
+    spot-checked `ru/02-frontend` to confirm the RU strings and `/ru/` hrefs. `.tmp/check-chain.mjs` is the
+    walker (topic id + dist root as args); it is scratch, not evidence.
+  - **A cross-topic paging gap is deliberate, not an oversight**: the first entry of a topic has no Previous and
+    the last entry no Next. Paging continues into the neighbouring topic only if the user asks for it.
 - **[Session 2026-10-16 · eight style changes, and two self-inflicted edit wounds]** Third round of the same day.
   The user picked from a proposal list I wrote: card hover, card-sized focus rings, clickable `/entries/` rows,
   unified card language, drawer link rows, the topic count as a pill, a sticky reveal-on-scroll header, and a
