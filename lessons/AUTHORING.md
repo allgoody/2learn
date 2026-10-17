@@ -74,11 +74,11 @@ There are three shapes and no others. The headings are verbatim and in sentence 
 
 | Shape | Used for | Section headings, in order | Words |
 | --- | --- | --- | --- |
-| Full lesson | A `small` skill's `index.md`, and every child lesson | `## What it is`, `## Why it matters`, `## Core ideas`, `## Practice`, `## Common mistakes`, `## Go deeper` | 450-950 |
-| Track landing | A `medium` or `large` skill's `index.md` | `## What it is`, `## Why it matters`, `## In this track`, `## Prerequisites`, `## Go deeper` | 200-400 |
-| Area page | Any `type: area` | `## What it covers`, `## Why it matters`, `## Included skills`, `## Where to start` | 120-300 |
+| Full lesson | A `small` skill's `index.md`, and every child lesson | `## What it is`, `## Why it matters`, `## Core ideas`, `## Practice`, `## Common mistakes`, `## Go deeper` | 450+ |
+| Track landing | A `medium` or `large` skill's `index.md` | `## What it is`, `## Why it matters`, `## In this track`, `## Prerequisites`, `## Go deeper` | 200+ |
+| Area page | Any `type: area` | `## What it covers`, `## Why it matters`, `## Included skills`, `## Where to start` | 120+ |
 
-Word count means whitespace-separated tokens in the body after the frontmatter, counted across the whole body including code blocks.
+Word count means whitespace-separated tokens in the body after the frontmatter, counted across the whole body including code blocks. The bands are **floors, not windows: there is no ceiling.** A body ends when the explanation is complete, never at a word count — an explanation that needs another worked trace, another substitution or another sentence gets one. Cutting a body to fit a number was the defect that produced this entry's §9 rule, and it is forbidden. The one thing a floor still buys is substance: a body below it is not an explanation yet.
 
 An examples file is not a lesson file: it has no frontmatter and uses none of the three shapes above. It is governed by §12.
 
@@ -180,7 +180,9 @@ No lesson is written for an absorbed name. The names live in the area page's `al
 
 ## 9. Voice
 
-Write British English (`organise`, `colour`, `centred`, `labelled`, `recognise`, `behaviour`); titles keep their inventory spelling verbatim. Use second person, present tense and active voice. Define a term on first use. Prefer a concrete example to an abstraction. Use no external URLs anywhere — any `http` or `https` link is rejected by the validator, and the "Go deeper" links point at other entries only. Use no emoji. Do not open with an "in this article we will" preamble, and delete any filler sentence whose removal loses no information. Every fenced code block carries a language tag (`bash`, `ts`, `css`, `sql`, `yaml`, `text`).
+Write British English (`organise`, `colour`, `centred`, `labelled`, `recognise`, `behaviour`); titles keep their inventory spelling verbatim. Use second person, present tense and active voice. Define a term on first use. Prefer a concrete example to an abstraction. Use no external URLs anywhere — any `http` or `https` link is rejected by the validator, and the "Go deeper" links point at other entries only. Use no emoji. Do not open with an "in this article we will" preamble, and delete any filler sentence whose removal loses no information — that rule deletes sentences which carry none; it never licenses deleting the one sentence that explains a term or a number. Every fenced code block carries a language tag (`bash`, `ts`, `css`, `sql`, `yaml`, `text`).
+
+**Every symbol, abbreviation and number is explained where it is used.** A name that appears in a claim, a formula or a diagram — `base`, `n`, `size`, `index 3`, "the whole cache line" — is given its meaning and its value in that same block, and a formula is written as a **substitution of those definitions**, not as a fresh assertion: `start = 1000`, `index = 3`, `size = 4`, then `start + index * size = 1000 + 3 * 4 = 1012`. A number that appears in arithmetic without having been given a name and a value above it is a defect, and so is a claim with no number and no example attached. **Renaming a term to a plainer synonym is not explaining it** — `width` → `size` explains nothing; `size = 4 — bytes one number takes` explains it. The test is the reader's question: if a sentence makes them ask "what is that?", it is wrong however confident it sounds. This is the defect class the corpus was built to avoid, and it passes every automated check: nothing in `tools/` can see it.
 
 ## 10. Status
 
@@ -211,7 +213,7 @@ node tools/validate-content.mjs --write-index
 | V12 resolution | The shared set of ids a link is allowed to point at. |
 | V13 write-index | Regenerates `lessons/INDEX.md`; never edit that file by hand. |
 | V14 unknown entries | A directory under `lessons/` that is not an inventory id is an error. |
-| V15 examples files | An examples file has no frontmatter, 1-2 examples each with a `### Solution`, tagged fences and 120-450 words. |
+| V15 examples files | An examples file has no frontmatter, 1-2 examples each with a `### Solution`, tagged fences and 120+ words. |
 | V16 examples coverage | Every full-shape lesson has an examples file; an orphan examples file is an error. |
 
 Errors print as `path:line — [V<n>] message`. Read them from the top and fix them in order.
@@ -240,7 +242,7 @@ Write one or two examples, numbered from 1, in order, each as `## Example N — 
 2. One fenced block with the starting material (a file, a query, a snippet, a transcript, a sketch in `text`), with a language tag on the fence.
 3. `### Solution`, followed by one fenced block with the finished artefact, followed by 2–4 sentences saying why it is right and the one thing that usually goes wrong.
 
-Every fenced block carries a language tag: the real language where the example is code (`html`, `css`, `ts`, `bash`, `sql`, and so on), and `text` for a non-code topic. The body is **120–450 words**, counted the way §4 counts a lesson body. The voice rules of §9 apply, including the ban on external URLs.
+Every fenced block carries a language tag: the real language where the example is code (`html`, `css`, `ts`, `bash`, `sql`, and so on), and `text` for a non-code topic. The body is **120+ words** — a floor only, like every other band; the example ends when it is complete. Counted the way §4 counts a lesson body. The voice rules of §9 apply, including the ban on external URLs.
 
 ## 13. The Russian corpus
 
@@ -288,14 +290,14 @@ An area page therefore keeps the English four-heading shape (`Что охват�
 | `None.` (the whole `## Предварительные требования` body) | `Нет.` |
 | `; fix: ` (inside a `## Частые ошибки` bullet) | `; исправить: ` |
 
-**Russian word bands** replace the English ones (Russian renders the same content in fewer words):
+**Russian word bands** replace the English ones (Russian renders the same content in fewer words). Like the English bands they are **floors with no ceiling** — the Russian text is finished when the explanation is complete, not when it reaches a count:
 
-| Shape | Russian band |
+| Shape | Russian floor |
 | --- | --- |
-| full | 400–1100 |
-| landing | 180–460 |
-| area | 100–340 |
-| examples | 100–500 |
+| full | 400+ |
+| landing | 180+ |
+| area | 100+ |
+| examples | 100+ |
 
 **Code stays as it is, prose is translated.** Keep identifiers, keywords, command names, file names, regex patterns and every fence's language tag unchanged. Translate the comments and the prose strings inside the fences, and keep a `text` diagram's column alignment readable while translating its labels. Product and language names stay in Latin script (React, Git, Docker, Kubernetes, Figma, npm, TypeScript); acronyms keep their common Latin form (HTML, CSS, SQL, API, CI/CD, AWS, GCP). British English does not apply to the Russian corpus.
 
@@ -333,7 +335,7 @@ These are deliberately not the same slice. The blacklist, copula and participle 
 8. The `status:` value, which stays `drafted` (`[D10]`).
 9. The 177 title rows of `lessons/ru/GLOSSARY.md`. This one is not a `--diff` check — the gate skips `GLOSSARY.md` — but it is guarded by the `--write-index --lang ru` no-diff check and by `git diff`. A terminology row may be corrected when a recast stops using a calque (R7); a title row may not be touched, because `title` feeds `INDEX.md` and V17.
 
-Diff mode also carries two guards of its own: `[D8]`, the V5 word count must stay inside the file's shape band, and `[D9]`, a missing baseline blob is always an error. `--strict` does not change diff mode; every diff invariant is a hard error.
+Diff mode also carries two guards of its own: `[D8]`, the V5 word count must stay **above the file's shape floor** (there is no ceiling to stay under), and `[D9]`, a missing baseline blob is always an error. `--strict` does not change diff mode; every diff invariant is a hard error.
 
 ### Baselines and targets
 
@@ -391,4 +393,4 @@ The ratio is measured in characters, as the splitter above states, and under tha
 
 ### Word bands
 
-The bands of §13 are unchanged and are not a target: `full` 400–1100, `landing` 180–460, `area` 100–340, `examples` 100–500 words, counted exactly as V5 counts them. Two warnings. The landings have the thinnest floor headroom, so do not merge a landing's prose below 190 words. And merging sentences reduces the word count, so a recast has room in both directions but not an unlimited one.
+The bands of §13 are unchanged except that their ceilings are gone (2026-10-17): `full` 400+, `landing` 180+, `area` 100+, `examples` 100+ words, counted exactly as V5 counts them. They are not a target — a recast is finished when the Russian reads as Russian, at any length above the floor. One warning survives: merging sentences lowers the word count, so do not let a landing fall below its floor.

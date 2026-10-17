@@ -86,12 +86,15 @@ const BASELINE_METRICS_DATE = "2026-10-16";
 // The recorded baseline is the machine-readable source of truth quoted by lessons/AUTHORING.md §14.
 export { BASELINE_METRICS, BASELINE_METRICS_DATE };
 
+// Floors only — the upper bound is Infinity so a body is never cut to fit a count
+// (lessons/AUTHORING.md §4). `band` renders each form.
 const BANDS = {
-  full: [400, 1100],
-  landing: [180, 460],
-  area: [100, 340],
-  examples: [100, 500],
+  full: [400, Infinity],
+  landing: [180, Infinity],
+  area: [100, Infinity],
+  examples: [100, Infinity],
 };
+const band = ([min, max]) => (max === Infinity ? `${min}+` : `${min}-${max}`);
 
 const USAGE =
   "usage: node tools/check-ru-style.mjs [--strict] [--diff] [--topic <dir>] [--file <path>]";
@@ -369,7 +372,7 @@ if (diff) {
     const words = wordsV5(now, frontmatter(now).end);
     const [min, max] = BANDS[shapeOf(path, frontmatter(now).keys)];
     if (words < min || words > max)
-      compare(`${path}: [D8] ${words} words is outside the ${shapeOf(path, frontmatter(now).keys)} band ${min}-${max}`);
+      compare(`${path}: [D8] ${words} words is outside the ${shapeOf(path, frontmatter(now).keys)} band ${band([min, max])}`);
     const status = frontmatter(now).keys.status;
     if (status !== undefined && status !== "drafted") compare(`${path}: [D10] status is '${status}', expected 'drafted'`);
   }

@@ -25,22 +25,25 @@ const SHAPES = {
     area: ["Что охватывает", "Почему это важно", "Входящие навыки", "С чего начать"],
   },
 };
+// Floors only: a body ends when the explanation is complete, not at a word count, so
+// the upper bound is Infinity throughout (AUTHORING.md §4). `band` renders either form.
 const WORDS = {
-  en: { full: [450, 950], landing: [200, 400], area: [120, 300] },
-  ru: { full: [400, 1100], landing: [180, 460], area: [100, 340] },
+  en: { full: [450, Infinity], landing: [200, Infinity], area: [120, Infinity] },
+  ru: { full: [400, Infinity], landing: [180, Infinity], area: [100, Infinity] },
 };
+const band = ([min, max]) => (max === Infinity ? `${min}+` : `${min}-${max}`);
 const LITERALS = {
   en: {
     core: "Core ideas", practice: "Practice", mistakes: "Common mistakes", deeper: "Go deeper",
     track: "In this track", prereqs: "Prerequisites", included: "Included skills", where: "Where to start",
     done: "Done when:", none: "None.", fix: "; fix: ",
-    solution: "### Solution", examplePrefix: "## Example ", examplesWords: [120, 450],
+    solution: "### Solution", examplePrefix: "## Example ", examplesWords: [120, Infinity],
   },
   ru: {
     core: "Ключевые идеи", practice: "Практика", mistakes: "Частые ошибки", deeper: "Что читать дальше",
     track: "Что в этом треке", prereqs: "Предварительные требования", included: "Входящие навыки", where: "С чего начать",
     done: "Готово, когда:", none: "Нет.", fix: "; исправить: ",
-    solution: "### Решение", examplePrefix: "## Пример ", examplesWords: [100, 500],
+    solution: "### Решение", examplePrefix: "## Пример ", examplesWords: [100, Infinity],
   },
 };
 const L = () => LITERALS[currentLang];
@@ -260,7 +263,7 @@ function checkExamplesFile(file) {
 
   const ew = L().examplesWords;
   const words = p.lines.slice(p.bodyStart).join("\n").split(/\s+/).filter(Boolean).length;
-  if (words < ew[0] || words > ew[1]) err("V15", file, 1, `examples body is ${words} words, expected ${ew[0]}-${ew[1]}`);
+  if (words < ew[0] || words > ew[1]) err("V15", file, 1, `examples body is ${words} words, expected ${band(ew)}`);
   const urlAt = lines.findIndex((l) => /https?:\/\//.test(l));
   if (urlAt >= 0) err("V15", file, urlAt + 1, "external URL is not allowed");
 }
@@ -315,7 +318,7 @@ function checkLesson(p, shape, entry, ownPrereqs, childIds) {
   const body = p.lines.slice(p.bodyStart).join("\n");
   const words = body.split(/\s+/).filter(Boolean).length;
   const [min, max] = WORDS[currentLang][shape];
-  if (words < min || words > max) err("V5", file, p.bodyStart + 1, `${shape} body is ${words} words, expected ${min}-${max}`);
+  if (words < min || words > max) err("V5", file, p.bodyStart + 1, `${shape} body is ${words} words, expected ${band([min, max])}`);
 
   const urlAt = p.lines.findIndex((l) => /https?:\/\//.test(l));
   if (urlAt >= 0) err("V6", file, urlAt + 1, "external URL is not allowed");
