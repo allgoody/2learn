@@ -5,66 +5,104 @@ prereqs: ["01-cs-fundamentals/20-test-driven-development-tdd/01-the-red-green-re
 
 ## What it is
 
-The red-green-refactor loop is a tool with a shape that suits some problems better than others. It pays off most where the behaviour is expressible as a rule with inputs and outputs, and where you already know roughly what you are building. It pays off least during exploration, where the design is still being discovered and the interface changes every few minutes. Knowing which one you are doing is the skill.
+The red-green-refactor loop is a tool with a shape, and that shape suits some work better than other work. It pays off most where the behaviour is a rule with inputs and outputs and where you already know roughly what you are building. It pays off least during exploration, where the design is still being discovered and the names change several times in a morning. Telling the two situations apart is the skill.
 
 ## Why it matters
 
-Advocates and sceptics tend to argue past each other because they are picturing different work. Someone building a pricing engine finds the loop natural and wonders why anyone resists; someone prototyping a user interface finds it a straitjacket and wonders why anyone bothers. Both are right about their own problem. Applying the loop where it fights you produces dogmatic code and abandoned test suites; skipping it where it applies produces the untested branch that ships a bug.
+Advocates and sceptics argue past each other because they picture different work. A pricing rule has expected values that hold still — 4 cases, 4 tests, each with one number to assert — while a screen layout has none: the same 5 layout changes in a morning rewrite the positions your test pinned, 5 times, and the test never once reported a defect. Applied where it fights you, the loop produces brittle assertions and a suite that gets abandoned; skipped where it applies, it leaves the branch nobody considered, which is the branch that ships the bug. The same loop is cheap in one case and expensive in the other, and the cost is visible before you start: count the cases with stable expected values, and count how many are still being renamed.
 
 ## Core ideas
 
-### It pays off for logic with rules
+### It pays off for rules and calculations
 
-Business rules, calculations, parsers, state machines and algorithms are ideal: the behaviour can be stated as cases, each case is a test, and the implementation is behind a stable boundary. Bug fixes are the strongest case of all — write the failing test that reproduces the defect, watch it fail, then fix it. That test is the only proof the bug is gone and the only guard against its return.
+Business rules, calculations, parsers, state machines and algorithms are the natural fit: the behaviour can be written as cases, each case becomes one test, and each test asserts one value. A rule with 4 cases gives 4 tests, and each of the 4 is a sentence the reader can check without running anything.
 
 ```text
-bug report -> test reproducing it (red) -> fix (green) -> never breaks again
+a password rule with 4 cases, one test each
+length below counts the characters in the input; the rule needs 10 or more and at least 1 digit
+
+input           length   expected   why
+"short1"        6        false      fewer than the 10 required characters
+"longenough1"   11       true       long enough, and it holds a digit
+"allletters"    10       false      10 characters, but 0 digits
+"allletters1"   11       true       long enough and 1 digit
 ```
 
-### It pays off where the design is already in view
+The implementation lives behind a boundary the cases do not describe, so a rewrite of the checker keeps the 4 tests and their 4 expected values unchanged. That is the property a calculation has and a screen does not: its correct answers can be written down in advance.
 
-When you know what the unit is called and what it takes, writing the test first costs nothing and gives you the interface for free. This is why TDD is easy on the second and third feature in a module and awkward on the first: the first is design work, and design work is exploration.
+### Bug fixes are the strongest case of all
+
+A reported defect has one enormous advantage over a feature: its expected behaviour is already known, and the wrong behaviour has already been observed in the wild. Write the test that reproduces it, watch it fail with the wrong value printed, then fix the code.
+
+```text
+the report: a gift card of 50 takes the SAVE10 discount and sells for 45
+the wrong value: 50 * (1 - 0.10) = 45, where 50 is correct
+the test: expect(priceOf(giftCard(50), SAVE10)).toBe(50)
+the red:  FAIL: expected 50, received 45     <- the defect, reproduced on demand
+the fix:  1 guard, and the test turns green and stays
+```
+
+That red is the only proof the diagnosis was right, and the test that survives it is the only guard against the defect returning. It also catches the other half of the problem: a fix that makes 1 reported case work while leaving the neighbouring case broken shows up as a new red as soon as you write the second case.
+
+### It pays off once the design is in view
+
+When you know what the unit is called and what it takes, writing the test first costs no thinking and hands you the interface for free. This is why the loop is easy on the second feature in a module and awkward on the first: the first feature chooses the names everything after it will use — say 4 names — and those 4 are still moving under your hands, so the tests that assert on them get rewritten with them. Write the first one as a spike, keep the names you liked, and start the loop on the second.
 
 ### It fights you during exploration
 
-Spikes, prototypes, user-interface layout and anything where you will throw the code away should not be test-driven. The value of a spike is speed, and the code has no future. The discipline is to acknowledge the spike and then delete it, rather than letting the throwaway code become the product without tests — which is how a lot of untested code is born.
+Spikes, prototypes, user-interface layout and anything you will throw away should not be test-driven, because their value is speed and their code has no future. Declare the spike out loud, give it a limit, and mean the deletion:
 
 ```text
-spike -> learn -> delete the spike -> write the real thing test-first
+a declared spike
+  2 hours, 0 tests, 1 question: which of the 2 candidate libraries fits
+  answer: the second one
+  the 150 lines written to find that out are deleted; 0 of them ship
+  the real implementation starts from a red
 ```
 
-### It is awkward for glue and configuration
+The failure mode is not the spike. It is the spike that quietly becomes the product: the prototype is renamed into `src/`, the 150 lines stay, and 0 tests were ever written for them. That is where a great deal of untested code comes from.
 
-Code that mostly wires other things together — dependency injection setup, route tables, configuration parsing — has little behaviour of its own to assert. Its correctness is demonstrated by an integration test that starts the system. Writing unit tests for it produces brittle assertions about call orders and buys very little.
+### Glue and configuration have little behaviour to assert
 
-### Test-first versus test-after
+Code that only wires other things together — dependency injection setup, route tables, configuration parsing — has almost no behaviour of its own. Its correctness is shown by starting the system and using it, and a unit test on it can only assert the details of its own implementation:
 
-Test-after is not a crime; it is simply a different activity. Writing tests after implementation still gives you regression protection, which is most of the value. What it loses is the design pressure — the moment where a hard-to-test unit tells you the interface is wrong — and the guarantee that the test can fail. If you write tests after, at least break the code once and watch them fail.
+```text
+registerRoutes(router, handlers) with 12 routes
+a unit test on it: 12 assertions, one per route and method
+reorder the 12 registrations -> 12 of 12 assertions fail, and the router still works
+1 integration test instead: start the system, request 1 route, assert 1 status code
+```
+
+The 12 assertions break on a change no user could observe, and none of the 12 says whether a request arrives at its handler. The integration test crosses the real seam, needs 1 assertion, and breaks only when the wiring is genuinely broken.
+
+### Test-first and test-after are different activities
+
+Writing tests after the implementation is not a crime; it is a different activity with a different yield. What it gives you is regression protection, and that is most of what a suite is for. What it cannot give you is the observed red — the test was born against code that already satisfied it — and the design pressure that arrives when a unit turns out to be impossible to pin down. The gap is cheap to close: with the tests written and green, break the code in 1 place, run the suite, and watch the failure. If 0 tests fail, you have found a case the suite does not cover.
 
 ## Practice
 
-### Test-first a bug
+### Take a reported bug through the loop
 
-Take a defect you fixed recently, or one you know about and have not fixed. Write a test that reproduces it and fails. Then fix the code.
+Choose a defect you fixed recently, or one you know about and have not fixed. Write the test that reproduces it, with the wrong value written into the expectation as it was reported.
 
-Done when: the test fails before the fix and passes after, and it names the defect in the test title.
+Done when: the suite reports 1 failure before the fix, printing the wrong value you expected — for the gift card above, `expected 50, received 45` — and passes after it.
 
-### Name a deliberate spike
+### Declare a spike before you start it
 
-Choose the next exploratory task on your list and declare it a spike in advance: a time limit, no tests, throw the code away afterwards.
+Choose the next exploratory task on your list and declare it a spike in advance: write down the 1 question it answers, how long it may take, and that it will be deleted.
 
-Done when: you have deleted the spike and rewritten the part you kept, test-first, in less time than you expected.
+Done when: the spike is deleted and 0 lines of it ship, and you can state the 1 question it answered; the part you kept is rewritten from a red, in fewer lines than the spike used.
 
 ## Common mistakes
 
-- **Forcing the loop onto a spike** — exploration slows to a crawl and the code is thrown away anyway; fix: declare the spike, time-box it, delete it.
-- **Skipping the loop for "obvious" logic** — the edge case nobody considered ships; fix: use the loop for rules and calculations, and write the failing test for each bug.
-- **Unit-testing configuration glue** — the tests assert call order and break on every refactor; fix: cover it with an integration test that starts the system.
-- **Claiming TDD while writing tests last** — the design feedback is lost and no test was ever seen failing; fix: either write tests first or be honest that this is test-after.
-- **Treating coverage as the goal** — high coverage with vacuous assertions proves nothing; fix: measure whether tests fail when the code breaks.
+- **Forcing the loop onto a spike** — exploration slows to a crawl writing tests for code that will not survive, and the 2 hours go with it; fix: declare the spike, time-box it, answer the question, delete the code.
+- **Skipping the loop for "obvious" logic** — a rule with 4 cases written under 1 test ships 3 cases nobody has checked; fix: use the loop for rules and calculations, and write the failing test for every bug.
+- **Unit-testing configuration glue** — 12 assertions on registration order break when the routes are reordered, while 0 of them proves a request reaches its handler; fix: cover it with 1 integration test that starts the system.
+- **Claiming TDD while writing tests last** — no test in the suite has ever been watched failing, so none of them is known to be wired to the code; fix: either write them first, or call it test-after and break the code once to watch them fail.
+- **Treating coverage as the goal** — 100 per cent of lines covered by assertions that hold for every input still catch nothing; fix: measure whether a deliberate break produces a failure.
 
 ## Go deeper
 
 - **The red-green-refactor loop** (`01-cs-fundamentals/20-test-driven-development-tdd/01-the-red-green-refactor-loop`) — the mechanics of the cycle, so read it first.
-- **Unit Testing** (`01-cs-fundamentals/10-unit-testing`) — how to write assertions that can genuinely fail.
-- **Integration Testing** (`01-cs-fundamentals/21-integration-testing`) — the right level for the glue and wiring that unit tests fit badly.
+- **Unit Testing** (`01-cs-fundamentals/10-unit-testing`) — how to write assertions that can genuinely fail, which is what the observed red guarantees.
+- **Integration Testing** (`01-cs-fundamentals/21-integration-testing`) — the level that covers the glue and wiring a unit test fits badly.

@@ -15,7 +15,7 @@ Clean code is code that the next reader can change safely. It is not a style pre
 
 ## Why it matters
 
-Code is read far more often than it is written, and the reader is usually you in six months with no memory of the reasoning. A function that does four things behind one name forces that reader to reconstruct all four before touching any of them, and the reconstruction is where mistakes enter. Poor error handling compounds it: a swallowed failure turns a specific problem into a mystery that surfaces somewhere else entirely. These habits are cheap while the code is small and nearly impossible to retrofit once a system depends on the mess.
+Every change to a file begins with a read of it, and the habits in this track decide how much of the file that read costs. A 400-line function with 8 responsibilities must be understood in full before the first edit lands; the same behaviour behind 8 names of 50 lines each lets the reader open the 1 that the change touches and leave the other 7 closed. Poor error handling compounds it. A failed charge that returns a total of 0.00 is not obviously wrong — 0.00 is a valid total — so the specific failure becomes a mystery that surfaces two systems later as a wrong invoice. These habits are cheap while the code is small and nearly impossible to retrofit once a system depends on the mess, which is why the track comes before the design topics that build on it.
 
 ## In this track
 

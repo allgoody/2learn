@@ -5,73 +5,179 @@ prereqs: ["01-cs-fundamentals/10-unit-testing"]
 
 ## What it is
 
-The loop is three steps taken in order, repeatedly. Red: write a test that expresses the next small piece of behaviour, and watch it fail. Green: write the simplest code that makes it pass, no more. Refactor: with the test passing, improve the code without changing behaviour. Then start again. One cycle should take a minute or two, and each ends with the whole suite green.
+The loop is three steps taken in order, over and over. Red: write a test for the next single behaviour, run it, and watch it fail. Green: write the least code that makes it pass. Refactor: with the test green, improve the code without changing what it does. A round ends when the whole suite is green again, and a round should last a minute or two: at 2 minutes each, 60 / 2 = 30 rounds fit in an hour, and at 1 minute each, 60 / 1 = 60.
 
 ## Why it matters
 
-Each step exists to prevent a specific mistake. Red proves the test is wired to the code and can actually fail — without it, a test that passes vacuously gives lasting false confidence. Green forces the smallest implementation, which keeps speculation out of the design. Refactor keeps the design healthy while the tests stay green, so improvements happen continuously rather than in a risky session months later. Taken together they produce code whose every line was demanded by a test and whose every test has been seen to fail.
+Each step blocks one specific mistake, and each mistake can be counted. Without red, nothing has shown the test can fail: an assertion such as "the result is not null" holds for every implementation, and 1 such assertion can sit unnoticed in a suite of 20 tests. Without green's smallest thing, the module grows branches no test asks for — a rule with 1 case written as 3 branches leaves 2 branches that no test reaches. Without refactor, duplication compounds round on round: 30 rounds that each copy a 3-line block leave 30 copies of it to correct when the rule moves. Run in order, the three steps give code whose every branch was demanded by a test and tests that have each been watched failing once.
 
 ## Core ideas
 
-### Red first, and watch it fail
+### Red is a test you have watched fail
 
-Write the assertion before the implementation, run it, and confirm it fails for the reason you expect — not because of a typo or a missing import. That check is the whole justification for the step. A test you have never seen fail is a test you cannot trust, and the failure message also tells you whether it will be understandable to whoever meets it next.
+Write the assertion before the implementation, run it, and confirm it failed for the reason you expected. Every name and number in the test is written down before it can be tested, which is what makes the failure readable:
 
 ```text
-test: expect(discountFor(customerWith(years: 5))).toBe(0.05)
-run -> fails: discountFor is not defined          (expected)
+one case of the discount rule, every value named
+
+price = 100    what the item costs, in whole units
+years = 5      the customer's years of custom
+rate  = 0.05   the fraction taken off at 5 years: 5 / 100
+discount      = price * rate = 100 * 0.05 = 5
+
+test 1: expect(discountFor({ years: 5, price: 100 })).toBe(5)
+
+run it -> FAIL: discountFor is not defined
+          1 test failed: the name has no definition yet, which is the point
 ```
 
-### Green: the simplest thing that passes
+A red printed by a misspelt path looks almost the same and tests nothing, because the runner stops before the assertion runs:
 
-Write the least code that satisfies the test, even if that feels like a cheat — a hard-coded value is a legitimate green when the test only needs one case. The next test will force the generalisation, and by then the shape of the generalisation is known rather than guessed. This step is deliberately small: the smaller it is, the more certain you can be that it did not break anything else.
+```text
+import { discountFor } from "./discout"     one letter dropped from the path
+
+run it -> FAIL: Cannot find module './discout'
+          1 suite failed to run, so 0 tests executed
+```
+
+Both runs print `FAIL`; only the first says anything about the discount rule. Fixing the path costs a minute and buys the one guarantee the whole loop rests on: the assertion is wired to the code and can genuinely fail.
+
+### Green is the least code that passes
+
+Write the least code that satisfies the test, even when that feels like cheating. For 1 case, a constant is a legitimate green:
 
 ```ts
-function discountFor(customer) {
-  return 0.05;   // green for one case; the next test demands the rule
+// green for the single case above, and nothing further
+export function discountFor(customer) {
+  return 5;   // 100 * 0.05 written as a constant: the rule is not here yet
 }
 ```
 
-### Refactor under green
-
-With the suite passing, improve names, remove duplication and split functions. Because the tests are green before and after, any breakage is attributable to the last change. Resist the temptation to refactor while the test is red — you then have two unknowns, a broken test and a changed design, and no way to tell which caused what.
+The next test ends that. Adding the twenty-year case gives the rule a second case, and the constant stops being legitimate the moment a second expected value exists:
 
 ```text
-red -> green -> refactor (tests stay green) -> red ...
+test 2: expect(discountFor({ years: 20, price: 100 })).toBe(10)
+        the rate rises to 0.10 at 20 years: 100 * 0.10 = 10
+
+run the constant against it
+  -> FAIL: expected 10, received 5
+
+green: 2 cases need 2 conditional branches, and that is all they need yet
 ```
 
-### Keep the cycle small
+```ts
+export function discountFor(customer) {
+  const rate = customer.years >= 20 ? 0.10 : 0.05;
+  return customer.price * rate;
+}
+```
 
-A cycle that takes an hour is not a cycle, it is a feature with a test. Aim for a single behaviour per cycle: one branch, one rule, one boundary case. Small cycles mean the test failure is unambiguous, the implementation is trivial, and the design emerges from a sequence of decisions rather than one large guess.
+A third test, for a customer of 2 years expecting 0, fails against that code for an instructive reason: `years >= 20` is false for 2, so the code takes the 0.05 branch and returns 100 * 0.05 = 5 instead of 0. The generalisation the test demanded is a third branch, not a rewrite. Writing it only when a red asks for it means the shape was known rather than guessed.
 
-### Let the tests pull the design
+### Refactor with the suite green
 
-If a unit is hard to test, it is usually hard to use: hidden dependencies, too many responsibilities, an awkward interface. TDD surfaces that difficulty immediately, at the moment when changing it is cheapest, rather than after six callers exist. This is often the largest practical benefit, and it is invisible if you only count test coverage.
+With the suite passing, improve the names, remove the duplication and split the long functions. These 2 functions are green, and both write out the same rate rule:
+
+```ts
+function feeFor(order, tier) {
+  const rate = tier === "gold" ? 0.10 : 0.05;    // 1 rate rule
+  return order.total * rate;
+}
+function refundFor(order, tier) {
+  const rate = tier === "gold" ? 0.10 : 0.05;    // the same rule, written a second time
+  return order.total * rate + order.shipping;
+}
+// 2 functions, 2 copies of 1 rule, and 2 places to move a rate
+```
+
+```ts
+const RATE = { gold: 0.10, silver: 0.05 };     // 1 table, 2 lookups
+function feeFor(order, tier)    { return order.total * RATE[tier]; }
+function refundFor(order, tier) { return order.total * RATE[tier] + order.shipping; }
+```
+
+The same 2 tests are green before and after, so a red that appears now has 1 candidate cause: the change just made. Move a rate in the table and both functions move with it, where editing 2 copies of the rule had left 1 of them behind. Refactoring while red offers 2 unknowns instead — the failing assertion and the rewritten code — and no run that separates them.
+
+### One behaviour per round
+
+A round that takes an hour is not a round, it is a feature with a test attached. The reason is what a red tells you when it appears:
+
+```text
+a rule with 6 behaviours, built two ways
+
+6 rounds, 1 behaviour each                 1 round holding all 6
+6 reds, each naming 1 missing behaviour   1 red at the end
+a red leaves 1 candidate cause             the same red leaves 6 candidate causes
+6 rounds * 2 minutes = 12 minutes          12 minutes of writing, plus the search
+                                          for which of the 6 is wrong
+```
+
+One behaviour per round also decides what belongs in a round. The boundary of a rule needs 2 tests, not 1:
+
+```text
+the 5-year rule, pinned at its line
+years = 4 -> 0       the case just below the line
+years = 5 -> 0.05    the case on the line
+
+1 test alone cannot tell `years >= 5` from `years > 5`
+```
+
+### Tests pull the design
+
+If a unit is hard to test, it is usually hard to use, and the difficulty shows up as an input the test cannot choose. A class that reads the clock inside its own method has 1 such hidden input:
+
+```ts
+class Trial {
+  isExpired(signupAt: Date) {
+    return (Date.now() - signupAt.getTime()) / 86400000 > 14;
+  }
+}
+// 86400000 is one day in milliseconds: 24 * 60 * 60 * 1000 = 86 400 000
+// 14 days is 14 * 86 400 000 = 1 209 600 000 ms
+// the test can pick signupAt, but not the instant `Date.now()` returns
+```
+
+```ts
+class Trial {
+  constructor(private readonly now: () => Date = () => new Date()) {}
+
+  isExpired(signupAt: Date) {
+    return (this.now().getTime() - signupAt.getTime()) / 86400000 > 14;
+  }
+}
+// 1 extra constructor argument, 2 inputs the test now chooses:
+//   signupAt = new Date("2026-03-05T00:00:00Z")
+//   now      = () => new Date("2026-03-20T00:00:00Z")
+// 20 March minus 5 March = 15 days apart, which is 15 * 86 400 000 = 1 296 000 000 ms
+// 15 > 14, so the trial has expired and the expected value is true
+```
+
+TDD surfaces that difficulty at the moment when changing it is cheapest — while the class has 1 caller. The same change after 6 callers exist means 6 call sites to update. This is the largest practical benefit of the loop and the one that a coverage number cannot show.
 
 ## Practice
 
-### Take one rule through three cycles
+### Take one rule through three rounds
 
-Choose a small rule — a pricing discount, a validation, a state transition. Write a test for the simplest case and make it pass. Add a second test that forces the rule to generalise, then a third for a boundary case.
+Choose a rule with at least 3 cases — a pricing discount, a validation, a state transition. Write the test for the simplest case and make it pass. Add a second test that forces the rule to generalise, then a third that pins the boundary by covering the case on the line as well as the case just below it: the five-year rule above needs both `years: 5` and `years: 4`, because either one alone still leaves `>=` and `>` indistinguishable.
 
-Done when: each of the three tests was seen failing first, and the final implementation has no branch that no test demands.
+Done when: 3 tests exist, all 3 were seen failing first, and the final function has no branch that no test demands — count the branches, count the tests that reach each one, and the two lists match.
 
 ### Recover a missed red
 
-Take a test you wrote after the code and deliberately break the implementation in the smallest way you can. Run the suite.
+Take a test you wrote after the code. Break the implementation in the smallest way you can find — change 1 constant, delete 1 branch, return the first value early — and run the suite.
 
-Done when: you have seen the test fail, and if it did not, you have found the case it was missing.
+Done when: the suite reports at least 1 failure and the failing test is the one you broke; if the run reports 0 failures, you have found a case the test does not cover, so add that case and break the code again.
 
 ## Common mistakes
 
-- **Writing the test after the code and calling it TDD** — the design benefit is lost and the test may never be able to fail; fix: write the test, run it, see it fail, then implement.
-- **Implementing more than the test demands** — untested branches and speculative generality accumulate; fix: write the simplest code that passes and let the next test force the generalisation.
-- **Refactoring while the test is red** — two changes are in flight and the failure is unattributable; fix: get back to green first.
-- **Cycles so large they are features** — the test failure is ambiguous and the design is one big guess; fix: one behaviour per cycle.
-- **Skipping the loop for code you believe is trivial** — the trivial code acquires the edge case you did not consider; fix: use the loop for logic, and be honest about where it genuinely does not fit.
+- **Writing the test after the code and calling it TDD** — the test has run 1 time, against code that already passed it, and no red was ever observed; fix: write the test, run it, watch it fail for the reason you expect, then implement.
+- **Implementing more than the test demands** — a rule with 1 case written as 3 branches leaves 2 branches no test reaches, so green stops proving the whole function; fix: write the least code that passes, and let the next red force the generalisation.
+- **Refactoring while the test is red** — 2 changes are in flight, the failing assertion and the rewritten code, and no single run separates them; fix: return to green first, then refactor.
+- **Rounds so large they are features** — 1 red at the end names 6 candidate causes instead of 1, so 6 * 2 = 12 minutes of cycle time buys a failure that localises nothing; fix: one behaviour per round.
+- **Skipping the loop for code you believe is trivial** — the branch you did not consider is the one with no test, and a check that looks like 1 comparison usually has 3 cases: below the line, on it, and above it; fix: use the loop for logic, and be honest about where it genuinely does not fit.
 
 ## Go deeper
 
 - **Unit Testing** (`01-cs-fundamentals/10-unit-testing`) — the assertion craft and test hygiene this loop assumes, so read it first.
-- **Where TDD does and does not pay off** (`01-cs-fundamentals/20-test-driven-development-tdd/02-where-tdd-does-and-does-not-pay-off`) — applying the loop where it works and dropping it where it does not.
-- **Refactoring** (`01-cs-fundamentals/19-refactoring`) — the third step expanded into a full discipline.
+- **Where TDD does and does not pay off** (`01-cs-fundamentals/20-test-driven-development-tdd/02-where-tdd-does-and-does-not-pay-off`) — applying the loop where it earns its cost and dropping it where it does not.
+- **Refactoring** (`01-cs-fundamentals/19-refactoring`) — the third step expanded into a catalogue of named moves.

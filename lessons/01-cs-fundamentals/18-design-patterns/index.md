@@ -11,11 +11,11 @@ related: []
 
 ## What it is
 
-A design pattern is a named solution to a problem that keeps recurring in object-oriented code. The name is the point: saying "wrap it in an adapter" communicates a shape, a set of collaborators and a cost in three words. Patterns are not building blocks to be applied wherever a gap appears, and they are not a checklist of good design. Each one buys flexibility in one direction and charges for it in complexity everywhere else.
+A design pattern is a named solution to a problem that keeps recurring in object-oriented code. The name is the point: saying "wrap it in an adapter" communicates a shape, a set of collaborators and a cost in three words, and a colleague who knows the catalogue can act on it without asking what you mean. Patterns are not building blocks to be applied wherever a gap appears, and they are not a checklist of good design. Each one buys flexibility in one direction and charges for it in complexity everywhere else, so each one is a decision rather than a default.
 
 ## Why it matters
 
-The shared vocabulary is genuinely useful. Design discussions collapse from paragraphs to a sentence, and a reviewer can say "this is a strategy with one implementation" and be understood immediately. The failure mode is the opposite of the benefit: a pattern applied before the variation it handles actually exists adds indirection and hides a direct call behind two hops that will never be needed. The skill is recognising the recurring problem, naming the cost of each solution, and choosing to apply one only when the problem is really there.
+The shared vocabulary is genuinely useful: a review comment that names a shape is 1 line to act on, while the same objection without a name is a conversation about taste. Design discussions collapse from paragraphs to a sentence, and a reviewer can say "this is a strategy with one implementation" and be understood immediately. The failure mode is the opposite of the benefit: a pattern applied before the variation it handles exists adds 1 or 2 hops to every call, puts 1 or 2 extra types in the codebase, and hides a direct call behind two hops that will never be needed. The skill is recognising the recurring problem, counting what each solution costs, and applying one only when the problem is really there.
 
 ## In this track
 

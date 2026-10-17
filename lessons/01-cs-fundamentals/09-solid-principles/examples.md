@@ -1,6 +1,6 @@
 ## Example 1 — One class, two audiences
 
-The class below serves finance, who care about the layout, and operations, who care about delivery rules. A layout change and a delivery-rule change both edit this file. Say how many reasons to change it has, then split it along that line.
+The class below has 3 methods and serves 2 groups: finance, who care about the layout of the invoice, and operations, who care about delivery rules. A layout change and a delivery-rule change both edit this one file. Say how many reasons to change the class has, then split it along that line.
 
 ```ts
 class Invoice {
@@ -44,7 +44,7 @@ class InvoiceEmailer {
 }
 ```
 
-The two audiences were the tell. Finance asks for changes to `toHtml`; operations asks about `send`, its recipients and its retry rules, and neither group needs to read the other's code. After the split each class has one sentence describing why it would change, and the mailer can be swapped without touching the layout. The trap is that the original is only fifteen lines — smallness is not the test, the number of reasons to change is, and the second reason stays invisible until operations asks for something.
+The 2 audiences were the tell: finance asks for changes to `toHtml`, operations asks about `send`, its recipients and its retry rules, so the class had 2 reasons to change and 1 file for both. After the split, `Invoice` reads only the order and `InvoiceEmailer` reads only the mailer and a recipient address, so each edit reopens 1 class and 1 test file; the mailer can also be swapped without touching the layout. The trap is that the original is only 15 lines — smallness is not the test, the number of reasons to change is, and the second reason stays invisible until operations asks for something.
 
 ## Example 2 — A service welded to its database
 
@@ -82,4 +82,4 @@ const fake: OrderRepo = { insert: async () => ({ id: 7 }) };
 expect(await new OrderService(fake).place(order)).toBe(7);
 ```
 
-High-level policy no longer depends on a low-level detail: both depend on the `OrderRepo` interface, and the caller chooses the implementation. The test runs with no database, and changing the store becomes one line at the composition root. The trap is over-applying it — injecting something that will never vary, such as a pure formatting helper, adds indirection and buys no test.
+`DATABASE_URL` names the connection string the repository needs, and building the repository inside made it a second reason for the class to change and a hard requirement for every test. High-level policy now depends on the `OrderRepo` interface, which declares 1 method, `insert`, and both the Postgres implementation and the fake satisfy it, so the test runs with no database and the assertion 7 is the id the fake chose. The trap is over-applying it — injecting something that will never vary, such as a pure formatting helper, adds indirection and buys no test double.

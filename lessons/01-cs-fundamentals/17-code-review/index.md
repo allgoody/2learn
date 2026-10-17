@@ -11,11 +11,11 @@ related: []
 
 ## What it is
 
-Code review is another person reading a change before it merges, looking for defects the author cannot see. It is a conversation about a diff, with three jobs in order of importance: catch problems that would reach production, confirm the change does what it claims, and spread knowledge of the code between the people who will maintain it. It is not a gate for style preferences and it is not an examination.
+Code review is another person reading a change before it merges, looking for the defects the author cannot see. It is a conversation about a diff with 3 jobs, in this order: catch what would reach production, confirm that the change does what it claims, and spread knowledge of the code among the people who will maintain it. It is not a gate for style preferences and it is not an examination.
 
 ## Why it matters
 
-Review is the cheapest defect detection there is. A bug found in a diff costs minutes; the same bug found in production costs an incident, a fix and a customer conversation. Review also catches the defects automated checks cannot: a change that is correct but solves the wrong problem, an error path that swallows a failure, a boundary condition the tests do not cover. And because most teams merge several times a day, review is where shared understanding of a codebase is actually built.
+Review is the cheapest defect detection there is. A defect found in a diff costs 1 comment, 1 changed line and 1 re-run of the 3 tests around it; the same defect found in production costs a failed release, a rollback and a fix that has to ship on its own, with the same 3 tests written afterwards in a hurry. Review also catches what automated checks cannot: a change that is correct but solves the wrong problem, an error path that swallows a failure, a boundary value — 0 items, 1 item, the largest the field allows — that no test ever tried. And because a team that merges 4 changes a day holds 20 of these conversations a week, review is where shared understanding of a codebase is actually built.
 
 ## In this track
 
@@ -29,5 +29,5 @@ Review is the cheapest defect detection there is. A bug found in a diff costs mi
 ## Go deeper
 
 - **Refactoring** (`01-cs-fundamentals/19-refactoring`) — a refactor should be reviewed differently from a behaviour change, and this is why.
-- **Debugging** (`01-cs-fundamentals/11-debugging`) — the questions a reviewer asks are the same ones a debugger asks, in advance.
+- **Debugging** (`01-cs-fundamentals/11-debugging`) — the questions a reviewer asks are the same ones a debugger asks, in advance of the code running.
 - **Software Architecture** (`01-cs-fundamentals/25-software-architecture`) — reviewing a change for whether it fits the boundaries the system is built on.

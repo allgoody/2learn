@@ -11,11 +11,11 @@ related: []
 
 ## What it is
 
-Refactoring is changing the structure of code without changing what it does. It is a procedure rather than an event: a sequence of small transformations, each of which leaves the program working, applied until the design is easier to change. The discipline is in the last part — the behaviour must stay identical, or the exercise becomes an accidental rewrite with none of a rewrite's planning.
+Refactoring is changing the structure of code without changing what it does. It is a procedure rather than an event: a sequence of small transformations, each of which leaves the program working, applied until the design is easier to change. The discipline is in the last part — the behaviour must stay identical down to the order of two side effects, or the exercise becomes an accidental rewrite with none of a rewrite's planning. The moves themselves are few, and each has a size you can state before you start.
 
 ## Why it matters
 
-Design problems are cheap to fix while the code is small and expensive once a feature depends on the current shape. Refactoring is the mechanism that lets you pay the design cost continuously instead of in one risky lump later. Without it, teams fall into a cycle: the code becomes hard to change, so changes are made by adding conditionals to the outside, which makes it harder still, until the only remaining move is a rewrite from scratch. A rewrite throws away the accumulated knowledge in the old code; refactoring keeps it.
+Design problems are cheap to fix while the code is small and expensive once a feature depends on the current shape. Refactoring is the mechanism that lets you pay the design cost continuously instead of in one risky lump later: 1 small step per change, each one green, rather than 1 rewrite that has no working state inside it. Without it, teams fall into a cycle: the code becomes hard to change, so changes are made by adding conditionals to the outside, which makes it harder still, until the only remaining move is a rewrite from scratch. A rewrite throws away the accumulated knowledge in the old code — the 10 behaviours nobody wrote down but the module already gets right — while refactoring keeps it and improves the shape at the same time.
 
 ## In this track
 
