@@ -2,6 +2,39 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-17 · ponytail scoped by path, and the content round deployed]** Two follow-ups to the
+  lesson-01 round, both user-driven.
+  - **Ponytail is now scoped, not switched off.** The user asked whether it could be off for content and on
+    for code, then proposed a rule: check the mode at each boundary and prompt them to flip it via
+    ask_user_question. Reading the installed 5.3.2 source settled the design. `/ponytail [lite|full|ultra|off]`
+    writes a **session** mode that `pi-extension/index.js` re-applies every turn in `before_agent_start` — it
+    *deletes* `sections.ponytail` when the mode is off, so a switch lands on the next turn — and
+    `restoreSessionMode` replays it from session entries on `/new` and `/resume`. The config file under
+    `%APPDATA%` (ponytail/config.json) holds only the *default*, never the live mode. Writes are operator-only:
+    the slash command, or the bare message `stop ponytail` / `normal mode` (the whole message — the source
+    comments record that matching the phrase anywhere once turned ponytail off mid-task for a request like
+    "add a normal mode toggle"). `pi.on("input")` returns immediately when `event.source === "extension"`, so
+    neither an agent message nor another extension can deactivate it. **There is no per-project and no
+    per-directory level**, so what the user wanted cannot be expressed as a mode at all.
+  - **The rejected design, and why.** Prompting at every boundary would have made the operator a relay for a
+    switch with no agent-facing API, and it flaps: this session alone rewrote a lesson, then edited `tools/`,
+    then committed — three mode changes inside one task. There is no single correct mode for a task that
+    edits prose and its tooling together, and a modal answered "yes" twenty times is a modal nobody reads.
+  - **What shipped instead.** `.pi/APPEND_SYSTEM.md` went from a blanket opt-out to a path table: `astro/**`,
+    `tools/**` and root config → the ruleset in force; `lessons/**`, `seed/**`, `content/**` and `.pi/**` →
+    never. Classified **per edit by path**, because the agent knows which file it is editing and the mode never
+    does, plus one sentence of notice at a session's first prose edit when the mode is nominally on (never a
+    gate, never a question, never twice) and a clause forbidding the agent to flip the mode — a guardrail the
+    guarded party can lift is not a guardrail. Two judgement calls beyond the user's wording, flagged to them:
+    `.pi/**` counts as prose, and the notice fires in the prose direction only.
+  - **The deploy.** `npm run build` in `astro/` (1424 files, pagefind 1424 pages across 2 languages), then
+    `npx wrangler pages deploy dist --project-name 2learn` → deployment `877a5d71` serving
+    https://2learn.pages.dev. Verified rather than assumed: `curl` returns 200 and the rewritten lesson's text
+    is in the served HTML while the old sentence is gone; the census is unchanged at 1423 `index.html` plus
+    `dist/404.html`. `origin/main` stays at `d4b97bb` — the deploy is built from the local tree, not from what
+    is pushed.
+  - **Committed in three units** so each stands alone: `40b950b` (contract + both gates), `939987a` (lesson +
+    sidecar), `2032862` (ponytail opt-out + context). Both root gates green before and after.
 - **[Session 2026-10-17 · lesson 01 rewritten from a fresh start, and the sidecar's `O(n)`]** The user read the
   live page, quoted three defects from it, and asked for the lesson to be rewritten from a fresh start by
   understanding the topic rather than patching the existing text. Their review was of the **committed** prose
