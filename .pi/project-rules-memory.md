@@ -49,7 +49,7 @@ The rules below have each bitten at least once. They hold even if that chunk goe
 - **`AUTHORING.md` §9 is new and retroactive.** Every lesson written before 2026-10-17 predates it, so "confident sentence, no number" is a corpus-wide condition, not a property of the one refactored file. Do not treat the existing corpus as a model for new prose — the refactored lesson is.
 
 ## Active Constraints
-- **Ponytail's ruleset is OFF in this repository** — for code, and never for content. It is installed user-level (`@dietrichgebert/ponytail` 5.3.2 in `settings.json` → `packages`) and its mode is **global-only**: an env var or `%APPDATA%\ponytail\config.json`, with no per-project level, so the opt-out lives in `.pi/APPEND_SYSTEM.md` (project instructions appended to the system prompt) plus this line. The ruleset is right for the software projects it was written for and wrong here: this repo's product **is** prose, and its "shortest diff wins / deletion beats addition" bias produces the compressed, confident, teaching-nothing sentence that the corpus exists to avoid. When a choice is between a shorter explanation and a complete one, take the complete one. Do not re-enable it here.
+- **Ponytail is scoped by path here: in force for code, never for prose.** `astro/**`, `tools/**` and root config → the ruleset applies; `lessons/**` (the corpus and its contract `AUTHORING.md`), `seed/**`, `content/**` and `.pi/**` → it never applies. `.pi/APPEND_SYSTEM.md` carries the table and, as project instructions, takes precedence over the user-level default. **The mode itself cannot express this scope** — it is *session* state re-applied every turn by `pi-extension/index.js`, not a per-project setting; only the operator can write it (the `/ponytail [lite|full|ultra|off]` command, or the bare message `stop ponytail`/`normal mode`), and input whose `source === "extension"` is ignored, so no tool of ours can flip it. Classify **per edit, by the path**, not per session: a run here edits both kinds of file, and no single mode is right for both. When ponytail is nominally on at a session's first prose edit, say so in one sentence and carry on — never block on it, never ask a question about it, never raise it twice.
 - Temp/working files MUST be created in `.tmp/` under the repo root, never in system `/tmp/` or outside the workspace. `.tmp/` should be in `.gitignore`. Clean up with `rm -rf .tmp/` after use.
 - Never edit `.pi/plans/**` while executing a plan, and never edit `seed/**`.
 - Do not `git push`, ever — the user handles all pushes. Do not commit unless the user asks; `/skill:deploy`'s dirty-tree question counts as asking.
@@ -103,7 +103,7 @@ Chunks live in `.pi/memory/` and are read on demand. This table is **derived** �
 | Chunk | Size | Lines | Entries | Newest |
 | --- | --- | --- | --- | --- |
 | `.pi/memory/content-rules.md` | 4 KB | 21 | 3 | 2026-10-17 |
-| `.pi/memory/lessons.md` | 72 KB | 542 | 71 | 2026-10-17 |
+| `.pi/memory/lessons.md` | 76 KB | 575 | 72 | 2026-10-17 |
 | `.pi/memory/plan-a-b-c-history.md` | 8 KB | 114 | 2 | 2026-10-16 |
 
 ## Where New Knowledge Goes
