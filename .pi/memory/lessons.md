@@ -2,6 +2,79 @@
 
 Append-only, newest entry first. Read on demand — the always-read index is `.pi/project-rules-memory.md`.
 
+- **[Session 2026-10-17 · lesson 01 rewritten from a fresh start, and the sidecar's `O(n)`]** The user read the
+  live page, quoted three defects from it, and asked for the lesson to be rewritten from a fresh start by
+  understanding the topic rather than patching the existing text. Their review was of the **committed** prose
+  (`git show HEAD:<path>` had "functionally correct and mysteriously slow"), not of the working copy — the dev
+  server serves the working tree, production still serves `2793d52`. Their four named defects, verbatim:
+  "too much water, too little facts"; "sounds cool, but useless"; "should be an example right away"; and the
+  summary that matters — *"the corpus assumes a reader who already knows, while being written for a reader who
+  doesn't"*.
+  - **What the rewrite did.** 938 → **1890** words, still the same six headings. A new first Core idea
+    (`### Memory is one long row of numbered slots`) supplies the rung the old file assumed: a slot, a byte, an
+    address, "counting starts at 0" — each with a four-slot diagram — before any structure stands on top of it.
+    `start` / `index` / `size` keep their definitions **and** their values in the same block as
+    `start + index * size = 1000 + 3 * 4 = 1012`, and 1012 is then pointed at the 40 in the diagram above it.
+    `length` / `capacity` / "allocating" are defined before the doubling trace, which now counts per append and
+    totals `5 writes, 7 copies` before the word *amortised* appears. The hash section computes the slot by
+    **subtraction** (`510 − 63 × 8 = 504, remainder 6`) instead of asserting the answer, and resolves the
+    collision by walking the lookup. Every number in `## Common mistakes` is derived (the 100 000 000 and the
+    50 000 000), not quoted.
+  - **The sidecar had the same disease, and it was the sharper case.** `### Solution` ended with
+    `cost: insert at the front O(n); append O(1) amortised` — two undefined symbols in the one artefact whose
+    job is to be checkable against a worked attempt, and the corpus's own Big-O lesson is linked as *later*
+    reading. Replaced with the same two claims as numbers. **Rule learned: a sidecar is prose a beginner reads;
+    §9 binds it too.**
+  - **Verification was mechanical, not by eye.** `--strict` both roots `177 present, 0 error(s)`; a script
+    checked the six heading strings, 6 Core-idea subheadings, all 8 fences tagged, 2 `Done when:` lines, 5
+    well-formed mistake bullets, no `http`; `git diff --numstat` balanced prose-only on exactly the two EN
+    files; `git status --porcelain lessons/ru/` empty. **The RU twin stays old prose** — `check-ru-style.mjs
+    --diff` freezes fences against `BASELINE = b713de1d`, so it cannot take the new block until the baseline is
+    re-cut or the work folds into Plan C.
+  - **Tooling note:** the pi path guard rejected a regex containing `\s` / `\^` inside `node -e` ("Access to
+    D:\^--- is blocked"), so the structural check went into a `.tmp/*.mjs` script instead — the known
+    workaround, now hit from a new direction (a character class in a strip-the-frontmatter regex).
+- **[Session 2026-10-17 · ponytail off, §9 grows teeth, and the word ceilings come down]** The user diagnosed
+  the real defect in a content-refactor test: three rounds of my rewrites in a row compressed a concept into
+  confident, teaching-nothing phrases (`multiply, then jump`, `base + 3 * width`, a formula with a dangling
+  `4`). Their question — "is it some extension making you produce content this way?" — was the right one.
+  - **`ponytail` was the installed cause.** It is user-level (`packages` → `@dietrichgebert/ponytail` 5.3.2)
+    and its mode is **global-only** — `PONYTAIL_DEFAULT_MODE` or `%APPDATA%\ponytail\config.json`, no
+    per-project level anywhere in `hooks/ponytail-config.js`. So its rules ("the shortest working diff wins",
+    "deletion beats addition", never-cut list with no entry for explanatory completeness) were injected every
+    turn of a *prose* task. **The fix is `.pi/APPEND_SYSTEM.md`** — pi's project-level system-prompt append
+    ("Adds project-specific instructions to the system prompt"; project file takes precedence over the agent
+    directory) — plus an `## Active Constraints` entry. A root `AGENTS.md` would also work (pi loads context
+    files from the working directory and below) but `.pi/` is already this repo's instruction home.
+  - **`AUTHORING.md` §9 held the rule I kept breaking, and a rule that rewarded breaking it.** It already said
+    "Define a term on first use" and "Prefer a concrete example to an abstraction" — and also "delete any
+    filler sentence whose removal loses no information". That last one *deletes explanation and keeps
+    assertion*: `multiply, then jump` passes it (removing it loses nothing, because it carried nothing) while
+    `each item is 4 bytes` looks like detail to trim. §9 now carries the checkable rule — every symbol,
+    abbreviation and number is given a meaning and a value in the same block; a formula is written as a
+    **substitution** of those definitions; renaming to a plainer synonym is not explaining (`width` → `size`
+    explains nothing). The filler rule now says explicitly that it never licenses deleting the explaining
+    sentence. This is the one defect class no tool in `tools/` can see, which is why it took four rounds of a
+    human reading the page to find it.
+  - **The 950-word ceiling was the structural half of the cause, and it is gone.** Adding the array trace took
+    the file to 958 and `[V5]` rejected it, so the only way to fit an explanation was to delete prose — and the
+    cheapest prose to delete is always the explaining sentence. All five bands became **floors**: `full` 450+,
+    `landing` 200+, `area` 120+, examples 120+ (`ru` 400+ / 180+ / 100+ / 100+), in `validate-content.mjs`
+    (`WORDS`, `examplesWords`, plus one `band()` formatter for the messages) and `check-ru-style.mjs`
+    (`BANDS`, `[D8]`). Ceiling = `Infinity`, so `words > max` is inert and both gates keep working unchanged.
+  - **Proved it end-to-end rather than by reading the diff.** `.tmp/probe-ceiling.sh` appends a 100-word probe
+    to the test lesson (1039 words), runs `--strict --lang en --topic 01-cs-fundamentals` → **0 errors** (the
+    same file was a `[V5]` error an hour earlier), then restores from a backup and re-measures (938). Then both
+    root gates: EN and RU each `177 present, 0 pending, 297 examples, 0 examples pending, 0 error(s)`;
+    `check-ru-style.mjs --diff` → `698 files compared … 0 structural differences`; `--strict` still fails on
+    `[S1] — это` in the **not-yet-recast** files, which is Plan C's paused state, not a regression.
+  - **One rule lost its justification and needs a decision.** "Worked examples live in sidecar files, never in
+    a lesson body" was argued from the ceiling (20 full-shape lessons at 930–950, four at exactly 950, so any
+    added line failed V5). With the ceiling gone that argument is void. The rule still stands on §12/V15/V16 as
+    a *shape* rule, and the index now says so — but whether a lesson body may now carry its own worked example
+    is an open question in `CONTEXT.md`, not a call for the next session to make silently.
+  - **Ceilings were removed from landing, area and examples too**, and that is an extrapolation from "no
+    ceiling as long as content works" — flag it if any of those should keep an upper bound.
 - **[Session 2026-10-17 · a favicon, and prev/next now walks the lessons]** Short round, two items the user asked for.
   - **`astro/public/` did not exist at all** — there was no way to ship a favicon, so the browser's automatic
     `/favicon.ico` request was a standing 404 (0.04 of Lighthouse best practices). Added

@@ -23,7 +23,7 @@ Last updated: 2026-10-17
 
 ## Content Rules
 `lessons/AUTHORING.md` is the authoritative contract and `tools/validate-content.mjs` enforces it (V1–V17).
-Full detail — the three body shapes and their word bands, frontmatter field order, tier → child count, the
+Full detail — the three body shapes and their word floors, frontmatter field order, tier → child count, the
 examples-sidecar contract, and the Russian mirror's overrides — is in `.pi/memory/content-rules.md`.
 
 The rules below have each bitten at least once. They hold even if that chunk goes unread:
@@ -31,16 +31,25 @@ The rules below have each bitten at least once. They hold even if that chunk goe
 - **No external URLs anywhere under `lessons/`.** V6 (lessons) and V15 (examples) reject any `https?://`.
   This is also why video references live in `content/videos.json` and not in a lesson file.
 - **Worked examples live in sidecar files, never in a lesson body** — `examples.md` beside `index.md`,
-  `examples.NN-slug.md` beside `NN-slug.md`. A pointer line inside `## Practice` fails V5, because 20
-  full-shape lessons already sit at 930–950 of the 950-word ceiling and four are at exactly 950.
+  `examples.NN-slug.md` beside `NN-slug.md`. This is now a **shape** rule (V15/V16: an examples file is its
+  own artefact with 1–2 `## Example N — …` sections, and the generated `INDEX.md` links it), not a word
+  budget. It used to be forced by the 950-word ceiling — "a pointer line in `## Practice` fails V5" — and
+  that justification died with the ceilings on 2026-10-17. See the open question in `CONTEXT.md`.
+- **Every word band is a floor, with no ceiling.** Removed from the contract and from both gates on
+  2026-10-17: `full` 450+, `landing` 200+, `area` 120+, examples 120+ (`ru`: 400+ / 180+ / 100+ / 100+).
+  Never trim a body to fit a count — see `AUTHORING.md` §4 and §9.
+- **A floor still counts fenced code**, so an examples file that reads like ~400 words measured 450–510
+  under the old band. Count with the validator, never by eye.
 - **`## Core ideas` takes 3–6 `###` subheadings, and a seventh is the single most common defect.**
   Budget five.
-- **The 120–450-word examples band counts fenced code**, so a file that reads like ~400 words measures
-  450–510. Budget ~380 words in the first draft.
+- **The 120+ examples floor counts fenced code**, so a file that reads like ~400 words measures 450–510.
 - **`tools/check-ru-style.mjs --diff` does not check `###` subheadings**, so a green `--diff` is not
   structural proof. The `git diff -U0` grep in `## Active Constraints` is the compensating control.
+- **The §9 defect is invisible to `tools/`, and it reaches the sidecar files.** A confident sentence that defines nothing passes V1–V17; the only check is a human reading the page. `examples.01-arrays-lists-and-hash-maps.md` answered with `O(n)` / `O(1)` — shorthand a beginner has not been given, in the corpus whose Big-O lesson is the **next** one. A claim with no number and no example is a defect in an examples file exactly as in a body.
+- **`AUTHORING.md` §9 is new and retroactive.** Every lesson written before 2026-10-17 predates it, so "confident sentence, no number" is a corpus-wide condition, not a property of the one refactored file. Do not treat the existing corpus as a model for new prose — the refactored lesson is.
 
 ## Active Constraints
+- **Ponytail's ruleset is OFF in this repository** — for code, and never for content. It is installed user-level (`@dietrichgebert/ponytail` 5.3.2 in `settings.json` → `packages`) and its mode is **global-only**: an env var or `%APPDATA%\ponytail\config.json`, with no per-project level, so the opt-out lives in `.pi/APPEND_SYSTEM.md` (project instructions appended to the system prompt) plus this line. The ruleset is right for the software projects it was written for and wrong here: this repo's product **is** prose, and its "shortest diff wins / deletion beats addition" bias produces the compressed, confident, teaching-nothing sentence that the corpus exists to avoid. When a choice is between a shorter explanation and a complete one, take the complete one. Do not re-enable it here.
 - Temp/working files MUST be created in `.tmp/` under the repo root, never in system `/tmp/` or outside the workspace. `.tmp/` should be in `.gitignore`. Clean up with `rm -rf .tmp/` after use.
 - Never edit `.pi/plans/**` while executing a plan, and never edit `seed/**`.
 - Do not `git push`, ever — the user handles all pushes. Do not commit unless the user asks; `/skill:deploy`'s dirty-tree question counts as asking.
@@ -93,8 +102,8 @@ Chunks live in `.pi/memory/` and are read on demand. This table is **derived** �
 
 | Chunk | Size | Lines | Entries | Newest |
 | --- | --- | --- | --- | --- |
-| `.pi/memory/content-rules.md` | 4 KB | 21 | 3 | 2026-10-16 |
-| `.pi/memory/lessons.md` | 64 KB | 469 | 69 | 2026-10-17 |
+| `.pi/memory/content-rules.md` | 4 KB | 21 | 3 | 2026-10-17 |
+| `.pi/memory/lessons.md` | 72 KB | 542 | 71 | 2026-10-17 |
 | `.pi/memory/plan-a-b-c-history.md` | 8 KB | 114 | 2 | 2026-10-16 |
 
 ## Where New Knowledge Goes
