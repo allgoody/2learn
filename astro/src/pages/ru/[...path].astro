@@ -10,7 +10,7 @@ import TableOfContents from "../../components/TableOfContents.astro";
 import VideoList from "../../components/VideoList.astro";
 import { TOPICS, shape, topicTitle, type Locale } from "../../lib/corpus";
 import { getDict } from "../../lib/dictionary";
-import { prevNextInEntry, prevNextInTopic, prereqsOf, relatedOf } from "../../lib/graph";
+import { prevNextInOrder, prereqsOf, relatedOf } from "../../lib/graph";
 import {
   allExamples,
   allLessons,
@@ -118,11 +118,7 @@ const titled = async (ids: string[]) =>
 const prereqIds = showPrereqs ? prereqsOf(entryId) : [];
 const relatedIds = isEntryPage ? relatedOf(entryId) : [];
 const navPair: { prev: string | undefined; next: string | undefined } =
-  isTopic || isExamples
-    ? { prev: undefined, next: undefined }
-    : isEntryPage
-      ? prevNextInTopic(entryId)
-      : prevNextInEntry(id);
+  isTopic || isExamples ? { prev: undefined, next: undefined } : prevNextInOrder(id);
 
 const prereqs = await titled(prereqIds);
 const related = await titled(relatedIds);

@@ -100,24 +100,18 @@ export function relatedOf(entryId: string): string[] {
 }
 
 /**
- * Previous and next child lesson inside the same entry. `undefined` at the
- * ends, and for anything that is not a child lesson.
+ * Previous and next page in a topic's reading order: each entry, then its child
+ * lessons. So an entry leads into its first lesson, and the last lesson of an
+ * entry leads into the next entry. `undefined` at the topic's ends.
  */
-export function prevNextInEntry(id: string): PrevNext {
-  const entryId = id.split("/").slice(0, 2).join("/");
-  const childIds = childrenByEntry.get(entryId) ?? [];
-  const at = childIds.indexOf(id);
+export function prevNextInOrder(id: string): PrevNext {
+  const order = entriesOfTopic(id.split("/")[0]).flatMap((entryId) => [
+    entryId,
+    ...(childrenByEntry.get(entryId) ?? []),
+  ]);
+  const at = order.indexOf(id);
   if (at === -1) return { prev: undefined, next: undefined };
-  return { prev: childIds[at - 1], next: childIds[at + 1] };
-}
-
-/** Previous and next **entry** inside the same topic, so a reader can page through a topic. */
-export function prevNextInTopic(entryId: string): PrevNext {
-  const topic = entryId.split("/")[0];
-  const topicEntries = entriesOfTopic(topic);
-  const at = topicEntries.indexOf(entryId);
-  if (at === -1) return { prev: undefined, next: undefined };
-  return { prev: topicEntries[at - 1], next: topicEntries[at + 1] };
+  return { prev: order[at - 1], next: order[at + 1] };
 }
 
 /** Entry ids of a topic, in directory order (inventory order — zero-padded NN). */
