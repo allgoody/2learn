@@ -16,10 +16,11 @@ insert X at index 0
 ```text
 elements moved: 5 (the whole tail), plus a 5-element copy to grow
 result:         [X][A][B][C][D][E], capacity 10
-cost:           insert at the front O(n); append O(1) amortised
+cost:           insert at the front moves every value behind it — 5 here, 200 in a 200-value array;
+               the append averages about one copy per append once the doublings are spread out
 ```
 
-The insert cannot park `X` anywhere: the block is contiguous, so every element after the insertion point shifts right by one slot. That shift is proportional to the length, so inserting at the front of a two-hundred-element array moves two hundred elements; the growth copy is worse, but doubling keeps the average append constant. The trap is the operation you do most — if the code both inserts and reads at the front, a queue or a reversed read removes the shift.
+The insert cannot park `X` anywhere: the block is contiguous, so every element after the insertion point shifts right by one slot. That shift is proportional to the length, so inserting at the front of a two-hundred-value array moves two hundred values; the growth copy is worse, but spreading the doublings across all appends keeps the average append at about one copy. The trap is the operation you do most — if the code both inserts and reads at the front, a queue or a reversed read removes the shift.
 
 ## Example 2 — A scan that should be a map
 
